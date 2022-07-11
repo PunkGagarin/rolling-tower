@@ -31,13 +31,13 @@ public class Enemy : MonoBehaviour, IDamageable {
     }
 
     private void InitBehaviours() {
-        var speed = _enemyStats.GetStatByType(EnemyStatType.MoveSpeed);
+        var speedStat = _enemyStats.GetStatByType(EnemyStatType.MoveSpeed);
         var damageStat = _enemyStats.GetStatByType(EnemyStatType.Damage);
         _attackBehaviour.Init(damageStat.CurrentValue);
-        _movementBehaviour.Init(speed.CurrentValue, transform, GetComponent<Rigidbody2D>());
+        _movementBehaviour.Init(speedStat.CurrentValue, transform, GetComponent<Rigidbody2D>());
 
         damageStat.OnValueChange += _attackBehaviour.SetDamage;
-        speed.OnValueChange += _movementBehaviour.SetSpeed;
+        speedStat.OnValueChange += _movementBehaviour.SetSpeed;
         
         _movementBehaviour.SetTarget(_target);
     }
