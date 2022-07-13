@@ -9,12 +9,12 @@ public class Enemy : MonoBehaviour, IDamageable {
     private AbstractMovement _movementBehaviour;
     private AbstractUnitAttack _attackBehaviour;
 
-    [SerializeField]
     private EnemyMoveType _enemyMoveType;
 
     [SerializeField]
     private AttackType _attackType;
 
+    //todo: remove
     [SerializeField]
     private Transform _target;
 
@@ -31,8 +31,8 @@ public class Enemy : MonoBehaviour, IDamageable {
     }
 
     private void InitBehaviours() {
-        var speedStat = _enemyStats.GetStatByType(EnemyStatType.MoveSpeed);
-        var damageStat = _enemyStats.GetStatByType(EnemyStatType.Damage);
+        var speedStat = _enemyStats.allStats[EnemyStatType.MoveSpeed];
+        var damageStat = _enemyStats.allStats[EnemyStatType.Damage];
         _attackBehaviour.Init(damageStat.CurrentValue);
         _movementBehaviour.Init(speedStat.CurrentValue, transform, GetComponent<Rigidbody2D>());
 
@@ -43,23 +43,28 @@ public class Enemy : MonoBehaviour, IDamageable {
     }
 
     public void Update() {
-        _distance = Vector2.Distance(transform.position, _target.position);
-        
-        if (_distance > _enemyStats.GetStatByType(EnemyStatType.AttackRange).CurrentValue) {
+        if (IsNeedToMove()) {
             _movementBehaviour.Move();
         } else {
+            //todo: remove comments
             //_attackBehaviour.Attack(_target);
         }
     }
 
     public void TakeDamage(float damage) {
         if(damage<=0) return;
-        var health = _enemyStats.GetStatByType(EnemyStatType.Health);
+        var health = _enemyStats.allStats[EnemyStatType.Health];
         health.DecreaseCurrentValue(damage);
         
         if (health.CurrentValue == 0) {
             Die();
         }
+    }
+    
+    private bool IsNeedToMove() {
+        var distance = _target.position - transform.position;
+        var range = _enemyStats.allStats[EnemyStatType.AttackRange].CurrentValue;
+        return !(distance.sqrMagnitude < range * range);
     }
 
     private void Die() {

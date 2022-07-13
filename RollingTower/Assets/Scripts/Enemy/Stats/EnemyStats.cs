@@ -20,17 +20,15 @@ public class EnemyStats : MonoBehaviour {
     
     [SerializeField]
     private Stat _reward;
-
-    private List<Stat> _stats = new();
+    
+    public Dictionary<EnemyStatType, Stat> allStats { get; } = new ();
 
     public void InitStats() {
-        _health.Init(EnemyStatType.Health, ref _stats);
-        _moveSpeed.Init(EnemyStatType.MoveSpeed, ref _stats);
-        _damage.Init(EnemyStatType.Damage, ref _stats);
-        _attackSpeed.Init(EnemyStatType.AttackSpeed, ref _stats);
-        _attackRange.Init(EnemyStatType.AttackRange, ref _stats);
-        _reward.Init(EnemyStatType.Reward, ref _stats);
+        allStats.Add(EnemyStatType.Health, _health.Init(EnemyStatType.Health));
+        allStats.Add(EnemyStatType.MoveSpeed, _moveSpeed.Init(EnemyStatType.Health));
+        allStats.Add(EnemyStatType.Damage, _damage.Init(EnemyStatType.Health));
+        allStats.Add(EnemyStatType.AttackSpeed, _attackSpeed.Init(EnemyStatType.Health));
+        allStats.Add(EnemyStatType.AttackRange, _attackRange.Init(EnemyStatType.Health));
+        allStats.Add(EnemyStatType.Reward, _reward.Init(EnemyStatType.Health));
     }
-
-    public Stat GetStatByType(EnemyStatType enemyStatType) => _stats.Find(stat => stat.Type.Equals(enemyStatType));
 }

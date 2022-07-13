@@ -1,5 +1,5 @@
 ﻿
 public enum EnemyMoveType {
-    ToClosestTarget,
-    StrictlyStraight
+    SimpleStraightJump,
+    JumpMove
 }

@@ -3,7 +3,7 @@
 public class SimpleStraightMoveBehaviour : AbstractMovement {
     
     public override void Move() {
-        var direction =  _target.position - _ownerTransform.position;
+        var direction =  _targetTransform.position - _ownerTransform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         direction.Normalize();
         

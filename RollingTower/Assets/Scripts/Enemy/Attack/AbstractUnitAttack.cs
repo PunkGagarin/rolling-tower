@@ -3,8 +3,7 @@
     protected float _damage;
 
     public void Init(float damage) {
-        SetDamage(damage);
-
+        _damage = damage; 
     }
     
     public void SetDamage(float damage) {

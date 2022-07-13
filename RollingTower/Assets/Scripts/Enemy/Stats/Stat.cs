@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
@@ -12,10 +11,10 @@ public class Stat {
     private float _maxValue;
 
 
-    public void Init(EnemyStatType type, ref List<Stat> list) {
+    public Stat Init(EnemyStatType type) {
         _maxValue = _currentValue;
         Type = type;
-        list.Add(this);
+        return this;
     }
 
     public void DecreaseCurrentValue(float value) {

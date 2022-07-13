@@ -3,7 +3,7 @@
 public abstract class AbstractMovement {
     
     protected float _speed;
-    protected Transform _target;
+    protected Transform _targetTransform;
     protected Transform _ownerTransform;
     protected Rigidbody2D _rigidbody2D;
 
@@ -14,7 +14,7 @@ public abstract class AbstractMovement {
     }
 
     public void SetTarget(Transform target) {
-        _target = target;
+        _targetTransform = target;
     }
     
     public void SetSpeed(float speed) {
