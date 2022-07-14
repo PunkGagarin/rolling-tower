@@ -1,2 +1,6 @@
-public class Tower {
+using UnityEngine;
+
+public class Tower : MonoBehaviour {
+
+    private TowerStats _stats;
 }

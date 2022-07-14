@@ -1,6 +1,6 @@
 namespace enums.citadels {
 
-    public enum PlayerStatType {
+    public enum CitadelStatType {
         Health,
         Damage,
         AttackSpeed,

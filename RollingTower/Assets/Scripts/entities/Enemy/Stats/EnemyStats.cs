@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using entities.bases;
 using UnityEngine;
 
-public class EnemyStats : MonoBehaviour {
+public class EnemyStats : MonoBehaviour, IUnitStats<UnitStatType, UnitStat> {
     
     [SerializeField]
     private UnitStat _health;
@@ -30,5 +31,9 @@ public class EnemyStats : MonoBehaviour {
         allStats.Add(UnitStatType.AttackSpeed, _attackSpeed.Init(UnitStatType.Health));
         allStats.Add(UnitStatType.AttackRange, _attackRange.Init(UnitStatType.Health));
         allStats.Add(UnitStatType.Reward, _reward.Init(UnitStatType.Health));
+    }
+
+    public Dictionary<UnitStatType, UnitStat> getAllStats() {
+        return allStats;
     }
 }

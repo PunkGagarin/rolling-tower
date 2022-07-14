@@ -2,12 +2,16 @@ using UnityEngine;
 
 public class TowerSlot : MonoBehaviour {
 
+    private Tower _tower;
 
     [field: SerializeField]
     private bool isUnlocked { get; set; }
 
-    private Tower tower;
 
+    public void AddTower(Tower tower) {
+        _tower = tower;
+        //todo: updateUIMethod 
+    }
 
     public bool unlockSlot() {
         if (isUnlocked) {
@@ -17,6 +21,4 @@ public class TowerSlot : MonoBehaviour {
         isUnlocked = true;
         return true;
     }
-
-
 }
