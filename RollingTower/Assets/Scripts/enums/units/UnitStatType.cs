@@ -1,4 +1,4 @@
-﻿public enum EnemyStatType {
+﻿public enum UnitStatType {
     Health,
     MoveSpeed,
     Damage,

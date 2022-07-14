@@ -31,10 +31,10 @@ public class Enemy : MonoBehaviour, IDamageable {
     }
 
     private void InitBehaviours() {
-        var speedStat = _enemyStats.allStats[EnemyStatType.MoveSpeed];
-        var damageStat = _enemyStats.allStats[EnemyStatType.Damage];
-        _attackBehaviour.Init(damageStat.CurrentValue);
-        _movementBehaviour.Init(speedStat.CurrentValue, transform, GetComponent<Rigidbody2D>());
+        var speedStat = _enemyStats.allStats[UnitStatType.MoveSpeed];
+        var damageStat = _enemyStats.allStats[UnitStatType.Damage];
+        _attackBehaviour.Init(damageStat.currentValue);
+        _movementBehaviour.Init(speedStat.currentValue, transform, GetComponent<Rigidbody2D>());
 
         damageStat.OnValueChange += _attackBehaviour.SetDamage;
         speedStat.OnValueChange += _movementBehaviour.SetSpeed;
@@ -53,17 +53,17 @@ public class Enemy : MonoBehaviour, IDamageable {
 
     public void TakeDamage(float damage) {
         if(damage<=0) return;
-        var health = _enemyStats.allStats[EnemyStatType.Health];
+        var health = _enemyStats.allStats[UnitStatType.Health];
         health.DecreaseCurrentValue(damage);
         
-        if (health.CurrentValue == 0) {
+        if (health.currentValue == 0) {
             Die();
         }
     }
     
     private bool IsNeedToMove() {
         var distance = _target.position - transform.position;
-        var range = _enemyStats.allStats[EnemyStatType.AttackRange].CurrentValue;
+        var range = _enemyStats.allStats[UnitStatType.AttackRange].currentValue;
         return !(distance.sqrMagnitude < range * range);
     }
 
