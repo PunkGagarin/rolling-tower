@@ -6,9 +6,9 @@ using UnityEngine;
 
 [RequireComponent(typeof(EnemyStats), typeof(Rigidbody2D))]
 public class Enemy : HealthUnit<UnitStatType, EnemyStats, UnitStat>, IDamageable {
-    private EnemyStats _stats;
     private AbstractMovement _movementBehaviour;
     private AbstractUnitAttack _attackBehaviour;
+    
 
     private EnemyMoveType _enemyMoveType;
 
@@ -19,7 +19,6 @@ public class Enemy : HealthUnit<UnitStatType, EnemyStats, UnitStat>, IDamageable
     [SerializeField]
     private Transform _target;
 
-    public bool IsDead { get; private set; }
     private float _distance;
 
     private void Awake() {

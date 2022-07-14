@@ -9,8 +9,6 @@ namespace entities.player.citadels {
 
     public class Citadel : HealthUnit<CitadelStatType, CitadelStats, CitadelStat>, IDamageable {
         
-        private CitadelStats _stats;
-
         [SerializeField]
         private Tower _startingTower;
 
@@ -18,9 +16,6 @@ namespace entities.player.citadels {
         private List<CustomKeyValue<int, Tower>> _towers;
 
         private List<CustomKeyValue<int, TowerSlot>> _towerSlots;
-
-        public bool isDead { get; set; } = false;
-
 
         private void Awake() {
             InitFirstSlot();

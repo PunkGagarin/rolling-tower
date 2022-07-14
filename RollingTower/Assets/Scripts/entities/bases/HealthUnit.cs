@@ -10,9 +10,9 @@ namespace entities.bases {
 
         public Action OnDie = delegate { };
 
-        private USS _stats;
+        protected USS _stats;
 
-        public bool isDead { get; set; } = false;
+        public bool isDead { get; protected set; } = false;
 
         public void TakeDamage(float damage) {
             if (damage <= 0) return;
