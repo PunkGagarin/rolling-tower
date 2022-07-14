@@ -11,28 +11,10 @@ namespace Entities.Citadels {
         private CitadelStat _health;
 
         [SerializeField]
-        private CitadelStat _damage;
-
-        [SerializeField]
-        private CitadelStat _attackSpeed;
-
-        [SerializeField]
-        private CitadelStat _attackRange;
-
-        [SerializeField]
         private CitadelStat _armor;
 
         [SerializeField]
         private CitadelStat _hpRegen;
-
-        [SerializeField]
-        private CitadelStat _projectileSpeed;
-
-        [SerializeField]
-        private CitadelStat _aoe;
-
-        [SerializeField]
-        private CitadelStat _projectileAmount;
 
         [SerializeField]
         private CitadelStat _luck;
@@ -42,6 +24,24 @@ namespace Entities.Citadels {
 
         [SerializeField]
         private CitadelStat _cardRerollAmount;
+
+        [SerializeField]
+        private CitadelStat _damage;
+
+        [SerializeField]
+        private CitadelStat _attackSpeed;
+
+        [SerializeField]
+        private CitadelStat _attackRange;
+
+        [SerializeField]
+        private CitadelStat _projectileSpeed;
+
+        [SerializeField]
+        private CitadelStat _aoe;
+
+        [SerializeField]
+        private CitadelStat _projectileAmount;
 
         public Dictionary<CitadelStatType, CitadelStat> allStats { get; } = new();
 

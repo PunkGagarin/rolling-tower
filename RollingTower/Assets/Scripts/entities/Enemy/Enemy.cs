@@ -58,6 +58,6 @@ public class Enemy : HealthUnit<UnitStatType, EnemyStats, UnitStat>, IDamageable
     private bool IsNeedToMove() {
         var distance = _target.position - transform.position;
         var range = _stats.allStats[UnitStatType.AttackRange].currentValue;
-        return !(distance.sqrMagnitude < range * range);
+        return !(distance.sqrMagnitude <= range * range);
     }
 }

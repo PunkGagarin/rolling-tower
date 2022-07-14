@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Entities.Citadels;
-using enums.citadels;
 using UnityEngine;
 
 namespace entities.bases {
@@ -12,21 +10,25 @@ namespace entities.bases {
 
         protected USS _stats;
 
-        public bool isDead { get; protected set; } = false;
+        public bool isDead { get; protected set; }
 
-        public void TakeDamage(float damage) {
+        public virtual void TakeDamage(float damage) {
             if (damage <= 0) return;
             var health = getHealth();
-            health.DecreaseCurrentValue(damage);
+            decreaseHealth(damage, health);
 
             if (health.getCurrentValue() == 0) {
                 Die();
             }
         }
 
-        protected abstract US getHealth();
+        protected virtual void decreaseHealth(float damage, US health) {
+            health.DecreaseCurrentValue(damage);
+        }
 
-        private void Die() {
+        protected abstract US getHealth();
+        
+        protected virtual void Die() {
             OnDie?.Invoke();
             isDead = true;
         }

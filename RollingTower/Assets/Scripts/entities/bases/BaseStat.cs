@@ -31,6 +31,10 @@ public abstract class BaseStat<S, T> : IUnitStat<T> {
         OnValueChange?.Invoke(currentValue);
     }
 
+    public bool isMaxValue() {
+        return currentValue >= _maxValue;
+    }
+
     public T getStatType() {
         return _type;
     }

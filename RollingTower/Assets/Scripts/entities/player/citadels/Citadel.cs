@@ -7,8 +7,8 @@ using UnityEngine;
 
 namespace entities.player.citadels {
 
-    public class Citadel : HealthUnit<CitadelStatType, CitadelStats, CitadelStat>, IDamageable {
-        
+    public class Citadel : CitadelHealthUnit {
+
         [SerializeField]
         private Tower _startingTower;
 
@@ -21,10 +21,6 @@ namespace entities.player.citadels {
             InitFirstSlot();
         }
 
-        protected override CitadelStat getHealth() {
-            return _stats.getStatByType(CitadelStatType.Health);
-        }
-
         private void InitFirstSlot() {
             if (_startingTower == null) {
                 Debug.Log("There is no StartingTower!!!!!");
@@ -34,4 +30,5 @@ namespace entities.player.citadels {
             _towerSlots[0].value.AddTower(_startingTower);
         }
     }
+
 }

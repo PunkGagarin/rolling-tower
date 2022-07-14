@@ -2,17 +2,18 @@ namespace enums.citadels {
 
     public enum CitadelStatType {
         Health,
-        Damage,
-        AttackSpeed,
-        AttackRange,
         Armor,
         HpRegen,
-        ProjectileSpeed,
-        AOE,
-        ProjectileAmount,
         Luck,
         GoldBonus,
         CardRerollAmount,
+        
+        Damage,
+        AttackSpeed,
+        AttackRange,
+        ProjectileSpeed,
+        AOE,
+        ProjectileAmount,
 
         //TODO: is Exp will exist at all?
         ExpBonus
