@@ -4,12 +4,10 @@ namespace enums.towers {
         Damage,
         AttackSpeed,
         AttackRange,
-        Armor,
-        HpRegen,
         ProjectileSpeed,
         AOE,
         ProjectileAmount,
-        Luck,
+        Luck
     }
 
 }

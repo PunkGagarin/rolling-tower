@@ -12,13 +12,23 @@ namespace entities.player.citadels {
         [SerializeField]
         private Tower _startingTower;
 
+        private List<CustomKeyValue<int, TowerSlot>> _towerSlots = new();
+
         //todo: or towerSlots???
-        private List<CustomKeyValue<int, Tower>> _towers;
+        private List<CustomKeyValue<int, Tower>> _towers = new();
 
-        private List<CustomKeyValue<int, TowerSlot>> _towerSlots;
-
-        private void Awake() {
+        protected override void Awake() {
+            base.Awake();
+            FindAllTowerSlots();
             InitFirstSlot();
+        }
+
+        private void FindAllTowerSlots() {
+            var slots = GetComponentsInChildren<TowerSlot>(true);
+            for (int index = 0; index < slots.Length; index++) {
+                var towerSlot = slots[index];
+                _towerSlots.Add(new CustomKeyValue<int, TowerSlot>(index, towerSlot));
+            }
         }
 
         private void InitFirstSlot() {
@@ -26,8 +36,10 @@ namespace entities.player.citadels {
                 Debug.Log("There is no StartingTower!!!!!");
             }
             _towers.Add(new CustomKeyValue<int, Tower>(0, _startingTower));
-            _towerSlots[0].value.unlockSlot();
-            _towerSlots[0].value.AddTower(_startingTower);
+            var firstTowerSlot = _towerSlots[0].value;
+            firstTowerSlot.gameObject.SetActive(true);
+            firstTowerSlot.unlockSlot();
+            firstTowerSlot.AddTower(_startingTower);
         }
     }
 

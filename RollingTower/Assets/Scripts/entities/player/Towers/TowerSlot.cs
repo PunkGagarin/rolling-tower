@@ -11,6 +11,7 @@ public class TowerSlot : MonoBehaviour {
     public void AddTower(Tower tower) {
         _tower = tower;
         //todo: updateUIMethod 
+        Instantiate(tower, transform);
     }
 
     public bool unlockSlot() {

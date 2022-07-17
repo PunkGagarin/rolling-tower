@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using entities.bases.Stats;
 using UnityEngine;
 
 namespace entities.bases {
@@ -11,6 +11,10 @@ namespace entities.bases {
         protected USS _stats;
 
         public bool isDead { get; protected set; }
+
+        protected virtual void Awake() {
+            _stats = GetComponent<USS>();
+        }
 
         public virtual void TakeDamage(float damage) {
             if (damage <= 0) return;
@@ -32,10 +36,6 @@ namespace entities.bases {
             OnDie?.Invoke();
             isDead = true;
         }
-    }
-
-    public interface IUnitStats<UST, US> {
-        public Dictionary<UST, US> getAllStats();
     }
 
 }

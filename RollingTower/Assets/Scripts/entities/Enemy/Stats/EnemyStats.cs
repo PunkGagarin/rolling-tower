@@ -2,27 +2,25 @@
 using entities.bases;
 using UnityEngine;
 
-public class EnemyStats : MonoBehaviour, IUnitStats<UnitStatType, UnitStat> {
-    
+public class EnemyStats : BaseStats<UnitStatType, UnitStat> {
+
     [SerializeField]
     private UnitStat _health;
-    
+
     [SerializeField]
     private UnitStat _moveSpeed;
-    
+
     [SerializeField]
     private UnitStat _damage;
-    
+
     [SerializeField]
     private UnitStat _attackSpeed;
-    
+
     [SerializeField]
     private UnitStat _attackRange;
-    
+
     [SerializeField]
     private UnitStat _reward;
-    
-    public Dictionary<UnitStatType, UnitStat> allStats { get; } = new ();
 
     public void InitStats() {
         allStats.Add(UnitStatType.Health, _health.Init(UnitStatType.Health));
@@ -31,9 +29,5 @@ public class EnemyStats : MonoBehaviour, IUnitStats<UnitStatType, UnitStat> {
         allStats.Add(UnitStatType.AttackSpeed, _attackSpeed.Init(UnitStatType.Health));
         allStats.Add(UnitStatType.AttackRange, _attackRange.Init(UnitStatType.Health));
         allStats.Add(UnitStatType.Reward, _reward.Init(UnitStatType.Health));
-    }
-
-    public Dictionary<UnitStatType, UnitStat> getAllStats() {
-        return allStats;
     }
 }

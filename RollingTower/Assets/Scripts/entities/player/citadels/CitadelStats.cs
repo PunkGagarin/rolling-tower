@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using entities.bases;
 using enums.citadels;
@@ -5,7 +6,7 @@ using UnityEngine;
 
 namespace Entities.Citadels {
 
-    public class CitadelStats : MonoBehaviour, IUnitStats<CitadelStatType, CitadelStat> {
+    public class CitadelStats : BaseStats<CitadelStatType, CitadelStat> {
 
         [SerializeField]
         private CitadelStat _health;
@@ -43,9 +44,11 @@ namespace Entities.Citadels {
         [SerializeField]
         private CitadelStat _projectileAmount;
 
-        public Dictionary<CitadelStatType, CitadelStat> allStats { get; } = new();
+        private void Awake() {
+            InitStats();
+        }
 
-        public void InitStats() {
+        private void InitStats() {
             allStats.Add(CitadelStatType.Health, _health.Init(CitadelStatType.Health));
             allStats.Add(CitadelStatType.Damage, _damage.Init(CitadelStatType.Damage));
             allStats.Add(CitadelStatType.AttackSpeed, _attackSpeed.Init(CitadelStatType.AttackSpeed));
@@ -60,16 +63,6 @@ namespace Entities.Citadels {
             allStats.Add(CitadelStatType.CardRerollAmount, _cardRerollAmount.Init(CitadelStatType.CardRerollAmount));
         }
 
-        public Dictionary<CitadelStatType, CitadelStat> getAllStats() {
-            return allStats;
-        }
-
-        public CitadelStat getStatByType(CitadelStatType type) {
-            if (!allStats.ContainsKey(type)) {
-                Debug.Log("Trying to get not existed stat from: " + transform.name);
-            }
-            return allStats[type];
-        }
     }
 
 }
