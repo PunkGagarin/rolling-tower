@@ -17,7 +17,14 @@ namespace entities.player.citadels {
         //todo: or towerSlots???
         private List<CustomKeyValue<int, Tower>> _towers = new();
 
+        public static Citadel GetInstance;
+
+
         protected override void Awake() {
+            if (GetInstance == null) {
+                GetInstance = this;
+            }
+            
             base.Awake();
             FindAllTowerSlots();
             InitFirstSlot();

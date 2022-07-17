@@ -44,11 +44,7 @@ namespace Entities.Citadels {
         [SerializeField]
         private CitadelStat _projectileAmount;
 
-        private void Awake() {
-            InitStats();
-        }
-
-        private void InitStats() {
+        protected override void InitStats() {
             allStats.Add(CitadelStatType.Health, _health.Init(CitadelStatType.Health));
             allStats.Add(CitadelStatType.Damage, _damage.Init(CitadelStatType.Damage));
             allStats.Add(CitadelStatType.AttackSpeed, _attackSpeed.Init(CitadelStatType.AttackSpeed));

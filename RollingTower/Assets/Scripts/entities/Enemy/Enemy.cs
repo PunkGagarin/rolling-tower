@@ -1,6 +1,7 @@
 using System;
 using entities.bases;
 using Entities.Citadels;
+using entities.player.citadels;
 using enums.citadels;
 using UnityEngine;
 
@@ -8,37 +9,37 @@ using UnityEngine;
 public class Enemy : HealthUnit<UnitStatType, EnemyStats, UnitStat>, IDamageable {
     private AbstractMovement _movementBehaviour;
     private AbstractUnitAttack _attackBehaviour;
-    
+
+    private Transform _target;
 
     private EnemyMoveType _enemyMoveType;
 
     [SerializeField]
     private AttackType _attackType;
 
-    //todo: remove
-    [SerializeField]
-    private Transform _target;
 
     private float _distance;
 
-    private void Awake() {
+    protected override void Awake() {
+        base.Awake();
         _movementBehaviour = MoveFactory.GetMoveBehaviour(_enemyMoveType);
         _attackBehaviour = AttackTypeFactory.GetAttackBehaviourByType(_attackType);
-        _stats = GetComponent<EnemyStats>();
-        
-        _stats.InitStats();
+    }
+
+    private void Start() {
+        _target = Citadel.GetInstance.transform;
         InitBehaviours();
     }
 
     private void InitBehaviours() {
-        var speedStat = _stats.allStats[UnitStatType.MoveSpeed];
-        var damageStat = _stats.allStats[UnitStatType.Damage];
+        var speedStat = _stats.getStatByType(UnitStatType.MoveSpeed);
+        var damageStat = _stats.getStatByType(UnitStatType.Damage);
         _attackBehaviour.Init(damageStat.currentValue);
         _movementBehaviour.Init(speedStat.currentValue, transform, GetComponent<Rigidbody2D>());
 
         damageStat.OnValueChange += _attackBehaviour.SetDamage;
         speedStat.OnValueChange += _movementBehaviour.SetSpeed;
-        
+
         _movementBehaviour.SetTarget(_target);
     }
 
@@ -57,7 +58,7 @@ public class Enemy : HealthUnit<UnitStatType, EnemyStats, UnitStat>, IDamageable
 
     private bool IsNeedToMove() {
         var distance = _target.position - transform.position;
-        var range = _stats.allStats[UnitStatType.AttackRange].currentValue;
+        var range = _stats.getStatByType(UnitStatType.AttackRange).currentValue;
         return !(distance.sqrMagnitude <= range * range);
     }
 }

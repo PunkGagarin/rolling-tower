@@ -22,7 +22,7 @@ public class EnemyStats : BaseStats<UnitStatType, UnitStat> {
     [SerializeField]
     private UnitStat _reward;
 
-    public void InitStats() {
+    protected override void InitStats() {
         allStats.Add(UnitStatType.Health, _health.Init(UnitStatType.Health));
         allStats.Add(UnitStatType.MoveSpeed, _moveSpeed.Init(UnitStatType.Health));
         allStats.Add(UnitStatType.Damage, _damage.Init(UnitStatType.Health));

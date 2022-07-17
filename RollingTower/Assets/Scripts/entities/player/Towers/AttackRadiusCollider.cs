@@ -20,7 +20,6 @@ public class AttackRadiusCollider : MonoBehaviour {
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        Debug.Log("Smth enter our collider" + other.gameObject.layer);
         if (other.gameObject.layer == _enemyLayer)
             _owner.AddEnemyInRange(other.GetComponent<Enemy>());
     }

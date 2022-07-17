@@ -26,11 +26,7 @@ public class TowerStats : BaseStats<TowerStatType, TowerStat> {
     [SerializeField]
     private TowerStat _luck;
 
-    private void Awake() {
-        InitStats();
-    }
-
-    private void InitStats() {
+    protected override void InitStats() {
         allStats.Add(TowerStatType.Damage, _damage.Init(TowerStatType.Damage));
         allStats.Add(TowerStatType.AttackSpeed, _attackSpeed.Init(TowerStatType.AttackSpeed));
         allStats.Add(TowerStatType.AttackRange, _attackRange.Init(TowerStatType.AttackRange));
