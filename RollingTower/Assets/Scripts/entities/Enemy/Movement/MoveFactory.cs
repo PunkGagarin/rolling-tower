@@ -1,11 +1,12 @@
 ﻿using System;
+using entities.Enemy.Movement;
 
 public class MoveFactory {
     
     public static AbstractMovement GetMoveBehaviour(EnemyMoveType type) {
         switch (type) {
             case EnemyMoveType.SimpleStraightJump:
-                return new SimpleStraightMoveBehaviour(); 
+                return new SimpleStraightMoveTranslateBehaviour(); 
         }
         throw new ArgumentException();
     }
