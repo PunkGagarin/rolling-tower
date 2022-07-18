@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1599367970}
   - component: {fileID: 6044353171309132135}
   - component: {fileID: 5582342289273738805}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BaseCitadel
   m_TagString: Untagged
   m_Icon: {fileID: 0}

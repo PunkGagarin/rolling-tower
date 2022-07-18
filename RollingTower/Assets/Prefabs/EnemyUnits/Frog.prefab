@@ -341,7 +341,7 @@ MonoBehaviour:
   _attackSpeed:
     <currentValue>k__BackingField: 1
   _attackRange:
-    <currentValue>k__BackingField: 5
+    <currentValue>k__BackingField: 2
   _reward:
     <currentValue>k__BackingField: 10
 --- !u!50 &108434350942307855

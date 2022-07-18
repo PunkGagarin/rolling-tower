@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TowerProjectile : MonoBehaviour {
@@ -18,7 +19,7 @@ public class TowerProjectile : MonoBehaviour {
     }
 
     private void Start() {
-        Invoke(nameof(DestroyBullet), _lifeTime);
+        Invoke(nameof(DestroyProjectile), _lifeTime);
     }
 
     public void Init(Tower owner) {
@@ -26,17 +27,26 @@ public class TowerProjectile : MonoBehaviour {
     }
 
     private void Update() {
+
+        MoveProjectile();
+        
+    }
+
+    private void MoveProjectile() {
         transform.Translate(Vector2.up * (_baseSpeed * Time.deltaTime));
     }
 
-    private void OnCollisionEnter(Collision other) {
-        if (other.collider.gameObject.layer == _enemyLayer) {
+
+    private void OnTriggerEnter2D(Collider2D other) {
+        if (other.gameObject.layer == _enemyLayer) {
             Debug.Log("We hit an enemy");
             _towerOwner.DamageEnemy(other.gameObject.GetComponent<Enemy>());
+            DestroyProjectile();
         }
     }
 
-    private void DestroyBullet() {
+
+    private void DestroyProjectile() {
         Destroy(gameObject);
     }
 }

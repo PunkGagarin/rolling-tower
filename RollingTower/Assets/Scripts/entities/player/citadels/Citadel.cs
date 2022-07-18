@@ -1,8 +1,4 @@
-using System;
 using System.Collections.Generic;
-using entities.bases;
-using Entities.Citadels;
-using enums.citadels;
 using UnityEngine;
 
 namespace entities.player.citadels {
@@ -47,6 +43,13 @@ namespace entities.player.citadels {
             firstTowerSlot.gameObject.SetActive(true);
             firstTowerSlot.unlockSlot();
             firstTowerSlot.AddTower(_startingTower);
+        }
+
+        public void ChangeTowersRadius(float radius) {
+            Debug.Log("Changing radius from citadel");
+            foreach (var tower in _towers) {
+                tower.value.ChangeAttackRadius(radius);
+            }
         }
     }
 

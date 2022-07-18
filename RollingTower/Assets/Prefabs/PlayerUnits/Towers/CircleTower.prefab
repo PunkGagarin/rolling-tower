@@ -143,11 +143,11 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -3.002736, y: 4.9267063}
+    - - {x: -3, y: 6}
       - {x: -1.0291554, y: 0.58949685}
       - {x: 0.006940605, y: 0.019229472}
       - {x: 1.0060906, y: 0.5633602}
-      - {x: 3.3761964, y: 4.94597}
+      - {x: 3, y: 6}
 --- !u!114 &7055504710743175146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,6 +160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0878784e41bee78418dbf8ed7876f6e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _radiusCollider: {fileID: 6529442435518142315}
 --- !u!1 &5530278181311141799
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,8 +292,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f404bc0a7c5848ee98e34623d443375e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _towerProjectile: {fileID: 5551692240973420183, guid: 90a3aedfa0d94834397fdc53ce4b0e9c, type: 3}
-  _firePoint: {fileID: 0}
+  _towerAttackRadiusCollider: {fileID: 7055504710743175146}
+  _towerProjectile: {fileID: 6660632357587892990, guid: d9cebcc29ba9c724684746d092a10742, type: 3}
+  _firePoint: {fileID: 7854609202883418894}
 --- !u!114 &3056758504182352048
 MonoBehaviour:
   m_ObjectHideFlags: 0

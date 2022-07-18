@@ -1,12 +1,11 @@
-using System;
 using System.Collections.Generic;
-using Entities.Citadels.Towers;
-using enums.towers;
 using UnityEngine;
 
+[RequireComponent(typeof(TowerStats))]
 public class Tower : MonoBehaviour {
 
-    private AttackRadiusCollider _towerAttackCollider;
+    [SerializeField]
+    private AttackRadiusCollider _towerAttackRadiusCollider;
 
     [SerializeField]
     private TowerProjectile _towerProjectile;
@@ -23,10 +22,8 @@ public class Tower : MonoBehaviour {
 
     private void Awake() {
         _stats = GetComponent<TowerStats>();
-        _towerAttackCollider = GetComponentInChildren<AttackRadiusCollider>();
-    }
-
-    private void Start() {
+        _towerAttackRadiusCollider = GetComponentInChildren<AttackRadiusCollider>(true);
+        Debug.Log(_towerAttackRadiusCollider);
     }
 
 
@@ -43,9 +40,16 @@ public class Tower : MonoBehaviour {
 
     private void Shoot() {
         if (_attackTimer <= 0) {
-            Debug.Log("we are shooting now"!);
             _attackTimer = _attackMaxTimer;
+            TowerProjectile proj = Instantiate(_towerProjectile);
+            proj.transform.SetPositionAndRotation(_firePoint.position, transform.rotation);
+            proj.Init(this);
         }
+    }
+
+    public void ChangeAttackRadius(float range) {
+        Debug.Log("Changing from tower");
+        _towerAttackRadiusCollider.ChangeRange(range);
     }
 
     private bool TargetIsInRadius() {
@@ -57,11 +61,9 @@ public class Tower : MonoBehaviour {
 
     public void AddEnemyInRange(Enemy enemyUnit) {
         _enemiesInRange.Add(enemyUnit);
-        Debug.Log("We just Added an Enemy to the tower");
     }
 
     public void RemoveEnemyInRange(Enemy enemyUnit) {
         _enemiesInRange.Remove(enemyUnit);
-        Debug.Log("we Just removed an enemy from the tower");
     }
 }
