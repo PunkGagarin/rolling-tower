@@ -1,7 +1,9 @@
-using System;
-using Unity.VisualScripting;
+using entities.enemies;
+using entities.player.towers;
 using UnityEngine;
 
+
+    //TODO: remove this script after tests
 public class TowerProjectile : MonoBehaviour {
 
     [SerializeField]
@@ -27,9 +29,7 @@ public class TowerProjectile : MonoBehaviour {
     }
 
     private void Update() {
-
         MoveProjectile();
-        
     }
 
     private void MoveProjectile() {
@@ -39,7 +39,7 @@ public class TowerProjectile : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.gameObject.layer == _enemyLayer) {
-            Debug.Log("We hit an enemy");
+            // Debug.Log("We hit an enemy");
             _towerOwner.DamageEnemy(other.gameObject.GetComponent<Enemy>());
             DestroyProjectile();
         }

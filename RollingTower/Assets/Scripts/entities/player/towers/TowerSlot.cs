@@ -1,3 +1,4 @@
+using entities.player.towers;
 using UnityEngine;
 
 public class TowerSlot : MonoBehaviour {
@@ -5,7 +6,7 @@ public class TowerSlot : MonoBehaviour {
     private Tower _tower;
 
     [field: SerializeField]
-    private bool isUnlocked { get; set; }
+    public bool isUnlocked { get; private set; }
 
 
     public void AddTower(Tower tower) {
@@ -19,6 +20,7 @@ public class TowerSlot : MonoBehaviour {
             Debug.Log("Slot is already unlocked!");
             return false;
         }
+        //todo: add UI to unlock, probably some VFX
         isUnlocked = true;
         return true;
     }

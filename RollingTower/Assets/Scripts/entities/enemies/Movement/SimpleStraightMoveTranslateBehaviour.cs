@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace entities.Enemy.Movement {
+namespace entities.enemies.Movement {
 
     public class SimpleStraightMoveTranslateBehaviour : AbstractMovement {
 

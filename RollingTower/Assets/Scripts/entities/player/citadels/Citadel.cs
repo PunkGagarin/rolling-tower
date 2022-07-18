@@ -1,4 +1,9 @@
+using System;
 using System.Collections.Generic;
+using Entities.Citadels;
+using entities.player.towers;
+using enums.citadels;
+using enums.towers;
 using UnityEngine;
 
 namespace entities.player.citadels {
@@ -28,9 +33,9 @@ namespace entities.player.citadels {
 
         private void FindAllTowerSlots() {
             var slots = GetComponentsInChildren<TowerSlot>(true);
-            for (int index = 0; index < slots.Length; index++) {
-                var towerSlot = slots[index];
-                _towerSlots.Add(new CustomKeyValue<int, TowerSlot>(index, towerSlot));
+            for (int i = 1; i <= slots.Length; i++) {
+                var towerSlot = slots[i-1];
+                _towerSlots.Add(new CustomKeyValue<int, TowerSlot>(i, towerSlot));
             }
         }
 
@@ -45,11 +50,34 @@ namespace entities.player.citadels {
             firstTowerSlot.AddTower(_startingTower);
         }
 
+        public void UnlockTowerSlot(int slotNumber) {
+            if (slotNumber > _towerSlots.Count || slotNumber <= 0) {
+                Debug.Log("Wrong slot number: " + slotNumber + "there is only " + _towerSlots.Count + " slots in this citadel");
+                throw new Exception("No such slot number");
+            }
+            TowerSlot slotToUnlock = _towerSlots[slotNumber].value;
+            if (slotToUnlock.isUnlocked) {
+                Debug.Log("This slot is already unlocked!!!");
+                return;
+            }
+            slotToUnlock.gameObject.SetActive(true);
+            slotToUnlock.unlockSlot();
+        }
+
         public void ChangeTowersRadius(float radius) {
             Debug.Log("Changing radius from citadel");
             foreach (var tower in _towers) {
                 tower.value.ChangeAttackRadius(radius);
             }
+        }
+
+        //todo: remove after tests
+        public void AddTower(Tower tower) {
+            _towerSlots[2].value.AddTower(tower);
+        }
+
+        public void AddStatToTowers(CitadelStatType type, CitadelStat stat) {
+            TowerStatType towerStatType = CitadelStat.ConvertTypeToTower(type);
         }
     }
 

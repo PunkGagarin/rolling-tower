@@ -1,5 +1,7 @@
 using System;
+using System.ComponentModel;
 using enums.citadels;
+using enums.towers;
 
 namespace Entities.Citadels {
 
@@ -11,6 +13,15 @@ namespace Entities.Citadels {
             _maxValue = currentValue;
             _type = type;
             return this;
+        }
+
+        public static TowerStatType ConvertTypeToTower(CitadelStatType type) {
+            string citadelType = type.ToString();
+            if (Enum.TryParse(citadelType, out TowerStatType typeToReturn)) {
+                return typeToReturn;
+            } else {
+                throw new InvalidEnumArgumentException("Citadel type doesnt match with Tower type!");
+            }
         }
     }
 

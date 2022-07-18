@@ -1,6 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using entities.enemies;
+using entities.player.towers;
 using UnityEngine;
 
 public class AttackRadiusCollider : MonoBehaviour {
@@ -18,9 +17,9 @@ public class AttackRadiusCollider : MonoBehaviour {
         _enemyLayer = LayerMask.NameToLayer("Enemy");
         _owner = GetComponentInParent<Tower>();
 
-        // Debug.Log("Collider pathCount: " + _radiusCollider.pathCount);
-        // Debug.Log("Collider pathCount: " + _radiusCollider.GetPath(0)[0]);
-        // Debug.Log("Collider pathCount: " + _radiusCollider.GetPath(0)[_radiusCollider.GetPath(0).Length - 1]);
+        Debug.Log("Collider pathCount: " + _radiusCollider.pathCount);
+        Debug.Log("Collider pathCount: " + _radiusCollider.GetPath(0)[0]);
+        Debug.Log("Collider pathCount: " + _radiusCollider.GetPath(0)[_radiusCollider.GetPath(0).Length - 1]);
         
         _radiusCollider.pathCount = 1;
     }
