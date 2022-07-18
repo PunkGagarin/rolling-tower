@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using entities.enemies;
 using UnityEngine;
 
 namespace entities.player.towers {
@@ -15,7 +16,7 @@ namespace entities.player.towers {
         [SerializeField]
         private Transform _firePoint;
 
-        private List<enemies.Enemy> _enemiesInRange = new();
+        private List<Enemy> _enemiesInRange = new();
 
         private TowerStats _stats;
 
@@ -29,7 +30,7 @@ namespace entities.player.towers {
         }
 
 
-        public void DamageEnemy(enemies.Enemy enemy) {
+        public void DamageEnemy(Enemy enemy) {
             Debug.Log("Deal damage to enemy");
         }
 
@@ -55,18 +56,18 @@ namespace entities.player.towers {
         }
 
         private bool TargetIsInRadius() {
-            enemies.Enemy enemy = GetComponent<enemies.Enemy>();
+            Enemy enemy = GetComponent<Enemy>();
             return _enemiesInRange.Count > 0;
             // var towerRange = _stats.getStatByType(TowerStatType.AttackRange);
             // return false;
         }
 
 
-        public void AddEnemyInRange(enemies.Enemy enemyUnit) {
+        public void AddEnemyInRange(Enemy enemyUnit) {
             _enemiesInRange.Add(enemyUnit);
         }
 
-        public void RemoveEnemyInRange(enemies.Enemy enemyUnit) {
+        public void RemoveEnemyInRange(Enemy enemyUnit) {
             _enemiesInRange.Remove(enemyUnit);
         }
     }
