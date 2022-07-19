@@ -1,3 +1,4 @@
+using entities.player.citadels;
 using entities.player.towers;
 using UnityEngine;
 
@@ -5,14 +6,20 @@ public class TowerSlot : MonoBehaviour {
 
     private Tower _tower;
 
+    private Citadel _citadelOwner;
+
     [field: SerializeField]
     public bool isUnlocked { get; private set; }
 
+    public void InitSlot(Citadel citadel) {
+        _citadelOwner = citadel;
+    }
 
-    public void AddTower(Tower tower) {
-        _tower = tower;
+
+    public Tower AddTowerWithInstantiate(Tower towerPrefab) {
         //todo: updateUIMethod 
-        Instantiate(tower, transform);
+        _tower = Instantiate(towerPrefab, transform);
+        return _tower;
     }
 
     public bool unlockSlot() {

@@ -1,5 +1,6 @@
 using entities.player.citadels;
 using entities.player.towers;
+using enums.citadels;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,9 +17,9 @@ public class SpawnCitadel : MonoBehaviour {
 
     [SerializeField]
     private Button _button3;
-
+    
     [SerializeField]
-    private Button _button4;
+    private Button _addStatButton;
 
     [SerializeField]
     private float _radiusToIncrease = 1.5f;
@@ -32,6 +33,7 @@ public class SpawnCitadel : MonoBehaviour {
         _button1.onClick.AddListener(ChangeTowerRadiusInvoke);
         _button2.onClick.AddListener(UnlockSecondSlotInvoke);
         _button3.onClick.AddListener(BuildTowerInvoke);
+        _addStatButton.onClick.AddListener(AddStat);
     }
 
     private void ChangeTowerRadiusInvoke() {
@@ -43,6 +45,10 @@ public class SpawnCitadel : MonoBehaviour {
     }
 
     private void BuildTowerInvoke() {
-        _citadel.AddTower(_towerToBuildTest);
+        _citadel.AddTower(_towerToBuildTest, 2);
+    }
+
+    private void AddStat() {
+        _citadel.AddStatToCitadel(CitadelStatType.Damage, 5);
     }
 }

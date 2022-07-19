@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 
+[Serializable]
 public abstract class BaseStat<S, T> : IUnitStat<T> {
 
     public Action<float> OnValueChange = delegate { };
@@ -30,6 +31,11 @@ public abstract class BaseStat<S, T> : IUnitStat<T> {
         }
         OnValueChange?.Invoke(currentValue);
     }
+    
+    public void IncreaseMaxValue(float value) {
+        _maxValue += value;
+        IncreaseCurrentValue(value);
+    }
 
     public bool isMaxValue() {
         return currentValue >= _maxValue;
@@ -41,5 +47,9 @@ public abstract class BaseStat<S, T> : IUnitStat<T> {
 
     public float getCurrentValue() {
         return currentValue;
+    }
+
+    public override string ToString() {
+        return "Type: " + _type + " current value: " + currentValue + " maxValue: " + _maxValue;
     }
 }

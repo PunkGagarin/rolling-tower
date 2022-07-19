@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using entities.enemies;
+using entities.player.citadels;
+using enums.towers;
 using UnityEngine;
 
 namespace entities.player.towers {
@@ -31,7 +33,8 @@ namespace entities.player.towers {
 
 
         public void DamageEnemy(Enemy enemy) {
-            Debug.Log("Deal damage to enemy");
+            float towerDamage = _stats.getStatByType(TowerStatType.Damage).currentValue;
+            Debug.Log("Deal damage to enemy: " + towerDamage);
         }
 
         private void Update() {
@@ -69,6 +72,14 @@ namespace entities.player.towers {
 
         public void RemoveEnemyInRange(Enemy enemyUnit) {
             _enemiesInRange.Remove(enemyUnit);
+        }
+
+        public void AddStatFromCitadel(TowerStatType type, CitadelStat stat) {
+            Debug.Log("Adding stat from citadel to tower: " + type + " " + stat.currentValue);
+            var statToIncrease = _stats.getStatByType(type);
+            Debug.Log("Stat before increasing: " + statToIncrease);
+            statToIncrease.IncreaseMaxValue(stat.getCurrentValue());
+            Debug.Log("Stat after increasing: " + statToIncrease);
         }
     }
 
