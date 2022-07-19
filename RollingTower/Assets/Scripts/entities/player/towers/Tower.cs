@@ -35,6 +35,7 @@ namespace entities.player.towers {
         public void DamageEnemy(Enemy enemy) {
             float towerDamage = _stats.getStatByType(TowerStatType.Damage).currentValue;
             Debug.Log("Deal damage to enemy: " + towerDamage);
+            enemy.TakeDamage(towerDamage);
         }
 
         private void Update() {
