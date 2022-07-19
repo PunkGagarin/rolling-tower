@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using entities.enemies;
 using entities.player.citadels;
@@ -22,13 +23,24 @@ namespace entities.player.towers {
 
         private TowerStats _stats;
 
-        private float _attackMaxTimer = 1f;
-        private float _attackTimer = 1f;
+        private float _attackMaxTimer;
+        private float _currentAttackTimer;
 
         private void Awake() {
             _stats = GetComponent<TowerStats>();
             _towerAttackRadiusCollider = GetComponentInChildren<AttackRadiusCollider>(true);
             Debug.Log(_towerAttackRadiusCollider);
+        }
+
+        private void Start() {
+            SetProperAttackTime();
+        }
+
+        public void SetProperAttackTime() {
+            Debug.Log("Changing attackSpeed timer, old timer: " + _attackMaxTimer);
+            _attackMaxTimer = 10 / _stats.getStatByType(TowerStatType.AttackSpeed).currentValue;
+            _currentAttackTimer = _attackMaxTimer;
+            Debug.Log("New timer: " + _attackMaxTimer);
         }
 
 
@@ -42,12 +54,12 @@ namespace entities.player.towers {
             if (TargetIsInRadius()) {
                 Shoot();
             }
-            _attackTimer -= Time.deltaTime;
+            _currentAttackTimer -= Time.deltaTime;
         }
 
         private void Shoot() {
-            if (_attackTimer <= 0) {
-                _attackTimer = _attackMaxTimer;
+            if (_currentAttackTimer <= 0) {
+                _currentAttackTimer = _attackMaxTimer;
                 TowerProjectile proj = Instantiate(_towerProjectile);
                 proj.transform.SetPositionAndRotation(_firePoint.position, transform.rotation);
                 proj.Init(this);

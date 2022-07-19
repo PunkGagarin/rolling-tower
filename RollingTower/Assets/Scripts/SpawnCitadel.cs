@@ -49,6 +49,6 @@ public class SpawnCitadel : MonoBehaviour {
     }
 
     private void AddStat() {
-        _citadel.AddStatToCitadel(CitadelStatType.Damage, 5);
+        _citadel.AddStatToCitadel(CitadelStatType.AttackSpeed, 10);
     }
 }
