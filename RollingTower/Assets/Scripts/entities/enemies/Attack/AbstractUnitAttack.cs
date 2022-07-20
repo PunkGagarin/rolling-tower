@@ -6,8 +6,8 @@
         _damage = damage; 
     }
     
-    public void SetDamage(float damage) {
-        _damage = damage;
+    public void SetDamage(BaseStat<UnitStat, UnitStatType> stat) {
+        _damage = stat.currentValue;
     }
 
     public abstract void Attack(IDamageable _target);
