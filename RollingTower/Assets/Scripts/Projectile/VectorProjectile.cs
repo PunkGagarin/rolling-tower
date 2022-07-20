@@ -1,27 +1,30 @@
 ﻿using UnityEngine;
 
 public class VectorProjectile : AbstractProjectile {
+    [SerializeField]
     private float _lifeTime;
     
-    // public void Init(IDamageable damageableTarget, float speed, float stopDistance, Transform target) {
-    //     InitDefaultStats(speed, stopDistance, target);
-    //     Invoke(nameof(DestroyProjectile), _lifeTime);
-    // }
-    
+    private IDamageable _damageableTarget;
+
+    public override void Init(AbstractProjectileDTO projectileDto) {
+        base.Init(projectileDto);
+        Invoke(nameof(DestroyProjectile), _lifeTime);
+    }
+
     protected override void ProjectileMove() {
-        transform.Translate(Vector2.up * (_speed * Time.deltaTime));
+        transform.Translate(Vector2.up * (_speed * _moveSpeedMultiplier * Time.deltaTime));
     }
     
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.gameObject.layer == _targetLayer) {
-            Debug.Log("We hit an enemy");
-            _isMove = false;
-            DestroyProjectile();
-            //_towerOwner.DamageEnemy(collider.gameObject.GetComponent<IDamageable>());
+            _damageableTarget = other.gameObject.GetComponent<IDamageable>();
+            Hit();
         }
     }
 
     protected override void Hit() {
-        
+        _damageDealer.DealDamage(_damageableTarget);
+        _isMove = false;
+        DestroyProjectile();
     }
 }

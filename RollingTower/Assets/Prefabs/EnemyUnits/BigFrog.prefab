@@ -104,6 +104,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _attackType: 0
+  _enemyUnitType: 2
 --- !u!114 &6733409964650373866
 MonoBehaviour:
   m_ObjectHideFlags: 0

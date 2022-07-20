@@ -5,19 +5,20 @@ using UnityEngine;
 namespace entities.enemies {
 
     [RequireComponent(typeof(EnemyStats), typeof(Rigidbody2D))]
-    public class Enemy : HealthUnit<UnitStatType, EnemyStats, UnitStat>, IDamageable {
+    public class Enemy : HealthUnit<UnitStatType, EnemyStats, UnitStat>, IDamageable, IDamageDealer {
         private AbstractMovement _movementBehaviour;
         private AbstractUnitAttack _attackBehaviour;
-
-        private Transform _target;
 
         private EnemyMoveType _enemyMoveType;
 
         [SerializeField]
         private AttackType _attackType;
 
+        [SerializeField]
+        private EnemyUnitType _enemyUnitType;
 
         private float _distance;
+        private Citadel _citadel;
 
         protected override void Awake() {
             base.Awake();
@@ -26,40 +27,47 @@ namespace entities.enemies {
         }
 
         private void Start() {
-            _target = Citadel.GetInstance.transform;
+            _citadel = Citadel.GetInstance;
             InitBehaviours();
         }
 
         private void InitBehaviours() {
             var speedStat = _stats.getStatByType(UnitStatType.MoveSpeed);
             var damageStat = _stats.getStatByType(UnitStatType.Damage);
-            _attackBehaviour.Init(damageStat.currentValue);
+            _attackBehaviour.Init(damageStat, this);
             _movementBehaviour.Init(speedStat.currentValue, transform, GetComponent<Rigidbody2D>());
-
-            damageStat.OnValueChange += _attackBehaviour.SetDamage;
+            
             speedStat.OnValueChange += _movementBehaviour.SetSpeed;
 
-            _movementBehaviour.SetTarget(_target);
+            _movementBehaviour.SetTarget(_citadel.transform);
         }
 
         public void Update() {
             if (IsNeedToMove()) {
                 _movementBehaviour.Move();
             } else {
-                //todo: remove comments
-                //_attackBehaviour.Attack(_target);
+                _attackBehaviour.Attack(_citadel);
             }
         }
 
         protected override UnitStat getHealth() {
             return _stats.getAllStats()[UnitStatType.Health];
         }
+        
+        public void DealDamage(IDamageable damageableTarget) {
+            float enemyDamage = _stats.getStatByType(UnitStatType.Damage).currentValue;
+            Debug.Log("Deal damage to : " + enemyDamage);
+            damageableTarget.TakeDamage(enemyDamage);
+        }
 
         private bool IsNeedToMove() {
-            var distance = _target.position - transform.position;
+            var distance = _citadel.transform.position - transform.position;
             var range = _stats.getStatByType(UnitStatType.AttackRange).currentValue;
             return !(distance.sqrMagnitude <= range * range);
         }
-    }
 
+        public EnemyUnitType enemyUnitType => _enemyUnitType;
+        
+        public Transform currentTransform => transform;
+    }
 }

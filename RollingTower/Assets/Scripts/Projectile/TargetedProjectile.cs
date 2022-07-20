@@ -1,20 +1,25 @@
 ﻿using UnityEngine;
 
 public class TargetedProjectile : AbstractProjectile {
-
+    [SerializeField]
+    private float _stopDistance;
+    
     private IDamageable _damageableTarget;
     private float _damage;
 
-    public void Init(IDamageable damageableTarget, float speed, float stopDistance, Transform target) {
-        InitDefaultStats(speed, stopDistance, target);
-        _damageableTarget = damageableTarget;
+    public override void Init(AbstractProjectileDTO projectileDto) {
+        base.Init(projectileDto);
+        var dto = ((TargetedProjectileDto) projectileDto);
+        _damageableTarget = dto.damageableTarget;
+        _damage = dto.damage;
     }
 
     protected override void ProjectileMove() {
         var speed = _speed * Time.deltaTime;
-        var targetPos = _targetTransform.position;
+        var targetPos = _damageableTarget.currentTransform.position;
         var ownPos = transform.position;
-        transform.position = Vector3.MoveTowards(ownPos, targetPos, speed);
+        var stepLength = speed * _moveSpeedMultiplier * Time.deltaTime;
+        transform.position = Vector3.MoveTowards(ownPos, targetPos, stepLength);
         
         var direction = targetPos - ownPos;
         float directionMagnitude = direction.sqrMagnitude;
@@ -27,7 +32,7 @@ public class TargetedProjectile : AbstractProjectile {
     }
 
     protected override void Hit() {
-        //_damageableTarget.TakeDamage(_damage);
+        _damageableTarget.TakeDamage(_damage);
         _isMove = false;
         Destroy(gameObject);
     }

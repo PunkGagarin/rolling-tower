@@ -1,17 +1,18 @@
 using UnityEngine;
 
 public abstract class AbstractProjectile : MonoBehaviour {
-
-    protected Transform _targetTransform;
-    protected bool _isMove = true;
+    [SerializeField]
     protected float _speed;
-    protected float _stopDistance;
+    
+    protected bool _isMove = true;
     protected LayerMask _targetLayer;
+    protected IDamageDealer _damageDealer;
+    protected float _moveSpeedMultiplier;
 
-    protected void InitDefaultStats(float speed, float stopDistance, Transform target) {
-        _speed = speed;
-        _stopDistance = stopDistance;
-        _targetTransform = target;
+    public virtual void Init(AbstractProjectileDTO projectileDto) {
+        _targetLayer = projectileDto.targetLayer;
+        _damageDealer = projectileDto.damageDealer;
+        _moveSpeedMultiplier = projectileDto.moveSpeedMultiplier;
     }
 
     protected abstract void ProjectileMove();

@@ -1,4 +1,3 @@
-using entities.enemies;
 using entities.player.towers;
 using UnityEngine;
 
@@ -40,7 +39,7 @@ public class TowerProjectile : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.gameObject.layer == _enemyLayer) {
             // Debug.Log("We hit an enemy");
-            _towerOwner.DamageEnemy(other.gameObject.GetComponent<Enemy>());
+            _towerOwner.DealDamage(other.gameObject.GetComponent<IDamageable>());
             DestroyProjectile();
         }
     }

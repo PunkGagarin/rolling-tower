@@ -13,7 +13,6 @@ public class TowerStats : BaseStats<TowerStatType, TowerStat> {
     private TowerStat _damage;
 
     [Tooltip("Time for one attack")]
-    [Range(1, 100f)]
     [SerializeField]
     private TowerStat _attackSpeed;
 
@@ -32,6 +31,9 @@ public class TowerStats : BaseStats<TowerStatType, TowerStat> {
     [SerializeField]
     private TowerStat _luck;
 
+    [SerializeField]
+    private TowerStat _projectileSpeedMultiplier;
+
     protected override void Awake() {
         base.Awake();
         _towerOwner = GetComponent<Tower>();
@@ -45,6 +47,7 @@ public class TowerStats : BaseStats<TowerStatType, TowerStat> {
         allStats.Add(TowerStatType.AOE, _aoe.Init(TowerStatType.AOE));
         allStats.Add(TowerStatType.ProjectileAmount, _projectileAmount.Init(TowerStatType.ProjectileAmount));
         allStats.Add(TowerStatType.Luck, _luck.Init(TowerStatType.Luck));
+        allStats.Add(TowerStatType.ProjectileSpeedMultiplier, _projectileSpeedMultiplier.Init(TowerStatType.ProjectileSpeedMultiplier));
 
         SubscribeToStats();
     }

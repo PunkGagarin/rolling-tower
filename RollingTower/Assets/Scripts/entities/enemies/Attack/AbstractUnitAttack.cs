@@ -1,13 +1,9 @@
 ﻿public abstract class AbstractUnitAttack {
-
-    protected float _damage;
-
-    public void Init(float damage) {
-        _damage = damage; 
-    }
     
-    public void SetDamage(BaseStat<UnitStat, UnitStatType> stat) {
-        _damage = stat.currentValue;
+    protected IDamageDealer _damageDealer;
+
+    public void Init(BaseStat<UnitStat, UnitStatType> stat, IDamageDealer damageDealer) {
+        _damageDealer = damageDealer;
     }
 
     public abstract void Attack(IDamageable _target);

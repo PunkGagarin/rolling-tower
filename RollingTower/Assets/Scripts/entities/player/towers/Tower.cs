@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using entities.enemies;
 using entities.player.citadels;
@@ -8,13 +7,13 @@ using UnityEngine;
 namespace entities.player.towers {
 
     [RequireComponent(typeof(TowerStats))]
-    public class Tower : MonoBehaviour {
+    public class Tower : MonoBehaviour, IDamageDealer {
 
         [SerializeField]
         private AttackRadiusCollider _towerAttackRadiusCollider;
-
+        
         [SerializeField]
-        private TowerProjectile _towerProjectile;
+        private AbstractProjectile _abstractProjectile;
 
         [SerializeField]
         private Transform _firePoint;
@@ -43,11 +42,10 @@ namespace entities.player.towers {
             Debug.Log("New timer: " + _attackMaxTimer);
         }
 
-
-        public void DamageEnemy(Enemy enemy) {
+        public void DealDamage(IDamageable damageableTarget) {
             float towerDamage = _stats.getStatByType(TowerStatType.Damage).currentValue;
             Debug.Log("Deal damage to enemy: " + towerDamage);
-            enemy.TakeDamage(towerDamage);
+            damageableTarget.TakeDamage(towerDamage);
         }
 
         private void Update() {
@@ -60,9 +58,9 @@ namespace entities.player.towers {
         private void Shoot() {
             if (_currentAttackTimer <= 0) {
                 _currentAttackTimer = _attackMaxTimer;
-                TowerProjectile proj = Instantiate(_towerProjectile);
-                proj.transform.SetPositionAndRotation(_firePoint.position, transform.rotation);
-                proj.Init(this);
+                var projectile = Instantiate(_abstractProjectile);
+                projectile.transform.SetPositionAndRotation(_firePoint.position, transform.rotation);
+                projectile.Init(new VectorProjectileDto(this, LayerMask.NameToLayer("Enemy"), _stats.getStatByType(TowerStatType.ProjectileSpeedMultiplier).currentValue));
             }
         }
 
@@ -95,5 +93,4 @@ namespace entities.player.towers {
             Debug.Log("Stat after increasing: " + statToIncrease);
         }
     }
-
 }

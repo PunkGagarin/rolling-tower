@@ -7,7 +7,8 @@ namespace enums.towers {
         ProjectileSpeed,
         AOE,
         ProjectileAmount,
-        Luck
+        Luck,
+        ProjectileSpeedMultiplier
     }
 
 }

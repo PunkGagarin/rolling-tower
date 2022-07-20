@@ -1,3 +1,3 @@
 public interface IDamageDealer {
-    void DeadDamage(float damage);
+    void DealDamage(IDamageable damageableTarget);
 }

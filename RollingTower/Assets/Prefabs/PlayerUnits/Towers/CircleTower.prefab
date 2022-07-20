@@ -293,7 +293,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _towerAttackRadiusCollider: {fileID: 7055504710743175146}
-  _towerProjectile: {fileID: 6660632357587892990, guid: d9cebcc29ba9c724684746d092a10742, type: 3}
+  _abstractProjectile: {fileID: -5303894025611030913, guid: a98b4f11f7e629848ad57df2e134ef7d, type: 3}
   _firePoint: {fileID: 7854609202883418894}
 --- !u!114 &3056758504182352048
 MonoBehaviour:
@@ -321,3 +321,5 @@ MonoBehaviour:
     <currentValue>k__BackingField: 1
   _luck:
     <currentValue>k__BackingField: 0
+  _projectileSpeedMultiplier:
+    <currentValue>k__BackingField: 1
