@@ -6,7 +6,7 @@
         _damage = damage; 
     }
     
-    public void SetDamage(BaseStat<UnitStat, UnitStatType> stat) {
+    public void SetDamage(BaseStat<UnitStat, UnitStatType> stat, float valueDifference) {
         _damage = stat.currentValue;
     }
 
