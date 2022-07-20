@@ -13,7 +13,7 @@ namespace entities.bases {
             return allStats;
         }
 
-        private void Awake() {
+        protected virtual void Awake() {
             InitStats();
         }
 

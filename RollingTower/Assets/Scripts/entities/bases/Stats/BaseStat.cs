@@ -1,9 +1,10 @@
 using System;
 using UnityEngine;
 
+[Serializable]
 public abstract class BaseStat<S, T> : IUnitStat<T> {
 
-    public Action<float> OnValueChange = delegate { };
+    public Action<BaseStat<S, T>> OnValueChange = delegate { };
 
     [field: SerializeField]
     public float currentValue { get; private set; }
@@ -20,7 +21,7 @@ public abstract class BaseStat<S, T> : IUnitStat<T> {
         if (currentValue < 0) {
             currentValue = 0;
         }
-        OnValueChange?.Invoke(currentValue);
+        OnValueChange?.Invoke(this);
     }
 
     public void IncreaseCurrentValue(float value) {
@@ -28,7 +29,12 @@ public abstract class BaseStat<S, T> : IUnitStat<T> {
         if (currentValue > _maxValue) {
             currentValue = _maxValue;
         }
-        OnValueChange?.Invoke(currentValue);
+        OnValueChange?.Invoke(this);
+    }
+    
+    public void IncreaseMaxValue(float value) {
+        _maxValue += value;
+        IncreaseCurrentValue(value);
     }
 
     public bool isMaxValue() {
@@ -41,5 +47,9 @@ public abstract class BaseStat<S, T> : IUnitStat<T> {
 
     public float getCurrentValue() {
         return currentValue;
+    }
+
+    public override string ToString() {
+        return "Type: " + _type + " current value: " + currentValue + " maxValue: " + _maxValue;
     }
 }

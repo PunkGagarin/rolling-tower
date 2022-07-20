@@ -35,6 +35,7 @@ namespace entities.bases {
         protected virtual void Die() {
             OnDie?.Invoke();
             isDead = true;
+            Destroy(gameObject);
         }
     }
 

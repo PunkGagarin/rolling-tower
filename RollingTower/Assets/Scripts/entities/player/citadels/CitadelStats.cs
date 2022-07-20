@@ -1,10 +1,9 @@
-using System;
 using System.Collections.Generic;
 using entities.bases;
 using enums.citadels;
 using UnityEngine;
 
-namespace Entities.Citadels {
+namespace entities.player.citadels {
 
     public class CitadelStats : BaseStats<CitadelStatType, CitadelStat> {
 
@@ -43,8 +42,16 @@ namespace Entities.Citadels {
 
         [SerializeField]
         private CitadelStat _projectileAmount;
+        
+        public Dictionary<CitadelStatType, CitadelStat> statsForTowers { get; } = new();
+        
 
         protected override void InitStats() {
+            AddStatsForCitadelWithInit();
+            AddStatsForTowers();
+        }
+
+        private void AddStatsForCitadelWithInit() {
             allStats.Add(CitadelStatType.Health, _health.Init(CitadelStatType.Health));
             allStats.Add(CitadelStatType.Damage, _damage.Init(CitadelStatType.Damage));
             allStats.Add(CitadelStatType.AttackSpeed, _attackSpeed.Init(CitadelStatType.AttackSpeed));
@@ -57,6 +64,16 @@ namespace Entities.Citadels {
             allStats.Add(CitadelStatType.Luck, _luck.Init(CitadelStatType.Luck));
             allStats.Add(CitadelStatType.GoldBonus, _goldBonus.Init(CitadelStatType.GoldBonus));
             allStats.Add(CitadelStatType.CardRerollAmount, _cardRerollAmount.Init(CitadelStatType.CardRerollAmount));
+        }
+
+        private void AddStatsForTowers() {
+            statsForTowers.Add(_damage.getStatType(), _damage);
+            statsForTowers.Add(_attackSpeed.getStatType(), _attackSpeed);
+            statsForTowers.Add(_attackRange.getStatType(), _attackRange);
+            statsForTowers.Add(_projectileSpeed.getStatType(), _projectileSpeed);
+            statsForTowers.Add(_aoe.getStatType(), _aoe);
+            statsForTowers.Add(_projectileAmount.getStatType(), _projectileAmount);
+            statsForTowers.Add(_luck.getStatType(), _luck);
         }
 
     }

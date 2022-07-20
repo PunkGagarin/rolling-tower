@@ -139,7 +139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &43887335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,6 +153,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _citadel: {fileID: 1599367970, guid: 13ccd6dc604adac488f17e9ab0fa6353, type: 3}
+  _button1: {fileID: 2066513928}
+  _button2: {fileID: 1310791249}
+  _button3: {fileID: 1127519485}
+  _addStatButton: {fileID: 1069499546}
+  _radiusToIncrease: 1.5
+  _towerToBuildTest: {fileID: 8416783159278751870, guid: ed48f3d3a171e2841958ee9a4ad5c6de, type: 3}
 --- !u!4 &43887336
 Transform:
   m_ObjectHideFlags: 0
@@ -469,6 +475,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LittleFrog
       objectReference: {fileID: 0}
+    - target: {fileID: 7998046121745834813, guid: a3105d1ca13e9c94b86c92a791b0b7e4, type: 3}
+      propertyPath: _health._isCappedByStartValue
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7998046121745834815, guid: a3105d1ca13e9c94b86c92a791b0b7e4, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -573,7 +583,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ConvertStat
+  m_text: Add damage
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1357,6 +1367,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6733409964650373866, guid: 7412c22ed015ca64f8531de5bbc62282, type: 3}
+      propertyPath: _health._isCappedByStartValue
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6733409964650373869, guid: 7412c22ed015ca64f8531de5bbc62282, type: 3}
       propertyPath: m_Name
       value: BigFrog
@@ -1372,6 +1386,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -6344281454246851860, guid: b61808ff21937c242b0454dd0e2ba42c, type: 3}
       propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 108434350942307848, guid: b61808ff21937c242b0454dd0e2ba42c, type: 3}
+      propertyPath: _health._isCappedByStartValue
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 108434350942307850, guid: b61808ff21937c242b0454dd0e2ba42c, type: 3}
@@ -1750,7 +1768,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1423617821209434299, guid: 13ccd6dc604adac488f17e9ab0fa6353, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 13ccd6dc604adac488f17e9ab0fa6353, type: 3}
