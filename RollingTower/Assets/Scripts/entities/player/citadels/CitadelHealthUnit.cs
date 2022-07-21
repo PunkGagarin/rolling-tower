@@ -10,12 +10,13 @@ namespace entities.player.citadels {
 
         private float hpRegenTimeInterval = 1f;
 
-        private float currentHpRegenTimer = 1f;
+        private float _currentHpRegenTimer = 1f;
 
         private void Update() {
-            currentHpRegenTimer -= Time.deltaTime;
-            if (currentHpRegenTimer <= 0) {
+            _currentHpRegenTimer -= Time.deltaTime;
+            if (_currentHpRegenTimer <= 0) {
                 regenerateHealth();
+                _currentHpRegenTimer = hpRegenTimeInterval;
             }
         }
 

@@ -1,6 +1,7 @@
 using entities.player.citadels;
 using entities.player.towers;
 using enums.citadels;
+using enums.towers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -37,7 +38,8 @@ public class SpawnCitadel : MonoBehaviour {
     }
 
     private void ChangeTowerRadiusInvoke() {
-        _citadel.ChangeTowersRadius(_radiusToIncrease);
+        _citadel.AddFightingStatToCitadel(TowerStatType.AttackRange, _radiusToIncrease);
+
     }
 
     private void UnlockSecondSlotInvoke() {
@@ -49,6 +51,6 @@ public class SpawnCitadel : MonoBehaviour {
     }
 
     private void AddStat() {
-        _citadel.AddStatToCitadel(CitadelStatType.AttackSpeed, 10);
+        _citadel.AddFightingStatToCitadel(TowerStatType.AttackSpeed, 10);
     }
 }

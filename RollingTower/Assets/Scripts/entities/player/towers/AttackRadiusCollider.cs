@@ -41,8 +41,8 @@ public class AttackRadiusCollider : MonoBehaviour {
         
         _radiusCollider.enabled = false;
         
-        var firstPointPrev = new Vector2(currentPath[0].x - range / 10, currentPath[0].y + range);
-        var lastPointPrev = new Vector2(currentPath[^1].x + range / 10, currentPath[^1].y + range);
+        var firstPointPrev = new Vector2(currentPath[0].x - range / 2, currentPath[0].y + range);
+        var lastPointPrev = new Vector2(currentPath[^1].x + range / 2, currentPath[^1].y + range);
 
         currentPath[0] = firstPointPrev;
         currentPath[^1] = lastPointPrev;

@@ -1,7 +1,6 @@
-using System;
 using System.Collections.Generic;
+using Entities.Citadels.Towers;
 using entities.enemies;
-using entities.player.citadels;
 using enums.towers;
 using UnityEngine;
 
@@ -33,12 +32,12 @@ namespace entities.player.towers {
         }
 
         private void Start() {
-            SetProperAttackTime();
+            SetProperAttackTime(_stats.getStatByType(TowerStatType.AttackSpeed), 0f);
         }
 
-        public void SetProperAttackTime() {
+        public void SetProperAttackTime(BaseStat<TowerStat, TowerStatType> baseStat, float valueDifference) {
             Debug.Log("Changing attackSpeed timer, old timer: " + _attackMaxTimer);
-            _attackMaxTimer = 10 / _stats.getStatByType(TowerStatType.AttackSpeed).currentValue;
+            _attackMaxTimer = 10 / baseStat.currentValue;
             _currentAttackTimer = _attackMaxTimer;
             Debug.Log("New timer: " + _attackMaxTimer);
         }
@@ -66,14 +65,14 @@ namespace entities.player.towers {
             }
         }
 
-        public void ChangeAttackRadius(float range) {
+        public void ChangeAttackRadius(BaseStat<TowerStat, TowerStatType> baseStat, float range) {
             Debug.Log("Changing from tower");
             _towerAttackRadiusCollider.ChangeRange(range);
         }
 
         private bool TargetIsInRadius() {
-            Enemy enemy = GetComponent<Enemy>();
             return _enemiesInRange.Count > 0;
+            // Enemy enemy = GetComponent<Enemy>();
             // var towerRange = _stats.getStatByType(TowerStatType.AttackRange);
             // return false;
         }
@@ -86,13 +85,17 @@ namespace entities.player.towers {
         public void RemoveEnemyInRange(Enemy enemyUnit) {
             _enemiesInRange.Remove(enemyUnit);
         }
-
-        public void AddStatFromCitadel(TowerStatType type, CitadelStat stat) {
+        
+        public void AddStatFromCitadel(TowerStatType type, TowerStat stat) {
             Debug.Log("Adding stat from citadel to tower: " + type + " " + stat.currentValue);
             var statToIncrease = _stats.getStatByType(type);
             Debug.Log("Stat before increasing: " + statToIncrease);
             statToIncrease.IncreaseMaxValue(stat.getCurrentValue());
             Debug.Log("Stat after increasing: " + statToIncrease);
+        }
+
+        public float GetProjectileSpeed() {
+            return _stats.getStatByType(TowerStatType.ProjectileSpeed).currentValue;
         }
     }
 

@@ -7,14 +7,6 @@ namespace enums.citadels {
         Luck,
         GoldBonus,
         CardRerollAmount,
-        
-        Damage,
-        AttackSpeed,
-        AttackRange,
-        ProjectileSpeed,
-        AOE,
-        ProjectileAmount,
-
         //TODO: is Exp will exist at all?
         ExpBonus
     }
