@@ -9,10 +9,10 @@ public abstract class AbstractProjectile : MonoBehaviour {
     protected IDamageDealer _damageDealer;
     protected float _moveSpeedMultiplier;
 
-    public virtual void Init(AbstractProjectileDTO projectileDto) {
-        _targetLayer = projectileDto.targetLayer;
-        _damageDealer = projectileDto.damageDealer;
-        _moveSpeedMultiplier = projectileDto.moveSpeedMultiplier;
+    protected void InitBaseProjectile(IDamageDealer damageDealer, LayerMask targetLayer, float moveSpeedMultiplier) {
+        _damageDealer = damageDealer;
+        _targetLayer = targetLayer;
+        _moveSpeedMultiplier = moveSpeedMultiplier;
     }
 
     protected abstract void ProjectileMove();

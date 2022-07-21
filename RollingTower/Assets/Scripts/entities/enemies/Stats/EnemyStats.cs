@@ -21,6 +21,9 @@ public class EnemyStats : BaseStats<UnitStatType, UnitStat> {
 
     [SerializeField]
     private UnitStat _reward;
+    
+    [SerializeField]
+    private UnitStat _projectileSpeedMultiplier;
 
     protected override void InitStats() {
         allStats.Add(UnitStatType.Health, _health.Init(UnitStatType.Health));
@@ -29,5 +32,6 @@ public class EnemyStats : BaseStats<UnitStatType, UnitStat> {
         allStats.Add(UnitStatType.AttackSpeed, _attackSpeed.Init(UnitStatType.Health));
         allStats.Add(UnitStatType.AttackRange, _attackRange.Init(UnitStatType.Health));
         allStats.Add(UnitStatType.Reward, _reward.Init(UnitStatType.Health));
+        allStats.Add(UnitStatType.ProjectileSpeedMultiplier, _projectileSpeedMultiplier.Init(UnitStatType.ProjectileSpeedMultiplier));
     }
 }

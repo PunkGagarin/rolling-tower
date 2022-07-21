@@ -7,17 +7,19 @@ public abstract class AbstractMovement {
     protected Transform _ownerTransform;
     protected Rigidbody2D _rigidbody2D;
 
-    public void Init(float speed ,Transform ownerTransform, Rigidbody2D rb) {
-        SetSpeed(speed);
+    public void Init(UnitStat speedStat,Transform ownerTransform, Rigidbody2D rb, Transform target) {
+        SetSpeed(speedStat.currentValue);
+        speedStat.OnValueChange += SetSpeed;
         _ownerTransform = ownerTransform;
         _rigidbody2D = rb;
+        _targetTransform = target;
     }
 
     public void SetTarget(Transform target) {
         _targetTransform = target;
     }
     
-    public void SetSpeed(BaseStat<UnitStat, UnitStatType> stat) {
+    private void SetSpeed(BaseStat<UnitStat, UnitStatType> stat) {
         _speed = stat.currentValue;
     }   
     private void SetSpeed(float speed) {

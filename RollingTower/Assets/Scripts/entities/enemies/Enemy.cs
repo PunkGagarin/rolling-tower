@@ -5,50 +5,59 @@ using UnityEngine;
 namespace entities.enemies {
 
     [RequireComponent(typeof(EnemyStats), typeof(Rigidbody2D))]
-    public class Enemy : HealthUnit<UnitStatType, EnemyStats, UnitStat>, IDamageable, IDamageDealer {
-        private AbstractMovement _movementBehaviour;
-        private AbstractUnitAttack _attackBehaviour;
-
+    public abstract class Enemy : HealthUnit<UnitStatType, EnemyStats, UnitStat>, IDamageable, IDamageDealer {
+        protected AbstractMovement _movementBehaviour;
+        protected AbstractUnitAttack _attackBehaviour;
         private EnemyMoveType _enemyMoveType;
 
         [SerializeField]
-        private AttackType _attackType;
-
-        [SerializeField]
         private EnemyUnitType _enemyUnitType;
-
-        private float _distance;
-        private Citadel _citadel;
-
-        protected override void Awake() {
-            base.Awake();
-            _movementBehaviour = MoveFactory.GetMoveBehaviour(_enemyMoveType);
-            _attackBehaviour = AttackTypeFactory.GetAttackBehaviourByType(_attackType);
-        }
+        
+        [SerializeField]
+        protected Transform _firePoint;
+        
+        protected Citadel _citadel;
+        
+        private float _attackMaxTimer;
+        private float _currentAttackTimer;
 
         private void Start() {
             _citadel = Citadel.GetInstance;
+            _stats.getStatByType(UnitStatType.Damage);
             InitBehaviours();
+            SetProperAttackTime();
         }
 
         private void InitBehaviours() {
-            var speedStat = _stats.getStatByType(UnitStatType.MoveSpeed);
-            var damageStat = _stats.getStatByType(UnitStatType.Damage);
-            _attackBehaviour.Init(damageStat, this);
-            _movementBehaviour.Init(speedStat.currentValue, transform, GetComponent<Rigidbody2D>());
-            
-            speedStat.OnValueChange += _movementBehaviour.SetSpeed;
-
-            _movementBehaviour.SetTarget(_citadel.transform);
+            InitMoveBehaviour();
+            InitAttackBehaviour();
         }
 
         public void Update() {
             if (IsNeedToMove()) {
                 _movementBehaviour.Move();
             } else {
-                _attackBehaviour.Attack(_citadel);
+                TryAttack();
+            }
+            _currentAttackTimer -= Time.deltaTime;
+        }
+
+        #region AttackSpeed
+
+        //todo: move attack speed logic in proper class or stats(same logic we already have in towers)  
+        private void SetProperAttackTime() {
+            _attackMaxTimer = 10 / _stats.getStatByType(UnitStatType.AttackSpeed).currentValue;
+            _currentAttackTimer = _attackMaxTimer;
+        }
+        
+        private void TryAttack() {
+            if (_currentAttackTimer <= 0) {
+                _currentAttackTimer = _attackMaxTimer;
+                _attackBehaviour.Attack();
             }
         }
+
+        #endregion
 
         protected override UnitStat getHealth() {
             return _stats.getAllStats()[UnitStatType.Health];
@@ -69,5 +78,8 @@ namespace entities.enemies {
         public EnemyUnitType enemyUnitType => _enemyUnitType;
         
         public Transform currentTransform => transform;
+
+        protected abstract void InitAttackBehaviour();
+        protected abstract void InitMoveBehaviour();
     }
 }

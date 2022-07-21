@@ -4,5 +4,6 @@
     Damage,
     AttackSpeed,
     AttackRange,
-    Reward
+    Reward,
+    ProjectileSpeedMultiplier
 }

@@ -5,13 +5,10 @@ public class TargetedProjectile : AbstractProjectile {
     private float _stopDistance;
     
     private IDamageable _damageableTarget;
-    private float _damage;
 
-    public override void Init(AbstractProjectileDTO projectileDto) {
-        base.Init(projectileDto);
-        var dto = ((TargetedProjectileDto) projectileDto);
-        _damageableTarget = dto.damageableTarget;
-        _damage = dto.damage;
+    public void Init(IDamageable damageableTarget ,IDamageDealer damageDealer, LayerMask targetLayer, float moveSpeedMultiplier) {
+        InitBaseProjectile(damageDealer, targetLayer, moveSpeedMultiplier);
+        _damageableTarget = damageableTarget;
     }
 
     protected override void ProjectileMove() {
@@ -32,7 +29,7 @@ public class TargetedProjectile : AbstractProjectile {
     }
 
     protected override void Hit() {
-        _damageableTarget.TakeDamage(_damage);
+        _damageDealer.DealDamage(_damageableTarget);
         _isMove = false;
         Destroy(gameObject);
     }

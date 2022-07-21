@@ -6,8 +6,8 @@ public class VectorProjectile : AbstractProjectile {
     
     private IDamageable _damageableTarget;
 
-    public override void Init(AbstractProjectileDTO projectileDto) {
-        base.Init(projectileDto);
+    public void Init(IDamageDealer damageDealer, LayerMask targetLayer, float moveSpeedMultiplier){
+        InitBaseProjectile(damageDealer, targetLayer, moveSpeedMultiplier);
         Invoke(nameof(DestroyProjectile), _lifeTime);
     }
 

@@ -1,6 +1,14 @@
-﻿public class RangeAttackBehaviour : AbstractUnitAttack {
+﻿using UnityEngine;
 
-    public override void Attack(IDamageable target) {
-        //todo: think about realization
+public abstract class RangeAttackBehaviour : AbstractUnitAttack{
+    protected Transform _firePoint;
+    protected float _projectileSpeedMultiplier;
+    protected LayerMask _targetLayer;
+
+    protected void InitRange(Transform firePoint, float projectileSpeedMultiplier, IDamageDealer damageDealer, LayerMask targetLayer) {
+        _damageDealer = damageDealer;
+        _firePoint = firePoint;
+        _projectileSpeedMultiplier = projectileSpeedMultiplier;
+        _targetLayer = targetLayer;
     }
 }

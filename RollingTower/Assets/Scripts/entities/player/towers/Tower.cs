@@ -7,20 +7,17 @@ using UnityEngine;
 namespace entities.player.towers {
 
     [RequireComponent(typeof(TowerStats))]
-    public class Tower : MonoBehaviour, IDamageDealer {
+    public abstract class Tower : MonoBehaviour, IDamageDealer {
 
         [SerializeField]
         private AttackRadiusCollider _towerAttackRadiusCollider;
-        
-        [SerializeField]
-        private AbstractProjectile _abstractProjectile;
 
         [SerializeField]
-        private Transform _firePoint;
+        protected Transform _firePoint;
 
         private List<Enemy> _enemiesInRange = new();
 
-        private TowerStats _stats;
+        protected TowerStats _stats;
 
         private float _attackMaxTimer;
         private float _currentAttackTimer;
@@ -58,11 +55,11 @@ namespace entities.player.towers {
         private void Shoot() {
             if (_currentAttackTimer <= 0) {
                 _currentAttackTimer = _attackMaxTimer;
-                var projectile = Instantiate(_abstractProjectile);
-                projectile.transform.SetPositionAndRotation(_firePoint.position, transform.rotation);
-                projectile.Init(new VectorProjectileDto(this, LayerMask.NameToLayer("Enemy"), _stats.getStatByType(TowerStatType.ProjectileSpeedMultiplier).currentValue));
+                Attack();
             }
         }
+
+        public abstract void Attack();
 
         public void ChangeAttackRadius(float range) {
             Debug.Log("Changing from tower");
@@ -70,7 +67,7 @@ namespace entities.player.towers {
         }
 
         private bool TargetIsInRadius() {
-            Enemy enemy = GetComponent<Enemy>();
+            var enemy = GetComponent<Enemy>();
             return _enemiesInRange.Count > 0;
             // var towerRange = _stats.getStatByType(TowerStatType.AttackRange);
             // return false;
