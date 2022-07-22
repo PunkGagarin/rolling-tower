@@ -30,10 +30,6 @@ public class TowerStats : BaseStats<TowerStatType, TowerStat> {
 
     [SerializeField]
     private TowerStat _luck;
-
-    [SerializeField]
-    private TowerStat _projectileSpeedMultiplier;
-
     protected override void Awake() {
         base.Awake();
         _towerOwner = GetComponent<Tower>();
@@ -47,20 +43,5 @@ public class TowerStats : BaseStats<TowerStatType, TowerStat> {
         allStats.Add(TowerStatType.AOE, _aoe.Init(TowerStatType.AOE));
         allStats.Add(TowerStatType.ProjectileAmount, _projectileAmount.Init(TowerStatType.ProjectileAmount));
         allStats.Add(TowerStatType.Luck, _luck.Init(TowerStatType.Luck));
-        allStats.Add(TowerStatType.ProjectileSpeedMultiplier, _projectileSpeedMultiplier.Init(TowerStatType.ProjectileSpeedMultiplier));
-
-        SubscribeToStats();
-    }
-
-    private void SubscribeToStats() {
-        foreach (KeyValuePair<TowerStatType, TowerStat> towerStatPair in allStats) {
-            towerStatPair.Value.OnValueChange += CheckStat;
-        }
-    }
-
-    private void CheckStat(BaseStat<TowerStat, TowerStatType> stat) {
-        if (stat.getStatType().Equals(TowerStatType.AttackSpeed)) {
-            _towerOwner.SetProperAttackTime();
-        }
     }
 }

@@ -12,7 +12,7 @@ public class VectorProjectile : AbstractProjectile {
     }
 
     protected override void ProjectileMove() {
-        transform.Translate(Vector2.up * (_speed * _moveSpeedMultiplier * Time.deltaTime));
+        transform.Translate(Vector2.up * CalculateSpeed());
     }
     
     private void OnTriggerEnter2D(Collider2D other) {
@@ -23,8 +23,6 @@ public class VectorProjectile : AbstractProjectile {
     }
 
     protected override void Hit() {
-        _damageDealer.DealDamage(_damageableTarget);
-        _isMove = false;
-        DestroyProjectile();
+        DamageTargetAndDestroyMyself(_damageableTarget);
     }
 }

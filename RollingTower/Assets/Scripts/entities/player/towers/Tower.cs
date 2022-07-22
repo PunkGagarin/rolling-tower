@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Entities.Citadels.Towers;
 using entities.enemies;
 using entities.player.citadels;
 using enums.towers;
@@ -19,8 +20,7 @@ namespace entities.player.towers {
 
         protected TowerStats _stats;
 
-        private float _attackMaxTimer;
-        private float _currentAttackTimer;
+        private AttackSpeedController<TowerStat, TowerStatType> _attackSpeed = new();
 
         private void Awake() {
             _stats = GetComponent<TowerStats>();
@@ -29,14 +29,7 @@ namespace entities.player.towers {
         }
 
         private void Start() {
-            SetProperAttackTime();
-        }
-
-        public void SetProperAttackTime() {
-            Debug.Log("Changing attackSpeed timer, old timer: " + _attackMaxTimer);
-            _attackMaxTimer = 10 / _stats.getStatByType(TowerStatType.AttackSpeed).currentValue;
-            _currentAttackTimer = _attackMaxTimer;
-            Debug.Log("New timer: " + _attackMaxTimer);
+            _attackSpeed.Init(_stats.getStatByType(TowerStatType.AttackSpeed), Attack);
         }
 
         public void DealDamage(IDamageable damageableTarget) {
@@ -47,19 +40,10 @@ namespace entities.player.towers {
 
         private void Update() {
             if (TargetIsInRadius()) {
-                Shoot();
+                _attackSpeed.TryAttack();
             }
-            _currentAttackTimer -= Time.deltaTime;
+            _attackSpeed.Tick();
         }
-
-        private void Shoot() {
-            if (_currentAttackTimer <= 0) {
-                _currentAttackTimer = _attackMaxTimer;
-                Attack();
-            }
-        }
-
-        public abstract void Attack();
 
         public void ChangeAttackRadius(float range) {
             Debug.Log("Changing from tower");
@@ -89,5 +73,7 @@ namespace entities.player.towers {
             statToIncrease.IncreaseMaxValue(stat.getCurrentValue());
             Debug.Log("Stat after increasing: " + statToIncrease);
         }
+        
+        protected abstract void Attack();
     }
 }

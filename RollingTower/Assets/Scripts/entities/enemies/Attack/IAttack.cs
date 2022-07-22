@@ -1,4 +1,4 @@
-﻿public abstract class AbstractUnitAttack {
+﻿public abstract class AbstractAttackBehaviour {
     
     protected IDamageDealer _damageDealer;
 

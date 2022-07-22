@@ -1,4 +1,4 @@
-﻿public class MeleeAttackBehaviour : AbstractUnitAttack {
+﻿public class MeleeAttackBehaviour : AbstractAttackBehaviour {
     
     public override void Attack() {
         //todo: implement

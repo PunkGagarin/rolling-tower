@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-public abstract class RangeAttackBehaviour : AbstractUnitAttack{
+public abstract class RangeAttackBehaviour : AbstractAttackBehaviour{
+    
     protected Transform _firePoint;
     protected float _projectileSpeedMultiplier;
     protected LayerMask _targetLayer;

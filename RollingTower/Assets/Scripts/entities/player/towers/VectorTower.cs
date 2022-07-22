@@ -7,7 +7,7 @@ public class VectorTower : Tower {
     [SerializeField]
     private VectorProjectile _vectorProjectile;
 
-    public override void Attack() {
+    protected override void Attack() {
         var projectile = Instantiate(_vectorProjectile);
         projectile.transform.SetPositionAndRotation(_firePoint.position, transform.rotation);
         projectile.Init(this, LayerMask.NameToLayer(GameConstants.ENEMY_LAYER), _stats.getStatByType(TowerStatType.ProjectileSpeedMultiplier).currentValue);

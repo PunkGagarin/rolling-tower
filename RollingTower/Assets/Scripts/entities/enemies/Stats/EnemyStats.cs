@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using entities.bases;
+﻿using entities.bases;
 using UnityEngine;
 
 public class EnemyStats : BaseStats<UnitStatType, UnitStat> {
@@ -23,7 +22,7 @@ public class EnemyStats : BaseStats<UnitStatType, UnitStat> {
     private UnitStat _reward;
     
     [SerializeField]
-    private UnitStat _projectileSpeedMultiplier;
+    private UnitStat _projectileSpeed;
 
     protected override void InitStats() {
         allStats.Add(UnitStatType.Health, _health.Init(UnitStatType.Health));
@@ -32,6 +31,6 @@ public class EnemyStats : BaseStats<UnitStatType, UnitStat> {
         allStats.Add(UnitStatType.AttackSpeed, _attackSpeed.Init(UnitStatType.Health));
         allStats.Add(UnitStatType.AttackRange, _attackRange.Init(UnitStatType.Health));
         allStats.Add(UnitStatType.Reward, _reward.Init(UnitStatType.Health));
-        allStats.Add(UnitStatType.ProjectileSpeedMultiplier, _projectileSpeedMultiplier.Init(UnitStatType.ProjectileSpeedMultiplier));
+        allStats.Add(UnitStatType.ProjectileSpeed, _projectileSpeed.Init(UnitStatType.ProjectileSpeed));
     }
 }

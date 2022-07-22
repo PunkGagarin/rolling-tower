@@ -4,7 +4,7 @@ public abstract class AbstractProjectile : MonoBehaviour {
     [SerializeField]
     protected float _speed;
     
-    protected bool _isMove = true;
+    protected bool _isMoving = true;
     protected LayerMask _targetLayer;
     protected IDamageDealer _damageDealer;
     protected float _moveSpeedMultiplier;
@@ -16,20 +16,25 @@ public abstract class AbstractProjectile : MonoBehaviour {
     }
 
     protected abstract void ProjectileMove();
-    
-    protected void LookAtPos(Vector2 direction) {
-        var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-    }
 
     private void Update() {
-        if (_isMove) {
+        if (_isMoving) {
             ProjectileMove();
         }
+    }
+
+    protected float CalculateSpeed() {
+        return _speed * _moveSpeedMultiplier * Time.deltaTime;
     }
     
     protected void DestroyProjectile() {
         Destroy(gameObject);
+    }
+
+    protected void DamageTargetAndDestroyMyself(IDamageable _damageableTarget) {
+        _damageDealer.DealDamage(_damageableTarget);
+        _isMoving = false;
+        DestroyProjectile();
     }
 
     protected abstract void Hit();

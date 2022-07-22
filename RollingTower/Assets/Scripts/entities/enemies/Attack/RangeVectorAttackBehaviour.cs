@@ -1,18 +1,18 @@
 ﻿using UnityEngine;
 
 public class RangeVectorAttackBehaviour : RangeAttackBehaviour{
-
+    protected IDamageDealer damageDealer { get; set; }
     private VectorProjectile _projectile;
 
     public void Init(VectorProjectile vectorProjectile ,Transform firePoint, IDamageDealer damageDealer, float projectileSpeedMultiplier, LayerMask targetLayer) {
         InitRange(firePoint, projectileSpeedMultiplier, damageDealer, targetLayer);
-        _damageDealer = damageDealer;
+        this.damageDealer = damageDealer;
         _projectile = vectorProjectile;
     }
 
     public override void Attack() {
         var projectile = GameObject.Instantiate(_projectile);
         projectile.transform.SetPositionAndRotation(_firePoint.position, _firePoint.rotation);
-        projectile.Init(_damageDealer, _targetLayer,  _projectileSpeedMultiplier);
+        projectile.Init(damageDealer, _targetLayer,  _projectileSpeedMultiplier);
     }
 }
