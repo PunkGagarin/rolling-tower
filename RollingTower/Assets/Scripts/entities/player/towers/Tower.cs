@@ -24,19 +24,11 @@ namespace entities.player.towers {
         private void Awake() {
             _stats = GetComponent<TowerStats>();
             _towerAttackRadiusCollider = GetComponentInChildren<AttackRadiusCollider>(true);
-            Debug.Log(_towerAttackRadiusCollider);
         }
 
         private void Start() {
             _attackSpeed.Init(_stats.getStatByType(TowerStatType.AttackSpeed), Attack);
         }
-        
-        // public void SetProperAttackTime(BaseStat<TowerStat, TowerStatType> baseStat, float valueDifference) {
-        //     Debug.Log("Changing attackSpeed timer, old timer: " + _attackMaxTimer);
-        //     _attackMaxTimer = 10 / baseStat.currentValue;
-        //     _currentAttackTimer = _attackMaxTimer;
-        //     Debug.Log("New timer: " + _attackMaxTimer);
-        // }
 
         public void DealDamage(IDamageable damageableTarget) {
             float towerDamage = _stats.getStatByType(TowerStatType.Damage).currentValue;

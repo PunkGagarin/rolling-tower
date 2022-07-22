@@ -9,7 +9,7 @@ public class AttackSpeedController<S,T> {
 
     public void Init(BaseStat<S,T> stat, Action attack) {
         _attack = attack;
-        SetProperAttackTime(stat);
+        SetProperAttackTime(stat, stat.currentValue);
         stat.OnValueChange += SetProperAttackTime;
     }
     
@@ -24,7 +24,7 @@ public class AttackSpeedController<S,T> {
         _currentAttackTimer -= Time.deltaTime;
     }
     
-    private void SetProperAttackTime(BaseStat<S, T> stat) {
+    private void SetProperAttackTime(BaseStat<S, T> stat, float value) {
         _attackMaxTimer = 10 / stat.currentValue;
         _currentAttackTimer = _attackMaxTimer;
     }

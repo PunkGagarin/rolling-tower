@@ -575,7 +575,7 @@ GameObject:
   - component: {fileID: 6155393661066882184}
   - component: {fileID: 2899296802650805407}
   - component: {fileID: 2419822625195881412}
-  - component: {fileID: 3056758504182352048}
+  - component: {fileID: 2228274989842014570}
   m_Layer: 0
   m_Name: BowTower
   m_TagString: Untagged
@@ -667,7 +667,7 @@ MonoBehaviour:
   _towerAttackRadiusCollider: {fileID: 7055504710743175146}
   _firePoint: {fileID: 7854609202883418894}
   _vectorProjectile: {fileID: -5303894025611030913, guid: a98b4f11f7e629848ad57df2e134ef7d, type: 3}
---- !u!114 &3056758504182352048
+--- !u!114 &2228274989842014570
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -676,7 +676,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8899514729759599795}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01946611d449466781fccf2806e2c3d6, type: 3}
+  m_Script: {fileID: 11500000, guid: 841ccb266a3244e4bc60d534eb6757fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _damage:
@@ -686,12 +686,10 @@ MonoBehaviour:
   _attackRange:
     <currentValue>k__BackingField: 20
   _projectileSpeed:
-    <currentValue>k__BackingField: 25
+    <currentValue>k__BackingField: 1
   _aoe:
     <currentValue>k__BackingField: 0
   _projectileAmount:
     <currentValue>k__BackingField: 1
   _luck:
     <currentValue>k__BackingField: 0
-  _projectileSpeedMultiplier:
-    <currentValue>k__BackingField: 1

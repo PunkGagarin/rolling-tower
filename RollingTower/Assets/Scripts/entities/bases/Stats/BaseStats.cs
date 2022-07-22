@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using entities.bases.Stats;
 using UnityEngine;
@@ -26,5 +25,4 @@ namespace entities.bases {
             return allStats[type];
         }
     }
-
 }
