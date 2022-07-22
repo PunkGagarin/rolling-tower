@@ -4,7 +4,7 @@ using UnityEngine;
 [Serializable]
 public abstract class BaseStat<S, T> : IUnitStat<T> {
 
-    public Action<BaseStat<S, T>> OnValueChange = delegate { };
+    public Action<BaseStat<S, T>, float> OnValueChange = delegate { };
 
     [field: SerializeField]
     public float currentValue { get; private set; }
@@ -21,7 +21,7 @@ public abstract class BaseStat<S, T> : IUnitStat<T> {
         if (currentValue < 0) {
             currentValue = 0;
         }
-        OnValueChange?.Invoke(this);
+        OnValueChange?.Invoke(this, value);
     }
 
     public void IncreaseCurrentValue(float value) {
@@ -29,7 +29,7 @@ public abstract class BaseStat<S, T> : IUnitStat<T> {
         if (currentValue > _maxValue) {
             currentValue = _maxValue;
         }
-        OnValueChange?.Invoke(this);
+        OnValueChange?.Invoke(this, value);
     }
     
     public void IncreaseMaxValue(float value) {

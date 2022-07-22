@@ -1,17 +1,18 @@
 using System;
 using System.Collections.Generic;
+using Entities.Citadels.Towers;
 using entities.player.towers;
-using enums.citadels;
 using enums.towers;
 using UnityEngine;
-using utils;
 
 namespace entities.player.citadels {
 
     public class Citadel : CitadelHealthUnit {
 
         [SerializeField]
-        private Tower _startingTower;
+        private Tower _startingTowerPrefab;
+
+        private CitadelTowerStats _sharedBaseTowerStats;
 
         private List<CustomKeyValue<int, TowerSlot>> _towerSlots = new();
 
@@ -27,6 +28,7 @@ namespace entities.player.citadels {
             }
 
             base.Awake();
+            _sharedBaseTowerStats = GetComponent<CitadelTowerStats>();
             FindAllTowerSlots();
             InitFirstSlot();
         }
@@ -41,10 +43,10 @@ namespace entities.player.citadels {
         }
 
         private void InitFirstSlot() {
-            if (_startingTower == null) {
+            if (_startingTowerPrefab == null) {
                 Debug.Log("There is no StartingTower!!!!!");
             }
-            var tower = UnlockTowerSlot(0).AddTowerWithInstantiate(_startingTower);
+            var tower = UnlockTowerSlot(0).AddTowerWithInstantiate(_startingTowerPrefab);
             _towers.Add(tower);
         }
 
@@ -63,38 +65,30 @@ namespace entities.player.citadels {
             return slotToUnlock;
         }
 
-        public void ChangeTowersRadius(float radius) {
-            Debug.Log("Changing radius from citadel");
-            foreach (var tower in _towers) {
-                tower.ChangeAttackRadius(radius);
-            }
-        }
-
         //todo: should we move it to TowerSlot or not?
         public void AddTower(Tower towerPrefab, int slotNumber) {
             //possible bug because of slotNUmber index
             var tower = _towerSlots[slotNumber-1].value.AddTowerWithInstantiate(towerPrefab);
             _towers.Add(tower);
-            foreach (KeyValuePair<CitadelStatType, CitadelStat> citadelStat in _stats.statsForTowers) {
-                var convertedType = StatUtils.ConvertCitadelTypeToTower(citadelStat.Value.getStatType());
-                tower.AddStatFromCitadel(convertedType, citadelStat.Value);
+            foreach (var towerStat in _sharedBaseTowerStats.getAllStats()) {
+                var statType = towerStat.Value.getStatType();
+                tower.AddStatFromCitadel(statType, towerStat.Value);
             }
         }
 
-        public void AddStatToCitadel(CitadelStatType type, float statValue) {
+        public void AddFightingStatToCitadel(TowerStatType type, float statValue) {
             Debug.Log("We are adding stat to Citadel, stat: " + type + " value: " + statValue);
-            CitadelStat stat = _stats.getStatByType(type);
+            TowerStat stat = _sharedBaseTowerStats.getStatByType(type);
             Debug.Log("Stat before increasing: " + stat);
             stat.IncreaseMaxValue(statValue);
             Debug.Log("Stat after increasing: " + stat);
             AddStatToTowers(type, stat);
         }
-
-        private void AddStatToTowers(CitadelStatType type, CitadelStat stat) {
+        
+        private void AddStatToTowers(TowerStatType type, TowerStat stat) {
             Debug.Log("we are adding stats to towers");
-            TowerStatType towerStatType = StatUtils.ConvertCitadelTypeToTower(type);
             foreach (var tower in _towers) {
-                tower.AddStatFromCitadel(towerStatType, stat);
+                tower.AddStatFromCitadel(type, stat);
             }
         }
     }

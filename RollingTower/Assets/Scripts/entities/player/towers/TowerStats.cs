@@ -1,47 +1,27 @@
-using System.Collections.Generic;
-using entities.bases;
-using Entities.Citadels.Towers;
-using entities.player.towers;
 using enums.towers;
-using UnityEngine;
 
-public class TowerStats : BaseStats<TowerStatType, TowerStat> {
+namespace entities.player.towers {
 
-    private Tower _towerOwner;
+    public class TowerStats : BaseTowerStats {
 
-    [SerializeField]
-    private TowerStat _damage;
-
-    [Tooltip("Time for one attack")]
-    [SerializeField]
-    private TowerStat _attackSpeed;
-
-    [SerializeField]
-    private TowerStat _attackRange;
-
-    [SerializeField]
-    private TowerStat _projectileSpeed;
-
-    [SerializeField]
-    private TowerStat _aoe;
-
-    [SerializeField]
-    private TowerStat _projectileAmount;
-
-    [SerializeField]
-    private TowerStat _luck;
-    protected override void Awake() {
-        base.Awake();
-        _towerOwner = GetComponent<Tower>();
+        private Tower _towerOwner;
+        
+        protected override void Awake() {
+            _towerOwner = GetComponent<Tower>();
+            base.Awake();
+        }
+        
+        
+        protected override void InitStats() {
+            base.InitStats();
+            SubscribeToStats();
+        }
+        
+        
+        private void SubscribeToStats() {
+            getStatByType(TowerStatType.AttackSpeed).OnValueChange += _towerOwner.SetProperAttackTime;
+            getStatByType(TowerStatType.AttackRange).OnValueChange += _towerOwner.ChangeAttackRadius;
+        }
     }
 
-    protected override void InitStats() {
-        allStats.Add(TowerStatType.Damage, _damage.Init(TowerStatType.Damage));
-        allStats.Add(TowerStatType.AttackSpeed, _attackSpeed.Init(TowerStatType.AttackSpeed));
-        allStats.Add(TowerStatType.AttackRange, _attackRange.Init(TowerStatType.AttackRange));
-        allStats.Add(TowerStatType.ProjectileSpeed, _projectileSpeed.Init(TowerStatType.ProjectileSpeed));
-        allStats.Add(TowerStatType.AOE, _aoe.Init(TowerStatType.AOE));
-        allStats.Add(TowerStatType.ProjectileAmount, _projectileAmount.Init(TowerStatType.ProjectileAmount));
-        allStats.Add(TowerStatType.Luck, _luck.Init(TowerStatType.Luck));
-    }
 }

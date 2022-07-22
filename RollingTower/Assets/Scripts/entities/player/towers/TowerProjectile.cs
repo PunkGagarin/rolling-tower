@@ -11,9 +11,11 @@ public class TowerProjectile : MonoBehaviour {
     [SerializeField]
     private float _lifeTime = 2f;
 
-    private LayerMask _enemyLayer;
-
     private Tower _towerOwner;
+
+    private float _bonusProjectileSpeed;
+
+    private LayerMask _enemyLayer;
 
     private void Awake() {
         _enemyLayer = LayerMask.NameToLayer("Enemy");
@@ -25,6 +27,7 @@ public class TowerProjectile : MonoBehaviour {
 
     public void Init(Tower owner) {
         _towerOwner = owner;
+        _bonusProjectileSpeed = _towerOwner.GetProjectileSpeed();
     }
 
     private void Update() {
@@ -32,7 +35,7 @@ public class TowerProjectile : MonoBehaviour {
     }
 
     private void MoveProjectile() {
-        transform.Translate(Vector2.up * (_baseSpeed * Time.deltaTime));
+        transform.Translate(Vector2.up * ((_baseSpeed + _bonusProjectileSpeed) * Time.deltaTime));
     }
 
 

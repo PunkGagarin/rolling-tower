@@ -19,7 +19,7 @@ public abstract class AbstractMovement {
         _targetTransform = target;
     }
     
-    private void SetSpeed(BaseStat<UnitStat, UnitStatType> stat) {
+    private void SetSpeed(BaseStat<UnitStat, UnitStatType> stat, float valueDifference) {
         _speed = stat.currentValue;
     }   
     private void SetSpeed(float speed) {
