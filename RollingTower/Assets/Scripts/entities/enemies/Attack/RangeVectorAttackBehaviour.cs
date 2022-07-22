@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 public class RangeVectorAttackBehaviour : RangeAttackBehaviour{
-    protected IDamageDealer damageDealer { get; set; }
+    private IDamageDealer damageDealer { get; set; }
     private VectorProjectile _projectile;
 
     public void Init(VectorProjectile vectorProjectile ,Transform firePoint, IDamageDealer damageDealer, float projectileSpeedMultiplier, LayerMask targetLayer) {
