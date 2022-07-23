@@ -22,7 +22,7 @@ public class TargetedProjectile : AbstractProjectile {
 
         LookAtTarget(_directionToTarget);
         
-        if (directionMagnitude < _stopDistance) {
+        if (directionMagnitude < _stopDistance * _stopDistance) {
             Hit();
         }
     }
