@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class SimpleStraightMoveBehaviour : AbstractMovement {
+public class SimpleStraightMoveRigidbodyBehaviour : AbstractMovement {
     
     public override void Move() {
         var direction =  _targetTransform.position - _ownerTransform.position;
@@ -9,6 +9,5 @@ public class SimpleStraightMoveBehaviour : AbstractMovement {
         
         _rigidbody2D.rotation = angle;
         _rigidbody2D.MovePosition(_ownerTransform.position + (direction * _speed * Time.deltaTime));
-        
     }
 }

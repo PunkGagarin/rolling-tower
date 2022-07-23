@@ -1,5 +1,3 @@
-using entities.bases;
-using Entities.Citadels.Towers;
 using enums.towers;
 
 namespace entities.player.towers {
@@ -19,9 +17,7 @@ namespace entities.player.towers {
             SubscribeToStats();
         }
         
-        
         private void SubscribeToStats() {
-            getStatByType(TowerStatType.AttackSpeed).OnValueChange += _towerOwner.SetProperAttackTime;
             getStatByType(TowerStatType.AttackRange).OnValueChange += _towerOwner.ChangeAttackRadius;
         }
     }

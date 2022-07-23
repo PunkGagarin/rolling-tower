@@ -7,62 +7,40 @@ using UnityEngine;
 namespace entities.player.towers {
 
     [RequireComponent(typeof(TowerStats))]
-    public class Tower : MonoBehaviour {
+    public abstract class Tower : MonoBehaviour, IDamageDealer {
 
         [SerializeField]
         private AttackRadiusCollider _towerAttackRadiusCollider;
 
         [SerializeField]
-        private TowerProjectile _towerProjectile;
-
-        [SerializeField]
-        private Transform _firePoint;
+        protected Transform _firePoint;
 
         private List<Enemy> _enemiesInRange = new();
 
-        private TowerStats _stats;
+        protected TowerStats _stats;
 
-        private float _attackMaxTimer;
-        private float _currentAttackTimer;
+        private AttackSpeedController<TowerStat, TowerStatType> _attackSpeed = new();
 
         private void Awake() {
             _stats = GetComponent<TowerStats>();
             _towerAttackRadiusCollider = GetComponentInChildren<AttackRadiusCollider>(true);
-            Debug.Log(_towerAttackRadiusCollider);
         }
 
         private void Start() {
-            SetProperAttackTime(_stats.getStatByType(TowerStatType.AttackSpeed), 0f);
+            _attackSpeed.Init(_stats.getStatByType(TowerStatType.AttackSpeed), Attack);
         }
 
-        public void SetProperAttackTime(BaseStat<TowerStat, TowerStatType> baseStat, float valueDifference) {
-            Debug.Log("Changing attackSpeed timer, old timer: " + _attackMaxTimer);
-            _attackMaxTimer = 10 / baseStat.currentValue;
-            _currentAttackTimer = _attackMaxTimer;
-            Debug.Log("New timer: " + _attackMaxTimer);
-        }
-
-
-        public void DamageEnemy(Enemy enemy) {
+        public void DealDamage(IDamageable damageableTarget) {
             float towerDamage = _stats.getStatByType(TowerStatType.Damage).currentValue;
             Debug.Log("Deal damage to enemy: " + towerDamage);
-            enemy.TakeDamage(towerDamage);
+            damageableTarget.TakeDamage(towerDamage);
         }
 
         private void Update() {
             if (TargetIsInRadius()) {
-                Shoot();
+                _attackSpeed.TryAttack();
             }
-            _currentAttackTimer -= Time.deltaTime;
-        }
-
-        private void Shoot() {
-            if (_currentAttackTimer <= 0) {
-                _currentAttackTimer = _attackMaxTimer;
-                TowerProjectile proj = Instantiate(_towerProjectile);
-                proj.transform.SetPositionAndRotation(_firePoint.position, transform.rotation);
-                proj.Init(this);
-            }
+            _attackSpeed.Tick();
         }
 
         public void ChangeAttackRadius(BaseStat<TowerStat, TowerStatType> baseStat, float range) {
@@ -93,10 +71,11 @@ namespace entities.player.towers {
             statToIncrease.IncreaseMaxValue(stat.getCurrentValue());
             Debug.Log("Stat after increasing: " + statToIncrease);
         }
-
+        
         public float GetProjectileSpeed() {
             return _stats.getStatByType(TowerStatType.ProjectileSpeed).currentValue;
         }
+        
+        protected abstract void Attack();
     }
-
 }

@@ -1,6 +1,4 @@
-using System;
 using entities.bases;
-using Entities.Citadels;
 using enums.citadels;
 using UnityEngine;
 
@@ -35,6 +33,8 @@ namespace entities.player.citadels {
             damage -= _stats.getStatByType(CitadelStatType.Armor).currentValue;
             base.decreaseHealth(damage, health);
         }
+        
+        public Transform currentTransform => transform;
     }
 
 }

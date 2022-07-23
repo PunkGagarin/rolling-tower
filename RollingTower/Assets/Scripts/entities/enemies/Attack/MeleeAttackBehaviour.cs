@@ -1,6 +1,7 @@
-﻿public class MeleeAttackBehaviour : AbstractUnitAttack {
+﻿public class MeleeAttackBehaviour : AbstractAttackBehaviour {
     
-    public override void Attack(IDamageable target) {
-        target.TakeDamage(_damage);
+    public override void Attack() {
+        //todo: implement
+        //_damageDealer.DealDamage(target);
     }
 }
