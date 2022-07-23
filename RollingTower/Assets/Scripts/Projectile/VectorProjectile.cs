@@ -12,7 +12,7 @@ public class VectorProjectile : AbstractProjectile {
     }
 
     protected override void ProjectileMove() {
-        transform.Translate(Vector2.up * CalculateSpeed());
+        transform.Translate(Vector2.up * _speed * _moveSpeedMultiplier * Time.deltaTime);
     }
     
     private void OnTriggerEnter2D(Collider2D other) {

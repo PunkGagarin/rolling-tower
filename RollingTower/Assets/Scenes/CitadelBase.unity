@@ -1306,6 +1306,10 @@ PrefabInstance:
       propertyPath: _health._isCappedByStartValue
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6733409964650373866, guid: 7412c22ed015ca64f8531de5bbc62282, type: 3}
+      propertyPath: _projectileSpeed.<currentValue>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6733409964650373869, guid: 7412c22ed015ca64f8531de5bbc62282, type: 3}
       propertyPath: m_Name
       value: BigFrog

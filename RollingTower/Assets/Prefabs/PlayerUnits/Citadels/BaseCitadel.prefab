@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1599367970}
   - component: {fileID: 6044353171309132135}
   - component: {fileID: 5582342289273738805}
+  - component: {fileID: 580865799979972146}
   m_Layer: 8
   m_Name: BaseCitadel
   m_TagString: Untagged
@@ -79,7 +80,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 1
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 0.8159172, b: 0.4481132, a: 1}
   m_FlipX: 0
@@ -156,6 +157,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7879a4a04e4f4abb9f49cfc578130a50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &580865799979972146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1423617821209434299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a57a9aa3396d44bb91a1c886b83f61ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damage:
+    <currentValue>k__BackingField: 0
+  _attackSpeed:
+    <currentValue>k__BackingField: 0
+  _attackRange:
+    <currentValue>k__BackingField: 0
+  _projectileSpeed:
+    <currentValue>k__BackingField: 0
+  _aoe:
+    <currentValue>k__BackingField: 0
+  _projectileAmount:
+    <currentValue>k__BackingField: 0
+  _luck:
+    <currentValue>k__BackingField: 0
 --- !u!1001 &1152034518441684998
 PrefabInstance:
   m_ObjectHideFlags: 0

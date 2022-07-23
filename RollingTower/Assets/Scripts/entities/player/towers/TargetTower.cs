@@ -12,6 +12,6 @@ public class TargetTower : Tower {
     protected override void Attack() {
         var projectile = Instantiate(_targetedProjectile);
         projectile.transform.SetPositionAndRotation(_firePoint.position, transform.rotation);
-        projectile.Init(_target, this,LayerMask.NameToLayer(GameConstants.ENEMY_LAYER), _stats.getStatByType(TowerStatType.ProjectileSpeedMultiplier).currentValue);
+        projectile.Init(_target, this,LayerMask.NameToLayer(GameConstants.ENEMY_LAYER), _stats.getStatByType(TowerStatType.ProjectileSpeed).currentValue);
     }
 }
