@@ -7,7 +7,7 @@ public class GameSessionManager : MonoBehaviour {
 
     private RoundStageType _currentRoundStageType;
 
-    private bool _isGameOver;
+    public bool isGameOver { get; private set; }
 
     private int _currentRoundNumber;
 
@@ -26,7 +26,8 @@ public class GameSessionManager : MonoBehaviour {
     private void Start() {
     }
 
-    private void GoToNextStage() {
+    public void GoToNextStage() {
+        Debug.Log("We are chaning current stage from: " + _currentRoundStageType);
         if (_currentRoundStageType == RoundStageType.Fighting) {
             _currentRoundStageType = RoundStageType.CardChoosing;
             OnRoundStageOver.Invoke(RoundStageType.Fighting, RoundStageType.CardChoosing);

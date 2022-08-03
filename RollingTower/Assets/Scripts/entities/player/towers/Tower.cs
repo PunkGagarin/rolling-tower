@@ -32,7 +32,7 @@ namespace entities.player.towers {
 
         public void DealDamage(IDamageable damageableTarget) {
             float towerDamage = _stats.getStatByType(TowerStatType.Damage).currentValue;
-            Debug.Log("Deal damage to enemy: " + towerDamage);
+            // Debug.Log("Deal damage to enemy: " + towerDamage);
             damageableTarget.TakeDamage(towerDamage);
         }
 
