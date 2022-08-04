@@ -634,7 +634,7 @@ Transform:
   m_GameObject: {fileID: 6733409964650373869}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.5199995, y: 6.88, z: 0}
-  m_LocalScale: {x: 1.5683658, y: 1.5683658, z: 1.5683658}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6733409966263385053}
@@ -710,8 +710,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyUnitType: 4
-  _projectile: {fileID: -5303894025611030913, guid: a98b4f11f7e629848ad57df2e134ef7d, type: 3}
   _firePoint: {fileID: 4290389583313879620}
+  _projectile: {fileID: -5303894025611030913, guid: a98b4f11f7e629848ad57df2e134ef7d, type: 3}
 --- !u!114 &6733409964650373866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -733,11 +733,11 @@ MonoBehaviour:
   _attackSpeed:
     <currentValue>k__BackingField: 1
   _attackRange:
-    <currentValue>k__BackingField: 5
+    <currentValue>k__BackingField: 2
   _reward:
     <currentValue>k__BackingField: 10
-  _projectileSpeedMultiplier:
-    <currentValue>k__BackingField: 1
+  _projectileSpeed:
+    <currentValue>k__BackingField: 0
 --- !u!50 &6733409964650373868
 Rigidbody2D:
   serializedVersion: 4
