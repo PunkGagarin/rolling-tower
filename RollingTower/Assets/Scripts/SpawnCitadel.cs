@@ -45,10 +45,12 @@ public class SpawnCitadel : MonoBehaviour {
 
     private void UnlockSecondSlotInvoke() {
         _citadel.UnlockTowerSlot(2);
+        _citadel.UnlockTowerSlot(3);
     }
 
     private void BuildTowerInvoke() {
         _citadel.BuildTower(_towerToBuildTest, 2);
+        _citadel.BuildTower(_towerToBuildTest, 3);
     }
 
     private void AddStat() {

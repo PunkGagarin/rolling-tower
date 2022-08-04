@@ -17,8 +17,6 @@ namespace gameSession {
 
         private List<Enemy> _currentWaveEnemies = new();
 
-        private GameSessionManager _gameSessionManager;
-
         private EnemyWave _currentWave;
 
         private List<SpawnWaveInfo> _enemySpawnInfo;
@@ -47,7 +45,6 @@ namespace gameSession {
         }
 
         private void Start() {
-            _gameSessionManager = GameSessionManager.GetInstance;
             _innerRadius = (Vector2.left * _leftSide + Vector2.up * _topSide).magnitude;
             InitFirstWave();
             Debug.Log("Spawning first wave...");
@@ -61,7 +58,6 @@ namespace gameSession {
         private void StopWave() {
             Debug.Log("Trying to stop current wave");
             _isCurrentWaveGoing = false;
-            _gameSessionManager.GoToNextStage();
         }
 
         private EnemyWave InitCurrentWave(SpawnWaveInfo info) {
@@ -104,15 +100,15 @@ namespace gameSession {
 
                 yield return new WaitForSeconds(waveInfo._spawnSpeed);
                 Enemy instantiateEnemy = InstantiateEnemy(waveInfo.enemyPrefab);
-                instantiateEnemy.OnDie += removeEnemyFromCurrent;
+                instantiateEnemy.OnDie += RemoveEnemyFromCurrent;
                 _currentWaveEnemies.Add(instantiateEnemy);
                 waveInfo._enemyCount--;
             }
         }
 
-        private void removeEnemyFromCurrent(Enemy enemy) {
+        private void RemoveEnemyFromCurrent(Enemy enemy) {
             _currentWaveEnemies.Remove(enemy);
-            Debug.Log("Removing enemy from list");
+            // Debug.Log("Removing enemy from list");
             if (!_currentWave.IsEnemyLeft() && _currentWaveEnemies.Count <= 0) {
                 Debug.Log("Invoking OnWaveClear");
                 OnWaveClear.Invoke();

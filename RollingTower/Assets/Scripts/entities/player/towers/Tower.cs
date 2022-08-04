@@ -2,18 +2,21 @@ using System.Collections.Generic;
 using Entities.Citadels.Towers;
 using entities.enemies;
 using enums.towers;
+using gameSession.factories;
 using UnityEngine;
 
 namespace entities.player.towers {
 
     [RequireComponent(typeof(TowerStats))]
-    public abstract class Tower : MonoBehaviour, IDamageDealer {
+    public abstract class Tower : MonoBehaviour, IDamageDealer, IType<TowerType> {
 
         private List<Enemy> _enemiesInRange = new();
 
         protected TowerStats _stats;
 
         private AttackSpeedController<TowerStat, TowerStatType> _attackSpeed = new();
+
+        public TowerType type { get; private set; }
 
         [SerializeField]
         private AttackRadiusCollider _towerAttackRadiusCollider;
@@ -28,6 +31,10 @@ namespace entities.player.towers {
 
         private void Start() {
             _attackSpeed.Init(_stats.getStatByType(TowerStatType.AttackSpeed), Attack);
+        }
+
+        public TowerType getType() {
+            return type;
         }
 
         public void DealDamage(IDamageable damageableTarget) {
@@ -78,4 +85,5 @@ namespace entities.player.towers {
         
         protected abstract void Attack();
     }
+
 }

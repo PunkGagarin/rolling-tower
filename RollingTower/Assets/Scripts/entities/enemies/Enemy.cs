@@ -1,12 +1,13 @@
 using System;
 using entities.bases;
 using entities.player.citadels;
+using gameSession.factories;
 using UnityEngine;
 
 namespace entities.enemies {
 
     [RequireComponent(typeof(EnemyStats), typeof(Rigidbody2D))]
-    public abstract class Enemy : HealthUnit<UnitStatType, EnemyStats, UnitStat>, IDamageable, IDamageDealer {
+    public abstract class Enemy : HealthUnit<UnitStatType, EnemyStats, UnitStat>, IDamageable, IDamageDealer, IType<EnemyUnitType> {
         
         public new Action<Enemy> OnDie = delegate { };
         
@@ -38,6 +39,10 @@ namespace entities.enemies {
             float enemyDamage = _stats.getStatByType(UnitStatType.Damage).currentValue;
             Debug.Log("Deal damage to : " + enemyDamage);
             damageableTarget.TakeDamage(enemyDamage);
+        }
+
+        public EnemyUnitType getType() {
+            return _enemyUnitType;
         }
 
         public EnemyUnitType enemyUnitType => _enemyUnitType;

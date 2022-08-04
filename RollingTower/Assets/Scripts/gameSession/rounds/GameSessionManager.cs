@@ -1,4 +1,5 @@
 using System;
+using gameSession;
 using UnityEngine;
 
 public class GameSessionManager : MonoBehaviour {
@@ -6,6 +7,8 @@ public class GameSessionManager : MonoBehaviour {
     public Action<RoundStageType, RoundStageType> OnRoundStageOver = delegate { };
 
     private RoundStageType _currentRoundStageType;
+
+    private CardChoosingManager _cardChoosingManager;
 
     public bool isGameOver { get; private set; }
 
@@ -21,9 +24,30 @@ public class GameSessionManager : MonoBehaviour {
             GetInstance = this;
         }
         OnRoundStageOver += OnRoundStageOverHandler;
+        _cardChoosingManager = GetComponent<CardChoosingManager>();
+        _cardChoosingManager.OnCardChoose += EndChooseStage;
     }
 
+
     private void Start() {
+        EnemySpawner.GetInstance.OnWaveClear += EndFightingStage;
+    }
+
+    private void EndFightingStage() {
+        if (_currentRoundStageType.Equals(RoundStageType.Fighting)) {
+            GoToNextStage();
+        } else {
+            Debug.Log("Wave just cleared but we cant move to the next stage, current stage type is not Fighting!");
+        }
+    }
+    
+    
+    private void EndChooseStage() {
+        if (_currentRoundStageType.Equals(RoundStageType.CardChoosing)) {
+            GoToNextStage();
+        } else {
+            Debug.Log("Wave just choose a card but we cant move to the next stage, current stage type is not CardChoosing!");
+        }
     }
 
     public void GoToNextStage() {
@@ -31,6 +55,7 @@ public class GameSessionManager : MonoBehaviour {
         if (_currentRoundStageType == RoundStageType.Fighting) {
             _currentRoundStageType = RoundStageType.CardChoosing;
             OnRoundStageOver.Invoke(RoundStageType.Fighting, RoundStageType.CardChoosing);
+            _cardChoosingManager.ActivateCardChoosingStage();
         } else if (_currentRoundStageType == RoundStageType.CardChoosing) {
             _currentRoundStageType = RoundStageType.ResourceGathering;
             OnRoundStageOver.Invoke(RoundStageType.CardChoosing, RoundStageType.ResourceGathering);

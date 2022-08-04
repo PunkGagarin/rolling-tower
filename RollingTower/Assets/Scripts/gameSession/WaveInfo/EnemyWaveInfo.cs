@@ -6,7 +6,7 @@ public class EnemyWaveInfo {
     public float _spawnSpeed { get; private set; }
 
     public EnemyWaveInfo(SingleEnemySpawnInfo singleEnemySpawnInfo) {
-        enemyPrefab = EnemyPrefabFactory.GetInstance.GetEnemyPrefabByType(singleEnemySpawnInfo._enemyUnitType);
+        enemyPrefab = EnemyPrefabFactory.GetInstance.GetPrefabByType(singleEnemySpawnInfo._enemyUnitType);
         _enemyCount = singleEnemySpawnInfo._enemyCount;
         _spawnSpeed = singleEnemySpawnInfo.spawnSpeed;
     }
