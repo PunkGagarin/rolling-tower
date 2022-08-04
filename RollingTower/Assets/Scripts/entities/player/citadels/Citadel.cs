@@ -46,7 +46,7 @@ namespace entities.player.citadels {
             if (_startingTowerPrefab == null) {
                 Debug.Log("There is no StartingTower!!!!!");
             }
-            var tower = UnlockTowerSlot(0).AddTowerWithInstantiate(_startingTowerPrefab);
+            var tower = UnlockTowerSlot(1).AddTowerWithInstantiate(_startingTowerPrefab);
             _towers.Add(tower);
         }
 
@@ -56,17 +56,17 @@ namespace entities.player.citadels {
                           " slots in this citadel");
                 throw new Exception("No such slot number");
             }
-            TowerSlot slotToUnlock = _towerSlots[slotNumber].value;
+            TowerSlot slotToUnlock = _towerSlots[slotNumber-1].value;
             if (slotToUnlock.isUnlocked) {
                 throw new Exception("This slot is already unlocked!!!");
-            }
+            }   
             slotToUnlock.gameObject.SetActive(true);
             slotToUnlock.unlockSlot();
             return slotToUnlock;
         }
 
         //todo: should we move it to TowerSlot or not?
-        public void AddTower(Tower towerPrefab, int slotNumber) {
+        public void BuildTower(Tower towerPrefab, int slotNumber) {
             //possible bug because of slotNUmber index
             var tower = _towerSlots[slotNumber-1].value.AddTowerWithInstantiate(towerPrefab);
             _towers.Add(tower);

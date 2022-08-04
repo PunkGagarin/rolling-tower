@@ -3,6 +3,7 @@ using entities.player.towers;
 using enums.citadels;
 using enums.towers;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class SpawnCitadel : MonoBehaviour {
@@ -11,13 +12,13 @@ public class SpawnCitadel : MonoBehaviour {
     private Citadel _citadel;
 
     [SerializeField]
-    private Button _button1;
+    private Button _changeRadiusTower;
 
     [SerializeField]
-    private Button _button2;
+    private Button _unlockSlotButton;
 
     [SerializeField]
-    private Button _button3;
+    private Button _buildTowerButton;
     
     [SerializeField]
     private Button _addStatButton;
@@ -31,9 +32,9 @@ public class SpawnCitadel : MonoBehaviour {
 
     private void Awake() {
         _citadel = Instantiate(_citadel, transform);
-        _button1.onClick.AddListener(ChangeTowerRadiusInvoke);
-        _button2.onClick.AddListener(UnlockSecondSlotInvoke);
-        _button3.onClick.AddListener(BuildTowerInvoke);
+        _changeRadiusTower.onClick.AddListener(ChangeTowerRadiusInvoke);
+        _unlockSlotButton.onClick.AddListener(UnlockSecondSlotInvoke);
+        _buildTowerButton.onClick.AddListener(BuildTowerInvoke);
         _addStatButton.onClick.AddListener(AddStat);
     }
 
@@ -47,7 +48,7 @@ public class SpawnCitadel : MonoBehaviour {
     }
 
     private void BuildTowerInvoke() {
-        _citadel.AddTower(_towerToBuildTest, 2);
+        _citadel.BuildTower(_towerToBuildTest, 2);
     }
 
     private void AddStat() {

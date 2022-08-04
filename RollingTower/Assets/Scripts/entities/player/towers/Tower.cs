@@ -9,17 +9,17 @@ namespace entities.player.towers {
     [RequireComponent(typeof(TowerStats))]
     public abstract class Tower : MonoBehaviour, IDamageDealer {
 
-        [SerializeField]
-        private AttackRadiusCollider _towerAttackRadiusCollider;
-
-        [SerializeField]
-        protected Transform _firePoint;
-
         private List<Enemy> _enemiesInRange = new();
 
         protected TowerStats _stats;
 
         private AttackSpeedController<TowerStat, TowerStatType> _attackSpeed = new();
+
+        [SerializeField]
+        private AttackRadiusCollider _towerAttackRadiusCollider;
+
+        [SerializeField]
+        protected Transform _firePoint;
 
         private void Awake() {
             _stats = GetComponent<TowerStats>();

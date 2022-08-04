@@ -98,9 +98,9 @@ namespace gameSession {
         }
 
         private IEnumerator SpawnWaveCor(EnemyWaveInfo waveInfo) {
-            Debug.Log("Trying to Spawn enemy");
+            // Debug.Log("Trying to Spawn enemy");
             while (_isCurrentWaveGoing && waveInfo._enemyCount > 0) {
-                Debug.Log("Spawning enemy");
+                // Debug.Log("Spawning enemy");
 
                 yield return new WaitForSeconds(waveInfo._spawnSpeed);
                 Enemy instantiateEnemy = InstantiateEnemy(waveInfo.enemyPrefab);

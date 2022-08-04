@@ -17,10 +17,10 @@ MonoBehaviour:
     enemies:
     - _enemyUnitType: 4
       _enemyCount: 2
-      spawnSpeed: 0.1
+      spawnSpeed: 1
     - _enemyUnitType: 4
       _enemyCount: 2
-      spawnSpeed: 0.1
+      spawnSpeed: 0.5
   - roundNumber: 2
     enemies:
     - _enemyUnitType: 4
