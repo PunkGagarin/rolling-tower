@@ -1,28 +1,34 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
+using UI;
 
-public class CardChoosingUI : MonoBehaviour {
+namespace gameSession.cards {
 
-    public Action OnCardChoose = delegate { };
+    public class CardChoosingUI : AbstractScreen {
 
-    private List<SkillCardUI> _cards = new();
+        public Action OnCardChoose = delegate { };
 
-    public static CardChoosingUI GetInstance { get; private set; }
+        private List<SkillCardUI> _cards = new();
 
-    private void Awake() {
-        if (GetInstance == null) {
-            GetInstance = this;
+        public static CardChoosingUI GetInstance { get; private set; }
+
+        protected override void Awake() {
+            if (GetInstance != null && GetInstance != this) {
+                Destroy(this);
+            } else {
+                GetInstance = this;
+            }
+            _cards.AddRange(GetComponentsInChildren<SkillCardUI>());
+            foreach (var cardUI in _cards) {
+                cardUI.OnCardChoose += CardChooseHandler;
+            }
+            base.Awake();
         }
-        _cards.AddRange(GetComponentsInChildren<SkillCardUI>());
-        foreach (var cardUI in _cards) {
-            cardUI.OnCardChoose += CardChooseHandler;
+
+        private void CardChooseHandler(SkillCardUI obj) {
+            OnCardChoose.Invoke();
+            Hide();
         }
-        gameObject.SetActive(false);
     }
 
-    private void CardChooseHandler(SkillCardUI obj) {
-        OnCardChoose.Invoke();
-        gameObject.SetActive(false);
-    }
 }
