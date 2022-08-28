@@ -1,6 +1,10 @@
-public enum RoundStageType {
+namespace enums.gameSession.rounds {
+
+    public enum RoundStageType {
     
-    Fighting,
-    CardChoosing,
-    ResourceGathering
+        Fighting,
+        CardChoosing,
+        ResourceGathering
+    }
+
 }

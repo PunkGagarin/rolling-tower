@@ -26,3 +26,8 @@ MonoBehaviour:
     - _enemyUnitType: 4
       _enemyCount: 5
       spawnSpeed: 1
+  - roundNumber: 3
+    enemies:
+    - _enemyUnitType: 4
+      _enemyCount: 5
+      spawnSpeed: 1

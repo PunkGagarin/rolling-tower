@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace gameSession {
+namespace gameSession.battle {
 
     [CreateAssetMenu(menuName = "Enemy/Waves", fileName = "new EnemyWaves")]
     public class EnemySpawnInfoDTO : ScriptableObject {

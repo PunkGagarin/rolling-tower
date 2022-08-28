@@ -2,27 +2,25 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using entities.enemies;
+using gameSession.WaveInfo;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace gameSession {
+namespace gameSession.battle {
 
+
+    //todo: Should be part of the BattleManager : IStageManager
     public class EnemySpawner : MonoBehaviour {
 
-        public Action OnWaveClear = delegate { };
+        public Action<Enemy> OnEnemyInstantiate = delegate { };
 
-        private bool _isCurrentWaveGoing = true;
+        public bool isSpawning { get; private set; } = false;
 
         private float _innerRadius;
-
-        private List<Enemy> _currentWaveEnemies = new();
 
         private EnemyWave _currentWave;
 
         private List<SpawnWaveInfo> _enemySpawnInfo;
-
-        [SerializeField]
-        private float _firstWaveDelay = 5f;
 
         [SerializeField]
         private float _leftSide = 10f;
@@ -34,43 +32,32 @@ namespace gameSession {
         private float _wallRadius = 1.5f;
 
 
-        public static EnemySpawner GetInstance { private set; get; }
-
         private void Awake() {
-            if (GetInstance == null)
-                GetInstance = this;
-
             _enemySpawnInfo = Resources.Load<EnemySpawnInfoDTO>("gameSession/spawnInfo/BaseEnemyWaves").GetSpawnInfo();
-            OnWaveClear += StopWave;
-        }
-
-        private void Start() {
             _innerRadius = (Vector2.left * _leftSide + Vector2.up * _topSide).magnitude;
-            InitFirstWave();
-            Debug.Log("Spawning first wave...");
-            StartCoroutine(SpawnFirstWave(_firstWaveDelay));
         }
 
-        private void InitFirstWave() {
-            _currentWave = InitCurrentWave(FindWaveInfoByRound(1));
+        public void StartSpawningCurrentWave() {
+            isSpawning = true;
         }
 
-        private void StopWave() {
-            Debug.Log("Trying to stop current wave");
-            _isCurrentWaveGoing = false;
+        private void StopSpawning() {
+            isSpawning = false;
         }
 
-        private EnemyWave InitCurrentWave(SpawnWaveInfo info) {
-            EnemyWave wave = new EnemyWave();
-            wave.InitWave(info);
-            return wave;
+        public void StartNewWave(int roundNumber) {
+            StartSpawningCurrentWave();
+            Debug.Log("Starting new wave from EnemySpawner");
+            InitCurrentWaveByRoundNumber(roundNumber);
+            SpawnCurrentWave();
         }
 
-        private EnemyWave InitCurrentWave(int roundNumber) {
+        private void InitCurrentWaveByRoundNumber(int roundNumber) {
             var info = FindWaveInfoByRound(roundNumber);
             EnemyWave wave = new EnemyWave();
             wave.InitWave(info);
-            return wave;
+            _currentWave = wave;
+            Debug.Log("After init current wave. Current wave is: " + _currentWave);
         }
 
         private SpawnWaveInfo FindWaveInfoByRound(int roundNumber) {
@@ -82,37 +69,27 @@ namespace gameSession {
             }
         }
 
+        private void SpawnCurrentWave() {
+            SpawnWave(_currentWave);
+        }
+
         private void SpawnWave(EnemyWave wave) {
             foreach (var enemyInfo in wave.GetEnemyWaveInfo()) {
                 StartCoroutine(SpawnWaveCor(enemyInfo));
             }
         }
 
-        private IEnumerator SpawnFirstWave(float delay) {
-            yield return new WaitForSeconds(delay);
-            SpawnWave(_currentWave);
-        }
-
         private IEnumerator SpawnWaveCor(EnemyWaveInfo waveInfo) {
             // Debug.Log("Trying to Spawn enemy");
-            while (_isCurrentWaveGoing && waveInfo._enemyCount > 0) {
+            while (waveInfo._enemyCount > 0) {
                 // Debug.Log("Spawning enemy");
 
                 yield return new WaitForSeconds(waveInfo._spawnSpeed);
-                Enemy instantiateEnemy = InstantiateEnemy(waveInfo.enemyPrefab);
-                instantiateEnemy.OnDie += RemoveEnemyFromCurrent;
-                _currentWaveEnemies.Add(instantiateEnemy);
+                Enemy instantiatedEnemy = InstantiateEnemy(waveInfo.enemyPrefab);
+                OnEnemyInstantiate.Invoke(instantiatedEnemy);
                 waveInfo._enemyCount--;
             }
-        }
-
-        private void RemoveEnemyFromCurrent(Enemy enemy) {
-            _currentWaveEnemies.Remove(enemy);
-            // Debug.Log("Removing enemy from list");
-            if (!_currentWave.IsEnemyLeft() && _currentWaveEnemies.Count <= 0) {
-                Debug.Log("Invoking OnWaveClear");
-                OnWaveClear.Invoke();
-            }
+            StopSpawning();
         }
 
         private Enemy InstantiateEnemy(Enemy enemyPrefab) {
@@ -139,8 +116,6 @@ namespace gameSession {
 
             return (ringPos + sPos);
         }
-
-
     }
 
 }

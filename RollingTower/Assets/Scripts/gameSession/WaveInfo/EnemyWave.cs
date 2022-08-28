@@ -1,30 +1,35 @@
 using System;
 using System.Collections.Generic;
+using gameSession.battle;
 
-[Serializable]
-public class EnemyWave {
+namespace gameSession.WaveInfo {
 
-    public int waveNumber { get; private set; }
+    [Serializable]
+    public class EnemyWave {
 
-    private List<EnemyWaveInfo> _enemyWaveInfo = new();
+        public int waveNumber { get; private set; }
 
-    public bool IsEnemyLeft() {
-        bool isAnythingLeft = false;
-        foreach (var waveInfo in _enemyWaveInfo) {
-            if (waveInfo._enemyCount > 0)
-                isAnythingLeft = true;
+        private List<EnemyWaveInfo> _enemyWaveInfo = new();
+
+        public bool IsEnemyLeft() {
+            bool isAnythingLeft = false;
+            foreach (var waveInfo in _enemyWaveInfo) {
+                if (waveInfo._enemyCount > 0)
+                    isAnythingLeft = true;
+            }
+            return isAnythingLeft;
         }
-        return isAnythingLeft;
-    }
 
-    public void InitWave(SpawnWaveInfo spawnWaveInfo) {
-        waveNumber = spawnWaveInfo.roundNumber;
-        foreach (var enemyPair in spawnWaveInfo.enemies) {
-            _enemyWaveInfo.Add(new EnemyWaveInfo(enemyPair));
+        public void InitWave(SpawnWaveInfo spawnWaveInfo) {
+            waveNumber = spawnWaveInfo.roundNumber;
+            foreach (var enemyPair in spawnWaveInfo.enemies) {
+                _enemyWaveInfo.Add(new EnemyWaveInfo(enemyPair));
+            }
+        }
+
+        public List<EnemyWaveInfo> GetEnemyWaveInfo() {
+            return _enemyWaveInfo;
         }
     }
 
-    public List<EnemyWaveInfo> GetEnemyWaveInfo() {
-        return _enemyWaveInfo;
-    }
 }
