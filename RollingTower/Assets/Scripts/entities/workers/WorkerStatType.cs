@@ -2,7 +2,6 @@
     Health,
     MoveSpeed,
     Capacity,
-    CurrentBackPackFill,
     ExtractingSpeed,
     UnloadingSpeed
 }

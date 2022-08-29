@@ -1,6 +1,8 @@
-﻿public enum WorkerStates {
+﻿public enum WorkerStateType {
     GoingToBase,
     GoingToResource,
     Extraction,
-    ResourceUnloading
+    ResourceUnloading,
+    FindingResourcePlace,
+    EndState
 }

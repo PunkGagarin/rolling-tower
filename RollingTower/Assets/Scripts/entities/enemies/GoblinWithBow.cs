@@ -1,7 +1,7 @@
 ﻿using entities.enemies.Movement;
 using UnityEngine;
 
-public class GoblinWithBow : EnemyBehaviours<RangeVectorAttackBehaviour, SimpleStraightMoveTranslateBehaviour> {
+public class GoblinWithBow : EnemyBehaviours<RangeVectorAttackBehaviour, SimpleStraightMoveTranslateBehaviour<UnitStat, UnitStatType>> {
     
     [SerializeField]
     protected VectorProjectile _projectile;
@@ -12,7 +12,7 @@ public class GoblinWithBow : EnemyBehaviours<RangeVectorAttackBehaviour, SimpleS
     }
 
     protected override void InitMoveBehaviour() {
-        _moveBehaviour = new SimpleStraightMoveTranslateBehaviour();
-        _moveBehaviour.Init(_stats.getStatByType(UnitStatType.MoveSpeed), transform, GetComponent<Rigidbody2D>(), _citadel.transform);
+        _moveBehaviour = new SimpleStraightMoveTranslateBehaviour<UnitStat, UnitStatType>();
+        _moveBehaviour.Init(_stats.getStatByType(UnitStatType.MoveSpeed), transform, _citadel.transform);
     }
 }

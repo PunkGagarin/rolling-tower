@@ -1,6 +1,6 @@
 ﻿using entities.enemies;
 
-public abstract class EnemyBehaviours<AB, MB> : Enemy where AB : AbstractAttackBehaviour where MB : AbstractMovement {
+public abstract class EnemyBehaviours<AB, MB> : Enemy where AB : AbstractAttackBehaviour where MB : AbstractMovement<UnitStat, UnitStatType> {
     
     protected AB _attackBehaviour;
     protected MB _moveBehaviour;

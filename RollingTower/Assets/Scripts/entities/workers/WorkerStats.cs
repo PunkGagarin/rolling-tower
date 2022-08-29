@@ -11,10 +11,6 @@ public class WorkerStats : BaseStats<WorkerStatType, WorkerStat> {
 
     [SerializeField]
     private WorkerStat _capacity;
-    
-    [SerializeField]
-    private WorkerStat _currentBackPackFill;
-
     [SerializeField]
     private WorkerStat _extractingSpeed;
 
@@ -25,7 +21,6 @@ public class WorkerStats : BaseStats<WorkerStatType, WorkerStat> {
         allStats.Add(WorkerStatType.Health, _health.Init(WorkerStatType.Health));
         allStats.Add(WorkerStatType.MoveSpeed, _moveSpeed.Init(WorkerStatType.MoveSpeed));
         allStats.Add(WorkerStatType.Capacity, _capacity.Init(WorkerStatType.Capacity));
-        allStats.Add(WorkerStatType.CurrentBackPackFill, _currentBackPackFill.Init(WorkerStatType.CurrentBackPackFill));
         allStats.Add(WorkerStatType.ExtractingSpeed, _extractingSpeed.Init(WorkerStatType.ExtractingSpeed));
         allStats.Add(WorkerStatType.UnloadingSpeed, _unloadingSpeed.Init(WorkerStatType.UnloadingSpeed));
     }

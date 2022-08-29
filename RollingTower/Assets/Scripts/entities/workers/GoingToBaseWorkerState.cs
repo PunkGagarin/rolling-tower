@@ -1,11 +1,21 @@
-﻿public class GoingToBaseWorkerState : BaseWorkerState {
-    public GoingToBaseWorkerState(Worker owner) : base(owner) { }
+﻿
+public class GoingToBaseWorkerState : BaseWorkerState {
+
+    protected override void InitSpecificState() {
+        type = WorkerStateType.GoingToBase;
+    }
+    
+    public override void Start() {
+        _movement.SetTarget(_citadel.transform);
+    }
 
     public override void Tick() {
-        //going to base
+        _movement.Move();
     }
 
     public override void CheckOnTransitionConditions() {
-        _stateSwitcher.SwitchState<UnloadingWorkerState>();
+        if (_movement.IsOwnerInRangeOfTarget(2.5f)) {
+            _stateSwitcher.SwitchState<UnloadingWorkerState>();
+        }
     }
 }

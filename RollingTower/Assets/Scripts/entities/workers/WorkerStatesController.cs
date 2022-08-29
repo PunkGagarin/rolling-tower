@@ -1,23 +1,32 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using entities.player.citadels;
 
 public class WorkerStatesController : IStateSwitcher<BaseWorkerState> {
     private BaseWorkerState _currentState;
     private List<BaseWorkerState> _allStates;
+    private AbstractMovement<WorkerStat, WorkerStatType> _movement;
 
     public void Tick() {
         _currentState.Tick();
         _currentState.CheckOnTransitionConditions();
     }
 
-    public void Init(Worker worker) {
+    public void Init(Worker worker, AbstractMovement<WorkerStat, WorkerStatType> movement, WorkerStateType startState) {
+        movement.Init(worker.Stats.getStatByType(WorkerStatType.MoveSpeed), worker.transform, worker.transform);
         _allStates = new List<BaseWorkerState>() {
-            new GoingToResourceWorkerState(worker),
-            new ExtractionWorkerState(worker),
-            new GoingToBaseWorkerState(worker),
-            new UnloadingWorkerState(worker)
+            WorkerStateFactory.GetWorkerStateByType(WorkerStateType.GoingToBase),
+            WorkerStateFactory.GetWorkerStateByType(WorkerStateType.GoingToResource),
+            WorkerStateFactory.GetWorkerStateByType(WorkerStateType.Extraction),
+            WorkerStateFactory.GetWorkerStateByType(WorkerStateType.ResourceUnloading),
+            WorkerStateFactory.GetWorkerStateByType(WorkerStateType.FindingResourcePlace),
+            WorkerStateFactory.GetWorkerStateByType(WorkerStateType.EndState)
         };
-        _currentState = _allStates[0];
+        foreach (var state in _allStates) {
+            state.InitBase(worker, this, movement, Citadel.GetInstance, InGameResourceStorage.GetInstance);
+        }
+        _currentState = _allStates.Find(state => state.type.Equals(startState));
+        _currentState.Start();
     }
     
     public void SwitchState<S>() where S : BaseWorkerState {
