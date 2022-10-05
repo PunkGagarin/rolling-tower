@@ -6,7 +6,8 @@ namespace gameSession.battle {
     public class SingleEnemySpawnInfo {
         public EnemyUnitType _enemyUnitType;
         public int _enemyCount;
-        public float spawnSpeed = 1f;
+        public float _spawnSpeed = 1f;
+        public bool _isGroup;
     }
 
 }
