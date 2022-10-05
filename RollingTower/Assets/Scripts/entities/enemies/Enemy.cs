@@ -1,11 +1,16 @@
+using System;
 using entities.bases;
 using entities.player.citadels;
+using gameSession.factories;
 using UnityEngine;
 
 namespace entities.enemies {
 
     [RequireComponent(typeof(EnemyStats), typeof(Rigidbody2D))]
-    public abstract class Enemy : HealthUnit<UnitStatType, EnemyStats, UnitStat>, IDamageable, IDamageDealer {
+    public abstract class Enemy : HealthUnit<UnitStatType, EnemyStats, UnitStat>, IDamageable, IDamageDealer, IType<EnemyUnitType> {
+        
+        public new Action<Enemy> OnDie = delegate { };
+        
         private EnemyMoveType _enemyMoveType;
 
         [SerializeField]
@@ -23,12 +28,21 @@ namespace entities.enemies {
         protected override UnitStat getHealth() {
             return _stats.getAllStats()[UnitStatType.Health];
         }
-        
+
+        protected override void Die() {
+            OnDie.Invoke(this);
+            base.Die();
+        }
+
         //todo: already have same logic in Tower.cs think about composition
         public void DealDamage(IDamageable damageableTarget) {
             float enemyDamage = _stats.getStatByType(UnitStatType.Damage).currentValue;
             Debug.Log("Deal damage to : " + enemyDamage);
             damageableTarget.TakeDamage(enemyDamage);
+        }
+
+        public EnemyUnitType getType() {
+            return _enemyUnitType;
         }
 
         public EnemyUnitType enemyUnitType => _enemyUnitType;
