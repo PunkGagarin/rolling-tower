@@ -276,9 +276,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _citadel: {fileID: 1599367970, guid: 13ccd6dc604adac488f17e9ab0fa6353, type: 3}
-  _button1: {fileID: 2066513928}
-  _button2: {fileID: 1310791249}
-  _button3: {fileID: 1127519485}
+  _changeRadiusTower: {fileID: 2066513928}
+  _unlockSlotButton: {fileID: 1310791249}
+  _buildTowerButton: {fileID: 1127519485}
   _addStatButton: {fileID: 1069499546}
   _radiusToIncrease: 1.5
   _towerToBuildTest: {fileID: 2419822625195881412, guid: ed48f3d3a171e2841958ee9a4ad5c6de, type: 3}
@@ -390,8 +390,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _image: {fileID: 1770609541}
-  _filledSourceImage: {fileID: 21300000, guid: 9857406d1b7b34f4f81edf0468b535e9, type: 3}
-  _emptySourceImage: {fileID: 21300000, guid: 91216458e6ed42c45b36d9717bf54e8c, type: 3}
+  _filledSourceImage: {fileID: 21300000, guid: 8ea1e549a9e573e44a40040adfd23458, type: 3}
+  _emptySourceImage: {fileID: 21300000, guid: 56054280d2b3ab246a478df99b0260b2, type: 3}
   _extractRange: 1
   _poolSize: 6
   _resourceType: 1
