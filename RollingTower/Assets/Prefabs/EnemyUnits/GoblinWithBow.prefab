@@ -710,8 +710,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyUnitType: 4
-  _projectile: {fileID: -5303894025611030913, guid: a98b4f11f7e629848ad57df2e134ef7d, type: 3}
   _firePoint: {fileID: 4290389583313879620}
+  _projectile: {fileID: -5303894025611030913, guid: a98b4f11f7e629848ad57df2e134ef7d, type: 3}
 --- !u!114 &6733409964650373866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -736,7 +736,7 @@ MonoBehaviour:
     <currentValue>k__BackingField: 5
   _reward:
     <currentValue>k__BackingField: 10
-  _projectileSpeedMultiplier:
+  _projectileSpeed:
     <currentValue>k__BackingField: 1
 --- !u!50 &6733409964650373868
 Rigidbody2D:
@@ -769,7 +769,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
