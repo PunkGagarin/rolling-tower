@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace entities.enemies.Movement {
 
-    public class SimpleStraightMoveTranslateBehaviour : AbstractMovement {
+    public class SimpleStraightMoveTranslateBehaviour<S,ST> : AbstractMovement<S,ST> where S : BaseStat<S, ST> {
 
 
         public override void Move() {
