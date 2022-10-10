@@ -4,20 +4,20 @@ using UnityEngine;
 
 [RequireComponent(typeof(WorkerStats))]
 public class Worker : HealthUnit<WorkerStatType, WorkerStats, WorkerStat>, IDamageable {
-    
+
     [SerializeField]
     private WorkerStateType _startState;
 
     [SerializeField]
     private WorkerHudUI _workerHudPrefab;
-    
+
     private WorkerHudUI _workerHud;
-    
+
     private WorkerStatesController _statesController = new();
     private AbstractMovement<WorkerStat, WorkerStatType> _movement;
     private ResourceSourceHolder _sourceHolder;
     private ResourceType _extractingResourceType;
-    
+
     public WorkerBackPack backPack { get; private set; }
     public ResourceSource currentResourceSource { get; private set; }
 
@@ -36,23 +36,19 @@ public class Worker : HealthUnit<WorkerStatType, WorkerStats, WorkerStat>, IDama
     private void InitStatesAndWorkerHud(ResourceType resourceType) {
         var resourceSource = ResourceSourceHolder.GetInstance.GetResourceSourceByType(resourceType);
         _statesController.Init(this, _movement, _startState);
-        
+
         _workerHud = Instantiate(_workerHudPrefab, WorkersUIHudHolder.GetInstance.transform);
         _workerHud.Init(transform, backPack, resourceSource.resourceIcon);
-    }
-
-    protected override WorkerStat getHealth() {
-        return _stats.getAllStats()[WorkerStatType.Health];
     }
 
     private void Update() {
         _statesController.Tick();
         _workerHud.SetPosition();
     }
-    
+
     public void FindAndSetNewResourceSource() {
-        var test =  _sourceHolder.GetFreeResourceSourceByType(_extractingResourceType);
-        
+        var test = _sourceHolder.GetFreeResourceSourceByType(_extractingResourceType);
+
         Debug.Log(test);
         currentResourceSource = test;
     }
@@ -62,11 +58,21 @@ public class Worker : HealthUnit<WorkerStatType, WorkerStats, WorkerStat>, IDama
         IsEndHisWork = true;
     }
 
-    public Transform currentTransform => transform;
-    public WorkerStats Stats => _stats;
-
     public void EndOfWork() {
         Destroy(_workerHud.gameObject);
         Destroy(gameObject);
     }
+
+    protected override void Die() {
+        base.Die();
+        _statesController.SwitchState<DieWorkerState>();
+    }
+
+    protected override WorkerStat getHealth() {
+        return _stats.getAllStats()[WorkerStatType.Health];
+    }
+
+    public Transform currentTransform => transform;
+    public WorkerStats Stats => _stats;
+
 }

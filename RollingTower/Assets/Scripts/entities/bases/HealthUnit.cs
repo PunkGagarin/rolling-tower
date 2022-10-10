@@ -4,7 +4,8 @@ using UnityEngine;
 
 namespace entities.bases {
 
-    public abstract class HealthUnit<UST, USS, US> : MonoBehaviour where USS : IUnitStats<UST, US> where US: IUnitStat<UST> {
+    public abstract class HealthUnit<UST, USS, US> : MonoBehaviour
+        where USS : IUnitStats<UST, US> where US : IUnitStat<UST> {
 
         public Action OnDie = delegate { };
 
@@ -31,11 +32,10 @@ namespace entities.bases {
         }
 
         protected abstract US getHealth();
-        
+
         protected virtual void Die() {
             OnDie?.Invoke();
             isDead = true;
-            Destroy(gameObject);
         }
     }
 

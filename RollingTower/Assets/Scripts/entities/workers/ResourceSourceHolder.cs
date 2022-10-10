@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ResourceSourceHolder : MonoBehaviour {
-    [SerializeField]
-    public List<ResourceSource> _resourceSources;
+    [FormerlySerializedAs("_resourceSources")] [SerializeField]
+    public List<ResourceSource> resourceSources;
 
     public static ResourceSourceHolder GetInstance;
 
@@ -13,7 +14,7 @@ public class ResourceSourceHolder : MonoBehaviour {
     }
 
     public ResourceSource GetFreeResourceSourceByType(ResourceType resourceType) {
-        foreach (var resourceSource in _resourceSources) {
+        foreach (var resourceSource in resourceSources) {
             if (!resourceSource.isEmpty && resourceSource.resourceType == resourceType) {
                 return resourceSource;
             }
@@ -21,6 +22,8 @@ public class ResourceSourceHolder : MonoBehaviour {
         return null;
     }
 
+    public List<ResourceSource> GetListOfResources() => resourceSources;
+
     public ResourceSource GetResourceSourceByType(ResourceType resourceType) =>
-        _resourceSources.FirstOrDefault(r => r.resourceType.Equals(resourceType));
+        resourceSources.FirstOrDefault(r => r.resourceType.Equals(resourceType));
 }
