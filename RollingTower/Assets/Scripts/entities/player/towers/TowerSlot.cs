@@ -6,20 +6,15 @@ public class TowerSlot : MonoBehaviour {
 
     private Tower _tower;
 
-    private Citadel _citadelOwner;
-
     [field: SerializeField]
     public bool isUnlocked { get; private set; }
 
-    public void InitSlot(Citadel citadel) {
-        _citadelOwner = citadel;
-    }
+    public bool _isFree { get; private set; } = true;
 
-
-    public Tower AddTowerWithInstantiate(Tower towerPrefab) {
+    public void AddTower(Tower towerPrefab) {
+        _tower = towerPrefab;
         //todo: updateUIMethod 
-        _tower = Instantiate(towerPrefab, transform);
-        return _tower;
+        _isFree = false;
     }
 
     public bool unlockSlot() {
