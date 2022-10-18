@@ -10,6 +10,7 @@ namespace entities.player.citadels.cardOperators {
             } else {
                 CreateCard();
             }
+            cardInfo.IncrementCurrentCardLevel();
         }
 
         public abstract bool CardExists();

@@ -84,7 +84,7 @@ namespace gameSession.battle {
 
         private void SpawnWave(EnemyWave wave) {
             foreach (var enemyInfo in wave.GetEnemyWaveInfo()) {
-                if (enemyInfo._isGroup) {
+                if (enemyInfo.isGroup) {
                     SpawnGroupCor(enemyInfo);
                 } else {
                     StartCoroutine(SpawnWaveCor(enemyInfo));
@@ -97,26 +97,26 @@ namespace gameSession.battle {
         private void SpawnGroupCor(EnemyWaveInfo enemyInfo) {
             var randomPositionInTorus = PositionVectorUtils.GetRandomPositionInTorus(_innerRadius+1f, _wallRadius);
             float innerGroupRadius = (Vector2.left * _groupLeftSide + Vector2.up * _groupTopSide).magnitude;
-            while (enemyInfo._enemyCount > 0) {
+            while (enemyInfo.enemyCount > 0) {
                 Vector3 enemyPositionInGroup =
                     PositionVectorUtils.GetRandomPositionInGroup(randomPositionInTorus, innerGroupRadius,
                         _wallGroupRadius);
                 Enemy instantiatedEnemy = InstantiateEnemy(enemyInfo.enemyPrefab, enemyPositionInGroup);
                 OnEnemyInstantiate.Invoke(instantiatedEnemy);
-                enemyInfo._enemyCount--;
+                enemyInfo.enemyCount--;
             }
             StopSpawning();
         }
 
         private IEnumerator SpawnWaveCor(EnemyWaveInfo waveInfo) {
             // Debug.Log("Trying to Spawn enemy");
-            while (waveInfo._enemyCount > 0) {
+            while (waveInfo.enemyCount > 0) {
                 // Debug.Log("Spawning enemy");
 
-                yield return new WaitForSeconds(waveInfo._spawnSpeed);
+                yield return new WaitForSeconds(waveInfo.spawnSpeed);
                 Enemy instantiatedEnemy = InstantiateEnemy(waveInfo.enemyPrefab);
                 OnEnemyInstantiate.Invoke(instantiatedEnemy);
-                waveInfo._enemyCount--;
+                waveInfo.enemyCount--;
             }
             StopSpawning();
         }

@@ -92,7 +92,7 @@ namespace entities.player.towers {
 
         public void UpgradeLevel() {
             //todo: implement
-            throw new System.NotImplementedException();
+            Debug.Log(" Tower was Upgraded!");
         }
     }
 

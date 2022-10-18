@@ -3,6 +3,7 @@ using entities.player.citadels.cardOperators;
 using entities.player.towers;
 using enums.gameSession.cards;
 using enums.towers;
+using gameSession.cards;
 using gameSession.cards.cardInfo;
 using gameSession.cards.so;
 using UnityEngine;
@@ -12,11 +13,13 @@ namespace entities.player.citadels {
     public class Citadel : CitadelHealthUnit {
 
         [SerializeField]
-        private TowerCardInfoDTO _startingTowerInfo;
+        private TowerType _startingTowerType;
 
         private CitadelTowerStats _sharedBaseTowerStats;
 
         private ITowerOperator _citadelTowers;
+
+        private CardChoosingManager _cardChoosingManager;
         
         // private List<Supports> _towers = new();
         
@@ -34,6 +37,7 @@ namespace entities.player.citadels {
         }
     
         private void Start() {
+            _cardChoosingManager = CardChoosingManager.GetInstance;
             _citadelTowers = GetComponent<ITowerOperator>();
             _citadelTowers.OnTowerBuild += AddStatsToTower;
             OperateStartingTower();
@@ -41,7 +45,7 @@ namespace entities.player.citadels {
 
         private void OperateStartingTower() {
             _citadelTowers.UnlockSlot();
-            _citadelTowers.OperateChosenCard(new TowerCardInfo(_startingTowerInfo));
+            _citadelTowers.OperateChosenCard(_cardChoosingManager.getTowerByType(_startingTowerType));
         }
 
         private void AddStatsToTower(Tower tower) {
@@ -65,11 +69,10 @@ namespace entities.player.citadels {
                 _citadelTowers.AddStatForEachTower(type, stat);
         }
 
-        public void CardChooseHandle(CardInfo chosenCard) {
+        public void CardChoseHandle(CardInfo chosenCard) {
             if (chosenCard.type.Equals(CardType.Tower)) {
                 _citadelTowers.OperateChosenCard(chosenCard);
             }
-            chosenCard.IncrementCurrentCardLevel();
         }
 
         public void UnlockTowerSlot() {

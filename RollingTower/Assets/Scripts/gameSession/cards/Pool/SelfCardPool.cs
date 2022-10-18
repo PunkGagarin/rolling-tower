@@ -3,44 +3,49 @@ using System.Collections.Generic;
 using System.Linq;
 using entities.player.citadels;
 using enums.gameSession.cards;
+using enums.towers;
 using gameSession.cards.cardInfo;
+using gameSession.cards.so;
 using UnityEngine;
-using Random = Unity.Mathematics.Random;
+using Random = System.Random;
 
 namespace gameSession.cards.Pool {
 
     public class SelfCardPool : ICardPool {
         private const int CardCapacity = 3;
+        private const string ResourcePath = "Towers/SO/TowerInfo";
 
-        private readonly Dictionary<CardType, List<CardInfo>> _cardPool = new();
+        
+        //todo: move initialize to init method
+        private readonly Dictionary<CardType, List<CardInfo>> _cardPool = new() {
+            {CardType.Tower, new List<CardInfo>()},
+            {CardType.Perk, new List<CardInfo>()},
+            };
 
-        private ICardHolder _citadel;
+        public void InitCardPool() {
+              var towersDTOs = Resources.LoadAll<TowerCardInfoDTO>(ResourcePath).ToList();
+              var towerCardInfos = towersDTOs.Select(el => new TowerCardInfo(el));
+              _cardPool[CardType.Tower].AddRange(towerCardInfos);
+        }
 
         //Информация о текущих картах хранится в пуле и в цитадели возможно стоит это пересмотреть
         private void RemoveCardIfMaxLevel(CardInfo poolCard) {
-            
             if (poolCard.currentCardLevel >= poolCard.maxCardLevel) {
                 RemoveCardFromPool(poolCard);
             }
         }
 
-        public void HandleCardChosen(CardInfo cardInfo) {
+        public void CardChosenHandle(CardInfo cardInfo) {
             CardInfo poolCard = _cardPool[cardInfo.type].FirstOrDefault(info => info.Equals(cardInfo));
             if (poolCard == null) {
                 Debug.Log("Cant find the card we just upgraded in card pool!");
                 throw new Exception("Cant find the card we just upgraded in card pool!");
             }
             RemoveCardIfMaxLevel(poolCard);
-            
         }
 
         private void RemoveCardFromPool(CardInfo poolCard) {
             _cardPool[poolCard.type].Remove(poolCard);
-        }
-
-        private void InitCardPool() {
-            //todo: implement
-            //get all possible cards from somewhere
         }
 
         public List<CardInfo> GetThreeCardFromPool() {
@@ -49,7 +54,7 @@ namespace gameSession.cards.Pool {
             var finalCards = new List<CardInfo>(CardCapacity);
             for (int i = 0; i < CardCapacity; i++) {
                 if (NoMoreCardInPool(preparedCardsCount, i + 1)) break;
-                int randomElementIndex = new Random().NextInt(preparedCards.Count);
+                int randomElementIndex = new Random().Next(preparedCards.Count);
                 finalCards.Add(preparedCards[randomElementIndex]);
                 preparedCards.RemoveAt(randomElementIndex);
             }
@@ -66,6 +71,17 @@ namespace gameSession.cards.Pool {
             //     // .RemoveNonUpgradesOfType(isPerkSlotsLeft(), CardType.Perk, new List<PerkType>())
             //     .RemoveMaxed(_citadel.IsMaxLevelExists(), _citadel.GetMaxedCards())
             //     .Construct();
+        }
+
+        public CardInfo GetTowerByType(TowerType towerType) {
+            var towerCardInfo = _cardPool[CardType.Tower]
+                .Select(el => (TowerCardInfo) el)
+                .FirstOrDefault(el => el.towerType.Equals(towerType));
+            if (towerCardInfo == null) {
+                Debug.Log("There is no tower for given type in cardPool!");
+                 throw new ArgumentException("There is no tower for given type in cardPool!");
+            }
+            return towerCardInfo;
         }
 
         private static bool NoMoreCardInPool(int cardsCount, int currentCardNumber) {

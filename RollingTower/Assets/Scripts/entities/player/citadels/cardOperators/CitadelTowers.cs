@@ -82,7 +82,8 @@ namespace entities.player.citadels {
         }
 
         public override bool CardExists() {
-            return _towers.Exists(el => _cardInfoToOperate.type.Equals(el.type));
+            TowerCardInfo info = _cardInfoToOperate;
+            return _towers.Exists(el => el.type.Equals(info.towerType));
         }
 
         public override void UpgradeCard() {
