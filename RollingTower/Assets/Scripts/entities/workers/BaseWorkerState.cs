@@ -1,15 +1,16 @@
 ﻿using entities.player.citadels;
+using UnityEngine;
 
 public abstract class BaseWorkerState {
     public WorkerStateType type { get; protected set; }
     protected Worker _owner;
     protected AbstractMovement<WorkerStat, WorkerStatType> _movement;
-    protected Citadel _citadel;
+    protected Transform _citadel;
     protected InGameResourceStorage _inGameResourceStorage;
 
     protected IStateSwitcher<BaseWorkerState> _stateSwitcher;
 
-    public void InitBase(Worker owner, IStateSwitcher<BaseWorkerState> stateSwitcher, AbstractMovement<WorkerStat, WorkerStatType> movement, Citadel citadel, InGameResourceStorage inGameResourceStorage) {
+    public void InitBase(Worker owner, IStateSwitcher<BaseWorkerState> stateSwitcher, AbstractMovement<WorkerStat, WorkerStatType> movement, Transform citadel, InGameResourceStorage inGameResourceStorage) {
         _owner = owner;
         _stateSwitcher = stateSwitcher;
         _movement = movement;

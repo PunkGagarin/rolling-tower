@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using entities.enemies;
 using gameSession.WaveInfo;
 using UnityEngine;
+using Zenject;
 
 namespace gameSession.battle {
 
@@ -20,6 +21,12 @@ namespace gameSession.battle {
         private EnemyWave _currentWave;
 
         private List<SpawnWaveInfo> _enemySpawnInfo;
+
+        [Inject]
+        private DiContainer _diContainer;
+
+        [Inject]
+        private EnemyFactory _enemyFactory;
 
         [SerializeField]
         private float _leftSide = 10f;
@@ -123,13 +130,16 @@ namespace gameSession.battle {
 
         private Enemy InstantiateEnemy(Enemy enemyPrefab) {
             var randomPositionInTorus = PositionVectorUtils.GetRandomPositionInTorus(_innerRadius, _wallRadius);
-            Enemy instantiatedEnemy = Instantiate(enemyPrefab, randomPositionInTorus, Quaternion.identity);
+            Enemy instantiatedEnemy =
+                _enemyFactory.InstantiateEnemy(enemyPrefab, randomPositionInTorus);
             return instantiatedEnemy;
         }
 
-        private Enemy InstantiateEnemy(Enemy enemyPrefab, Vector3 posToSpawn) {
-            Enemy instantiatedEnemy = Instantiate(enemyPrefab, posToSpawn, Quaternion.identity);
+        private Enemy InstantiateEnemy(Enemy enemyPrefab, Vector2 posToSpawn) {
+            Enemy instantiatedEnemy = 
+                _enemyFactory.InstantiateEnemy(enemyPrefab, posToSpawn);
             return instantiatedEnemy;
         }
     }
+
 }

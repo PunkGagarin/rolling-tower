@@ -3,6 +3,7 @@ using entities.bases;
 using entities.player.citadels;
 using gameSession.factories;
 using UnityEngine;
+using Zenject;
 
 namespace entities.enemies {
 
@@ -19,10 +20,11 @@ namespace entities.enemies {
         [SerializeField]
         protected Transform _firePoint;
         
-        protected Transform _citadel;
+        [Inject]
+        protected Citadel _citadel;
 
         protected virtual void Start() {
-            _citadel = Citadel.GetInstance.transform;
+            // _citadel = Citadel.GetInstance.transform;
         }
 
         protected override UnitStat getHealth() {

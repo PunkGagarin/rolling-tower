@@ -5,8 +5,9 @@ using enums.gameSession.cards;
 using enums.towers;
 using gameSession.cards;
 using gameSession.cards.cardInfo;
-using gameSession.cards.so;
+using gameSession.cards.Pool;
 using UnityEngine;
+using Zenject;
 
 namespace entities.player.citadels {
 
@@ -19,25 +20,21 @@ namespace entities.player.citadels {
 
         private ITowerOperator _citadelTowers;
 
-        private CardChoosingManager _cardChoosingManager;
+        [Inject]
+        private ICardPool _cardPool;
         
         // private List<Supports> _towers = new();
         
         // private List<Perks> _towers = new();
-
+        
         public static Citadel GetInstance { get; private set; }
 
-
         protected override void Awake() {
-            if (GetInstance == null) {
-                GetInstance = this;
-            }
             base.Awake();
             _sharedBaseTowerStats = GetComponent<CitadelTowerStats>();
         }
     
         private void Start() {
-            _cardChoosingManager = CardChoosingManager.GetInstance;
             _citadelTowers = GetComponent<ITowerOperator>();
             _citadelTowers.OnTowerBuild += AddStatsToTower;
             OperateStartingTower();
@@ -45,7 +42,7 @@ namespace entities.player.citadels {
 
         private void OperateStartingTower() {
             _citadelTowers.UnlockSlot();
-            _citadelTowers.OperateChosenCard(_cardChoosingManager.getTowerByType(_startingTowerType));
+            _citadelTowers.OperateChosenCard(_cardPool.GetTowerByType(_startingTowerType));
         }
 
         private void AddStatsToTower(Tower tower) {

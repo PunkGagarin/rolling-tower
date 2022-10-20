@@ -13,14 +13,8 @@ namespace gameSession.battle {
         
         private List<Enemy> _currentWaveEnemies = new();
         
-        public static FightingManager GetInstance { private set; get; }
 
         private void Awake() {
-            if (GetInstance != null && GetInstance != this) {
-                Destroy(this);
-            } else {
-                GetInstance = this;
-            }
             _enemySpawner = GetComponent<EnemySpawner>();
             _enemySpawner.OnEnemyInstantiate += AddEnemyToList;
         }
