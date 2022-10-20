@@ -47,6 +47,7 @@ namespace gameSession.cards {
 
         public void EndStage() {
             OnCardChoose.Invoke();
+            
         }
 
         public CardInfo getTowerByType(TowerType towerType) {
