@@ -84,6 +84,16 @@ namespace entities.player.towers {
         }
         
         protected abstract void Attack();
+
+        public bool IsMaxLevel() {
+            //todo: implement later
+            return false;
+        }
+
+        public void UpgradeLevel() {
+            //todo: implement
+            Debug.Log(" Tower was Upgraded!");
+        }
     }
 
 }
