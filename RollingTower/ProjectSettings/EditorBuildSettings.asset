@@ -8,9 +8,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: b541def5ba71c014c958607173b161c1
-  - enabled: 0
-    path: Assets/Scenes/BattleLevel1.unity
-    guid: 70dfa3cfcbde98b40ab81d62bff44635
+  - enabled: 1
+    path: Assets/Scenes/MainBattle.unity
+    guid: f209578de3f92494899f3c5d5c5690f0
   m_configObjects:
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 434bcfdfbaaa8ca43a17a526f315e1e2, type: 2}
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: 6b269f92213569049952b543f00878c8, type: 2}
