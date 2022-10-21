@@ -12,14 +12,7 @@ namespace gameSession.cards.UI {
 
         private readonly List<SkillCardUI> _cardPanels = new();
 
-        public static CardChoosingUI GetInstance { get; private set; }
-
         protected override void Awake() {
-            if (GetInstance != null && GetInstance != this) {
-                Destroy(this);
-            } else {
-                GetInstance = this;
-            }
             _cardPanels.AddRange(GetComponentsInChildren<SkillCardUI>());
             foreach (var cardUI in _cardPanels) {
                 cardUI.OnCardChoose += CardChooseHandler;

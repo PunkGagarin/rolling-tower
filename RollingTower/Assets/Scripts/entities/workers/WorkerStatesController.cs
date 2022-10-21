@@ -23,7 +23,8 @@ public class WorkerStatesController : IStateSwitcher<BaseWorkerState> {
             WorkerStateFactory.GetWorkerStateByType(WorkerStateType.EndState)
         };
         foreach (var state in _allStates) {
-            state.InitBase(worker, this, movement, Citadel.GetInstance, InGameResourceStorage.GetInstance);
+            //todo: inject Citadel
+            state.InitBase(worker, this, movement, Citadel.GetInstance.transform, InGameResourceStorage.GetInstance);
         }
         _currentState = _allStates.Find(state => state.type.Equals(startState));
         _currentState.Start();

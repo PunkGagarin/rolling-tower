@@ -5,6 +5,7 @@ using gameSession.cards.Pool;
 using UnityEngine;
 using gameSession.cards.cardInfo;
 using gameSession.cards.UI;
+using Zenject;
 
 namespace gameSession.cards {
 
@@ -12,25 +13,20 @@ namespace gameSession.cards {
 
         public Action OnCardChoose = delegate { };
 
+        [Inject]
         private CardChoosingUI _cardChoosingUI;
 
-        private readonly ICardPool _cardPool = new SelfCardPool();
+        [Inject]
+        private ICardPool _cardPool;
 
+        [Inject]
         private Citadel _citadel;
-        public static CardChoosingManager GetInstance { get; private set; }
 
         private void Awake() {
-            if (GetInstance != null && GetInstance != this) {
-                Destroy(this);
-            } else {
-                GetInstance = this;
-            }
             _cardPool.InitCardPool();
         }
 
         private void Start() {
-            _cardChoosingUI = CardChoosingUI.GetInstance;
-            _citadel = Citadel.GetInstance;
             _cardChoosingUI.OnCardChoose += OnCardChooseHandle;
         }
 
@@ -47,7 +43,6 @@ namespace gameSession.cards {
 
         public void EndStage() {
             OnCardChoose.Invoke();
-            
         }
 
         public CardInfo getTowerByType(TowerType towerType) {

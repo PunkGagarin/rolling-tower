@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using entities.player.citadels;
 using enums.gameSession.cards;
 using enums.towers;
 using gameSession.cards.cardInfo;

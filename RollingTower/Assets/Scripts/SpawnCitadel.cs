@@ -5,10 +5,11 @@ using gameSession.cards.cardInfo;
 using gameSession.cards.so;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class SpawnCitadel : MonoBehaviour {
 
-    [SerializeField]
+    [Inject]
     private Citadel _citadel;
 
     [SerializeField]
@@ -31,7 +32,6 @@ public class SpawnCitadel : MonoBehaviour {
 
 
     private void Awake() {
-        _citadel = Instantiate(_citadel, transform);
         _changeRadiusTower.onClick.AddListener(ChangeTowerRadiusInvoke);
         _unlockSlotButton.onClick.AddListener(UnlockSecondSlotInvoke);
         _buildTowerButton.onClick.AddListener(BuildTowerInvoke);
