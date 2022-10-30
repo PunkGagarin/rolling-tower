@@ -5,8 +5,6 @@ namespace UI {
 
     public abstract class ButtonUI : MonoBehaviour {
 
-        private static string MyName = "asdf";
-
         private Button _button;
 
         private void Awake() 

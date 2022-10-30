@@ -13,7 +13,7 @@ namespace gameSession.cards.UI {
         private readonly List<SkillCardUI> _cardPanels = new();
 
         protected override void Awake() {
-            _cardPanels.AddRange(GetComponentsInChildren<SkillCardUI>());
+            _cardPanels.AddRange(GetComponentsInChildren<SkillCardUI>(true));
             foreach (var cardUI in _cardPanels) {
                 cardUI.OnCardChoose += CardChooseHandler;
             }
@@ -28,7 +28,7 @@ namespace gameSession.cards.UI {
         public void SetNewCardsToChooseFrom(List<CardInfo> cards) {
             if (cards.Count > _cardPanels.Count) {
                 Debug.Log("Choosen cards count is greater then card panels count!");
-                throw new AggregateException("Choosen cards count is greater then card panels count!");
+                throw new ArgumentException("Choosen cards count is greater then card panels count!");
             }
             for (int i = 0; i < cards.Count; i++) {
                 _cardPanels[i].InitCardInfo(cards[i]);
