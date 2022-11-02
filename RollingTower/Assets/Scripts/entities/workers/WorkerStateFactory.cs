@@ -15,6 +15,8 @@ public class WorkerStateFactory {
                 return new FindingResourcePlaceWorkerState();
             case WorkerStateType.EndState:
                 return new EndWorkerState();
+            case WorkerStateType.DieState:
+                return new DieWorkerState();
         }
         throw new ArgumentException($"Have no state with type: {type}");
     }

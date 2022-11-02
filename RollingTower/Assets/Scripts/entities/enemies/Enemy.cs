@@ -34,6 +34,7 @@ namespace entities.enemies {
         protected override void Die() {
             OnDie.Invoke(this);
             base.Die();
+            Destroy(gameObject);
         }
 
         //todo: already have same logic in Tower.cs think about composition

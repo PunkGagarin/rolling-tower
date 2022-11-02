@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InGameResourceStorage : MonoBehaviour {
     [SerializeField]
-    private CurrentResourcesCountUI _resourceCountUI;
+    private CurrentResourcesHudHolder _resourceCountUI;
 
     private Dictionary<ResourceType, Queue<Resource>> _resources = new() {
         {ResourceType.Iron, new Queue<Resource>()},
@@ -15,7 +15,7 @@ public class InGameResourceStorage : MonoBehaviour {
 
     public Action<ResourceType, float> OnResourceUpdate = delegate{  };
 
-    public static InGameResourceStorage GetInstance;
+    public static InGameResourceStorage GetInstance { get; private set; }
 
     private void Awake() {
         GetInstance = this;

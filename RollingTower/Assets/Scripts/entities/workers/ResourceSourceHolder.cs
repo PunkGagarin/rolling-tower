@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class ResourceSourceHolder : MonoBehaviour {
     [SerializeField]
-    public List<ResourceSource> _resourceSources;
+    public List<ResourceSource> resourceSources;
 
-    public static ResourceSourceHolder GetInstance;
+    public static ResourceSourceHolder GetInstance { get; private set; }
 
     private void Awake() {
         GetInstance = this;
     }
 
     public ResourceSource GetFreeResourceSourceByType(ResourceType resourceType) {
-        foreach (var resourceSource in _resourceSources) {
+        foreach (var resourceSource in resourceSources) {
             if (!resourceSource.isEmpty && resourceSource.resourceType == resourceType) {
                 return resourceSource;
             }
@@ -21,6 +21,14 @@ public class ResourceSourceHolder : MonoBehaviour {
         return null;
     }
 
+    public List<ResourceType> GetResourcesType() {
+        List<ResourceType> resourceTypes = new();
+        foreach (var resourceType in resourceSources) {
+            resourceTypes.Add(resourceType.resourceType);
+        }
+        return resourceTypes;
+    }
+
     public ResourceSource GetResourceSourceByType(ResourceType resourceType) =>
-        _resourceSources.FirstOrDefault(r => r.resourceType.Equals(resourceType));
+        resourceSources.FirstOrDefault(r => r.resourceType.Equals(resourceType));
 }

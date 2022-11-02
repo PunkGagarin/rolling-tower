@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using entities.player.citadels;
 
 public class WorkerStatesController : IStateSwitcher<BaseWorkerState> {
     private BaseWorkerState _currentState;
-    private List<BaseWorkerState> _allStates;
+    private List<BaseWorkerState> _allStates = new();
     private AbstractMovement<WorkerStat, WorkerStatType> _movement;
 
     public void Tick() {
@@ -14,14 +15,11 @@ public class WorkerStatesController : IStateSwitcher<BaseWorkerState> {
 
     public void Init(Worker worker, AbstractMovement<WorkerStat, WorkerStatType> movement, WorkerStateType startState) {
         movement.Init(worker.Stats.getStatByType(WorkerStatType.MoveSpeed), worker.transform, worker.transform);
-        _allStates = new List<BaseWorkerState>() {
-            WorkerStateFactory.GetWorkerStateByType(WorkerStateType.GoingToBase),
-            WorkerStateFactory.GetWorkerStateByType(WorkerStateType.GoingToResource),
-            WorkerStateFactory.GetWorkerStateByType(WorkerStateType.Extraction),
-            WorkerStateFactory.GetWorkerStateByType(WorkerStateType.ResourceUnloading),
-            WorkerStateFactory.GetWorkerStateByType(WorkerStateType.FindingResourcePlace),
-            WorkerStateFactory.GetWorkerStateByType(WorkerStateType.EndState)
-        };
+        
+        foreach (var workerStateType in Enum.GetValues(typeof(WorkerStateType)).Cast<WorkerStateType>()) {
+            _allStates.Add(WorkerStateFactory.GetWorkerStateByType(workerStateType));
+        }
+        
         foreach (var state in _allStates) {
             //todo: inject Citadel
             state.InitBase(worker, this, movement, Citadel.GetInstance.transform, InGameResourceStorage.GetInstance);

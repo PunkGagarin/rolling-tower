@@ -4,5 +4,6 @@
     Extraction,
     ResourceUnloading,
     FindingResourcePlace,
-    EndState
+    EndState,
+    DieState
 }
