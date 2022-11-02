@@ -32,7 +32,7 @@ namespace entities.bases {
         }
 
         protected abstract US getHealth();
-
+        
         protected virtual void Die() {
             OnDie?.Invoke();
             isDead = true;

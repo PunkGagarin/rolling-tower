@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7088960818251816566}
   - component: {fileID: 7088960818251816564}
   - component: {fileID: 7088960818251816567}
+  - component: {fileID: 8867349404544176037}
   - component: {fileID: 7088960818251816562}
   - component: {fileID: 7088960818251816565}
   m_Layer: 0
@@ -71,6 +72,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _startState: 4
+  _workerView: {fileID: 8867349404544176037}
+--- !u!114 &8867349404544176037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7088960818251816569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebe096b86d7c470193f0661742ea5c21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _workerHudPrefab: {fileID: 7489559469527351087, guid: cf299baf1fb7a064e83f193d885f46dc, type: 3}
 --- !u!50 &7088960818251816562
 Rigidbody2D:

@@ -1,92 +1,78 @@
 ﻿using System;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ChooseWorkersJobUI : BaseScreen {
-    private const string PopupNameText = "WARNING";
-    private const string PopupDescription = "You still have free workers!";
-    private const string ConfirmButtonText = "I understand";
+public class ChooseWorkersJobUIController : BaseScreen {
 
-    [SerializeField]
-    private ResourceSourceHolder _resourceSourceHolder;
+    public Action<List<ResourceType>> OnWorkerSpawnButtonClick = delegate { };
 
     [SerializeField]
     private GameObjectCreator<ChooseResourceToWorkerPanel> _gameObjectCreator;
-
-    [SerializeField]
-    private WarningPopup _warningPopup;
-
-    [Space] [SerializeField]
-    private TextMeshProUGUI _workerCountText;
-
-    [SerializeField]
-    private Image _workerIcon;
-
+    
     [SerializeField]
     private Button _spawnWorkersButton;
 
-    [Space] [SerializeField]
-    private Color32 _offWorkerIconCount;
+    [SerializeField]
+    private ChooseWorkersJobUIView _view;
 
-    private int _worketCount;
+    private int _workerCount;
 
-    private List<ResourceType> _resourcesToTake = new();
-    public Action<List<ResourceType>> OnWorkerSpawnButtonClick = delegate { };
     private readonly List<ChooseResourceToWorkerPanel> _chooseResourcePanels = new();
 
-    public void Init(int worketCount) {
-        _worketCount = worketCount;
+    private ResourceSourceHolder _resourceSourceHolder;
+
+    public void Init(int workerCount) {
+        _workerCount = workerCount;
     }
 
     private void Awake() {
         _spawnWorkersButton.onClick.AddListener(ClickOnWorkerSpawnButton);
-        _warningPopup.OnConfirmButtonPress += SpawnWorkersByCountAndType;
+        _view.Init(SpawnWorkersByCountAndType);
     }
 
     private void Start() {
-        _workerCountText.text = _worketCount.ToString();
-        var listOfResourceSource = _resourceSourceHolder.GetListOfResources();
-        for (int i = 0; i < listOfResourceSource.Count; i++) {
+        _resourceSourceHolder = ResourceSourceHolder.GetInstance;
+        _view.SetWorkerCount(_workerCount);
+        var listOfResourceSource = _resourceSourceHolder.GetResourcesType();
+        foreach (var resourvceType in listOfResourceSource) {
             var panel = _gameObjectCreator.CreatePanel();
             _chooseResourcePanels.Add(panel);
-            panel.Init(listOfResourceSource[i].resourceType);
+            panel.Init(resourvceType);
             panel.OnPlusButtonClicked += PlusWokerToResouce;
             panel.OnMinusButtonClicked += MinusWokerFromResouce;
         }
     }
 
     private void ClickOnWorkerSpawnButton() {
-        if (_worketCount > 0) {
-            _warningPopup.ShowAndInitPopup(PopupNameText, PopupDescription, ConfirmButtonText);
+        if (_workerCount > 0) {
+            _view.ShopPopup();
         } else {
             SpawnWorkersByCountAndType();
         }
     }
 
     private void SpawnWorkersByCountAndType() {
+        List<ResourceType> _resourcesToTake = new();
         foreach (var panel in _chooseResourcePanels) {
             for (int i = 0; i < panel.workerCount; i++) {
                 _resourcesToTake.Add(panel.resourceType);
             }
         }
         OnWorkerSpawnButtonClick?.Invoke(_resourcesToTake);
-        _resourcesToTake.Clear();
         Hide();
     }
 
     private void PlusWokerToResouce() {
-        _worketCount--;
-        _workerCountText.text = _worketCount.ToString();
+        _workerCount--;
+        _view.SetWorkerCount(_workerCount);
         CheckOnWorkerCountLeft();
     }
 
     private void MinusWokerFromResouce() {
-        _worketCount++;
-        _workerCountText.text = _worketCount.ToString();
-        if (_worketCount == 1) {
-            _workerIcon.color = Color.white;
+        _workerCount++;
+        _view.SetWorkerCount(_workerCount);
+        if (_workerCount == 1) {
             foreach (var panel in _chooseResourcePanels) {
                 panel.SetPlusButtonInteractable(true);
             }
@@ -94,8 +80,8 @@ public class ChooseWorkersJobUI : BaseScreen {
     }
 
     private void CheckOnWorkerCountLeft() {
-        if (_worketCount == 0) {
-            _workerIcon.color = _offWorkerIconCount;
+        if (_workerCount == 0) {
+            _view.SetWorkerCount(_workerCount);
             foreach (var panel in _chooseResourcePanels) {
                 panel.SetPlusButtonInteractable(false);
             }

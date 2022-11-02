@@ -15,7 +15,7 @@ public class InGameResourceStorage : MonoBehaviour {
 
     public Action<ResourceType, float> OnResourceUpdate = delegate{  };
 
-    public static InGameResourceStorage GetInstance;
+    public static InGameResourceStorage GetInstance { get; private set; }
 
     private void Awake() {
         GetInstance = this;

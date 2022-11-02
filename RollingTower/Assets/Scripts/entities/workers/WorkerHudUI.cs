@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,7 +7,6 @@ public class WorkerHudUI : MonoBehaviour {
     [SerializeField]
     private Camera _camera;
     
-    [SerializeField]
     private Transform _worker;
 
     [SerializeField]

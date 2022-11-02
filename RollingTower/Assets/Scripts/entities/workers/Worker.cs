@@ -1,3 +1,4 @@
+using System;
 using entities.bases;
 using entities.enemies.Movement;
 using UnityEngine;
@@ -9,11 +10,9 @@ public class Worker : HealthUnit<WorkerStatType, WorkerStats, WorkerStat>, IDama
     private WorkerStateType _startState;
 
     [SerializeField]
-    private WorkerHudUI _workerHudPrefab;
+    private WorkerView _workerView;
 
-    private WorkerHudUI _workerHud;
-
-    private WorkerStatesController _statesController = new();
+    private readonly WorkerStatesController _statesController = new();
     private AbstractMovement<WorkerStat, WorkerStatType> _movement;
     private ResourceSourceHolder _sourceHolder;
     private ResourceType _extractingResourceType;
@@ -36,21 +35,22 @@ public class Worker : HealthUnit<WorkerStatType, WorkerStats, WorkerStat>, IDama
     private void InitStatesAndWorkerHud(ResourceType resourceType) {
         var resourceSource = ResourceSourceHolder.GetInstance.GetResourceSourceByType(resourceType);
         _statesController.Init(this, _movement, _startState);
-
-        _workerHud = Instantiate(_workerHudPrefab, WorkersUIHudHolder.GetInstance.transform);
-        _workerHud.Init(transform, backPack, resourceSource.resourceIcon);
+        _workerView.SpawnWorkerView(backPack, resourceSource.resourceIcon);
     }
 
     private void Update() {
         _statesController.Tick();
-        _workerHud.SetPosition();
+        _workerView.Tick();
     }
 
     public void FindAndSetNewResourceSource() {
-        var test = _sourceHolder.GetFreeResourceSourceByType(_extractingResourceType);
-
-        Debug.Log(test);
-        currentResourceSource = test;
+        var resourceSource = _sourceHolder.GetFreeResourceSourceByType(_extractingResourceType);
+        if (resourceSource != null) {
+            currentResourceSource = resourceSource;
+        } else {
+            throw new Exception($"Resource source {_extractingResourceType} not found");
+        }
+        
     }
 
     public void ReturnToBase() {
@@ -59,7 +59,7 @@ public class Worker : HealthUnit<WorkerStatType, WorkerStats, WorkerStat>, IDama
     }
 
     public void EndOfWork() {
-        Destroy(_workerHud.gameObject);
+        _workerView.DestroyHud();
         Destroy(gameObject);
     }
 
@@ -74,5 +74,4 @@ public class Worker : HealthUnit<WorkerStatType, WorkerStats, WorkerStat>, IDama
 
     public Transform currentTransform => transform;
     public WorkerStats Stats => _stats;
-
 }

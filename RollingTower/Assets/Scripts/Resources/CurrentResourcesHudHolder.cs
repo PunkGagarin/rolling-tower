@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -6,14 +7,14 @@ public class CurrentResourcesHudHolder : MonoBehaviour {
 
     [SerializeField]
     private GameObjectCreator<UIResourceInGameHud> _gameObjectCreator;
-
-    [SerializeField]
+    
     private ResourceSourceHolder _resourceSourceHolder;
 
     private readonly List<UIResourceInGameHud> _allResources = new();
     private UIResourceInGameHud _currentResourceUI;
 
-    private void Awake() {
+    private void Start() {
+        _resourceSourceHolder = ResourceSourceHolder.GetInstance;
         foreach (var resourceSource in _resourceSourceHolder.resourceSources) {
             var panel = _gameObjectCreator.CreatePanel();
             panel.Init(resourceSource.resourceIcon, resourceSource.resourceType);

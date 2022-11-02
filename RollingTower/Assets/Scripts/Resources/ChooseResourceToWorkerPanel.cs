@@ -28,10 +28,10 @@ public class ChooseResourceToWorkerPanel : MonoBehaviour {
     public Action OnMinusButtonClicked = delegate { };
 
     private void Awake() {
-        _plusButton.onClick.AddListener(ClickOnPlusWorkerButton);
-        _minusButton.onClick.AddListener(ClickOnMinusWorkerButton);
+        _plusButton.onClick.AddListener(PlusWorkerOnResource);
+        _minusButton.onClick.AddListener(MinusWorkerOnResource);
         _workersCount.text = WorkersStartCountText;
-        CheckOnZeroCount();
+        SwitchButtonInteractableBasedOnWorkersCount();
     }
 
     public void Init(ResourceType resourceType) {
@@ -39,21 +39,21 @@ public class ChooseResourceToWorkerPanel : MonoBehaviour {
         _resourceIcon.sprite = _resourceIconFactory.GetResourceIconByType(_resourceType);
     }
 
-    private void ClickOnPlusWorkerButton() {
+    private void PlusWorkerOnResource() {
         _workerOnThisResourceCount++;
         _workersCount.text = _workerOnThisResourceCount.ToString();
-        CheckOnZeroCount();
+        SwitchButtonInteractableBasedOnWorkersCount();
         OnPlusButtonClicked?.Invoke();
     }
 
-    private void ClickOnMinusWorkerButton() {
+    private void MinusWorkerOnResource() {
         _workerOnThisResourceCount--;
         _workersCount.text = _workerOnThisResourceCount.ToString();
-        CheckOnZeroCount();
+        SwitchButtonInteractableBasedOnWorkersCount();
         OnMinusButtonClicked?.Invoke();
     }
 
-    private void CheckOnZeroCount() {
+    private void SwitchButtonInteractableBasedOnWorkersCount() {
         _minusButton.interactable = _workerOnThisResourceCount > 0;
     }
 
@@ -62,8 +62,8 @@ public class ChooseResourceToWorkerPanel : MonoBehaviour {
     }
 
     private void OnDestroy() {
-        _plusButton.onClick.RemoveListener(ClickOnPlusWorkerButton);
-        _minusButton.onClick.RemoveListener(ClickOnMinusWorkerButton);
+        _plusButton.onClick.RemoveListener(PlusWorkerOnResource);
+        _minusButton.onClick.RemoveListener(MinusWorkerOnResource);
     }
 
     public int workerCount => _workerOnThisResourceCount;

@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class ResourceSourceHolder : MonoBehaviour {
-    [FormerlySerializedAs("_resourceSources")] [SerializeField]
+    [SerializeField]
     public List<ResourceSource> resourceSources;
 
-    public static ResourceSourceHolder GetInstance;
+    public static ResourceSourceHolder GetInstance { get; private set; }
 
     private void Awake() {
         GetInstance = this;
@@ -22,7 +21,13 @@ public class ResourceSourceHolder : MonoBehaviour {
         return null;
     }
 
-    public List<ResourceSource> GetListOfResources() => resourceSources;
+    public List<ResourceType> GetResourcesType() {
+        List<ResourceType> resourceTypes = new();
+        foreach (var resourceType in resourceSources) {
+            resourceTypes.Add(resourceType.resourceType);
+        }
+        return resourceTypes;
+    }
 
     public ResourceSource GetResourceSourceByType(ResourceType resourceType) =>
         resourceSources.FirstOrDefault(r => r.resourceType.Equals(resourceType));
