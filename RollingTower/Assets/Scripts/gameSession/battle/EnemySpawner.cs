@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using entities.enemies;
 using gameSession.WaveInfo;
 using UnityEngine;
+using Zenject;
 
 namespace gameSession.battle {
 
@@ -20,6 +21,12 @@ namespace gameSession.battle {
         private EnemyWave _currentWave;
 
         private List<SpawnWaveInfo> _enemySpawnInfo;
+
+        [Inject]
+        private DiContainer _diContainer;
+
+        [Inject]
+        private EnemyFactory _enemyFactory;
 
         [SerializeField]
         private float _leftSide = 10f;
@@ -84,7 +91,7 @@ namespace gameSession.battle {
 
         private void SpawnWave(EnemyWave wave) {
             foreach (var enemyInfo in wave.GetEnemyWaveInfo()) {
-                if (enemyInfo._isGroup) {
+                if (enemyInfo.isGroup) {
                     SpawnGroupCor(enemyInfo);
                 } else {
                     StartCoroutine(SpawnWaveCor(enemyInfo));
@@ -97,39 +104,42 @@ namespace gameSession.battle {
         private void SpawnGroupCor(EnemyWaveInfo enemyInfo) {
             var randomPositionInTorus = PositionVectorUtils.GetRandomPositionInTorus(_innerRadius+1f, _wallRadius);
             float innerGroupRadius = (Vector2.left * _groupLeftSide + Vector2.up * _groupTopSide).magnitude;
-            while (enemyInfo._enemyCount > 0) {
+            while (enemyInfo.enemyCount > 0) {
                 Vector3 enemyPositionInGroup =
                     PositionVectorUtils.GetRandomPositionInGroup(randomPositionInTorus, innerGroupRadius,
                         _wallGroupRadius);
                 Enemy instantiatedEnemy = InstantiateEnemy(enemyInfo.enemyPrefab, enemyPositionInGroup);
                 OnEnemyInstantiate.Invoke(instantiatedEnemy);
-                enemyInfo._enemyCount--;
+                enemyInfo.enemyCount--;
             }
             StopSpawning();
         }
 
         private IEnumerator SpawnWaveCor(EnemyWaveInfo waveInfo) {
             // Debug.Log("Trying to Spawn enemy");
-            while (waveInfo._enemyCount > 0) {
+            while (waveInfo.enemyCount > 0) {
                 // Debug.Log("Spawning enemy");
 
-                yield return new WaitForSeconds(waveInfo._spawnSpeed);
+                yield return new WaitForSeconds(waveInfo.spawnSpeed);
                 Enemy instantiatedEnemy = InstantiateEnemy(waveInfo.enemyPrefab);
                 OnEnemyInstantiate.Invoke(instantiatedEnemy);
-                waveInfo._enemyCount--;
+                waveInfo.enemyCount--;
             }
             StopSpawning();
         }
 
         private Enemy InstantiateEnemy(Enemy enemyPrefab) {
             var randomPositionInTorus = PositionVectorUtils.GetRandomPositionInTorus(_innerRadius, _wallRadius);
-            Enemy instantiatedEnemy = Instantiate(enemyPrefab, randomPositionInTorus, Quaternion.identity);
+            Enemy instantiatedEnemy =
+                _enemyFactory.InstantiateEnemy(enemyPrefab, randomPositionInTorus);
             return instantiatedEnemy;
         }
 
-        private Enemy InstantiateEnemy(Enemy enemyPrefab, Vector3 posToSpawn) {
-            Enemy instantiatedEnemy = Instantiate(enemyPrefab, posToSpawn, Quaternion.identity);
+        private Enemy InstantiateEnemy(Enemy enemyPrefab, Vector2 posToSpawn) {
+            Enemy instantiatedEnemy = 
+                _enemyFactory.InstantiateEnemy(enemyPrefab, posToSpawn);
             return instantiatedEnemy;
         }
     }
+
 }

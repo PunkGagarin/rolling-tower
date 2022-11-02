@@ -14,7 +14,7 @@ namespace gameSession.WaveInfo {
         public bool IsEnemyLeft() {
             bool isAnythingLeft = false;
             foreach (var waveInfo in _enemyWaveInfo) {
-                if (waveInfo._enemyCount > 0)
+                if (waveInfo.enemyCount > 0)
                     isAnythingLeft = true;
             }
             return isAnythingLeft;

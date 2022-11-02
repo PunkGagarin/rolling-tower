@@ -5,6 +5,7 @@ using gameSession.battle;
 using gameSession.cards;
 using gameSession.gathering;
 using UnityEngine;
+using Zenject;
 
 namespace gameSession.rounds {
 
@@ -14,6 +15,7 @@ namespace gameSession.rounds {
 
         private int _currentRoundNumber = 1;
 
+        [Inject]
         private CardChoosingManager _cardChoosingManager;
 
         private FightingManager _fightingManager;
@@ -31,25 +33,13 @@ namespace gameSession.rounds {
         [SerializeField]
         private int _maxRoundNumber = 20;
 
-        public static GameSessionManager GetInstance { get; private set; }
-
-        private void Awake() {
-            if (GetInstance != null && GetInstance != this) {
-                Destroy(this);
-            } else {
-                GetInstance = this;
-            }
-        }
-
-
         private void Start() {
-            _cardChoosingManager = GetComponent<CardChoosingManager>();
             _cardChoosingManager.OnCardChoose += EndChooseStage;
 
-            _fightingManager = FightingManager.GetInstance;
+            _fightingManager = GetComponent<FightingManager>();
             _fightingManager.OnWaveClear += EndFightingStage;
             
-            _gatheringManager = GatheringManager.GetInstance;
+            _gatheringManager = GetComponent<GatheringManager>();
             _gatheringManager.OnGatheringFinish += EndGatheringStage;
 
             StartFirstRound();
@@ -134,6 +124,12 @@ namespace gameSession.rounds {
             //TODO: implement FinishGame logic
             isGameWon = true;
             Debug.Log("Congratulations, You Have Won !!!!");
+        }
+
+        private void OnDestroy() {
+            _cardChoosingManager.OnCardChoose -= EndChooseStage;
+            _fightingManager.OnWaveClear -= EndFightingStage;
+            _gatheringManager.OnGatheringFinish -= EndGatheringStage;
         }
     }
 

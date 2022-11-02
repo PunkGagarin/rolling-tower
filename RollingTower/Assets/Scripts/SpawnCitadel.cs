@@ -1,14 +1,15 @@
 using entities.player.citadels;
 using entities.player.towers;
-using enums.citadels;
 using enums.towers;
+using gameSession.cards.cardInfo;
+using gameSession.cards.so;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
+using Zenject;
 
 public class SpawnCitadel : MonoBehaviour {
 
-    [SerializeField]
+    [Inject]
     private Citadel _citadel;
 
     [SerializeField]
@@ -27,11 +28,10 @@ public class SpawnCitadel : MonoBehaviour {
     private float _radiusToIncrease = 1.5f;
 
     [SerializeField]
-    private Tower _towerToBuildTest;
+    private TowerCardInfoDTO _towerCardToBuild;
 
 
     private void Awake() {
-        _citadel = Instantiate(_citadel, transform);
         _changeRadiusTower.onClick.AddListener(ChangeTowerRadiusInvoke);
         _unlockSlotButton.onClick.AddListener(UnlockSecondSlotInvoke);
         _buildTowerButton.onClick.AddListener(BuildTowerInvoke);
@@ -44,13 +44,13 @@ public class SpawnCitadel : MonoBehaviour {
     }
 
     private void UnlockSecondSlotInvoke() {
-        _citadel.UnlockTowerSlot(2);
-        _citadel.UnlockTowerSlot(3);
+        _citadel.UnlockTowerSlot();
+        _citadel.UnlockTowerSlot();
     }
 
     private void BuildTowerInvoke() {
-        _citadel.BuildTower(_towerToBuildTest, 2);
-        _citadel.BuildTower(_towerToBuildTest, 3);
+        _citadel.BuildTower(new TowerCardInfo(_towerCardToBuild));
+        _citadel.BuildTower(new TowerCardInfo(_towerCardToBuild));
     }
 
     private void AddStat() {
