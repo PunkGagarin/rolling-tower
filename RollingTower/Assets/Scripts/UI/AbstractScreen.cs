@@ -6,7 +6,6 @@ namespace UI {
     public abstract class AbstractScreen : MonoBehaviour {
         private Action OnScreenShowed { get; set; }
 
-        [SerializeField]
         protected GameObject _content;
 
         public void Show(AbstractScreen hideScreen = null) {
@@ -19,9 +18,12 @@ namespace UI {
             OnScreenShowed?.Invoke();
         }
 
-        protected void Hide() => _content.SetActive(false);
+        public void Hide() => _content.SetActive(false);
 
-        protected virtual void Awake() => Hide();
+        protected virtual void Awake() {
+            _content = transform.Find("Content").gameObject;
+            Hide();
+        }
     }
 
 }

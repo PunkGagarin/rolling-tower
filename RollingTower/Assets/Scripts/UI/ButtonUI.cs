@@ -7,8 +7,10 @@ namespace UI {
 
         private Button _button;
 
-        private void Awake() {
+        private void Awake() 
+        {
             _button = GetComponent<Button>();
+
             _button.onClick.AddListener(ButtonAction);
         }
 
